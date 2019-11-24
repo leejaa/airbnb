@@ -15,38 +15,49 @@ export class User extends BaseEntity {
 
   @Field(() => String)
   @Column()
+  email: string;
+
+  @Field(() => String)
+  @Column()
+  password: string;
+
+  @Field(() => String)
+  @Column({ nullable: true })
   avatar: string;
 
   @Field(() => String)
-  @Column()
+  @Column({ nullable: true })
   gender: string;
 
   @Field(() => Date)
-  @Column()
+  @Column({ nullable: true })
   birthdate: Date;
 
   @Field(() => String)
-  @Column()
+  @Column({ nullable: true })
   language: string;
 
   @Field(() => String)
-  @Column()
+  @Column({ nullable: true })
   currentcy: string;
 
   @Field(() => Boolean)
-  @Column({ default: false })
+  @Column({ default: false, nullable: true })
   superhost: boolean;
 
   @Field(() => Boolean)
-  @Column({ default: false })
+  @Column({ default: false, nullable: true })
   email_verified: boolean;
 
   @Field(() => String)
-  @Column()
+  @Column({ nullable: true })
   email_secret: string;
 
   @Field(() => String)
-  @Column()
+  @Column({ nullable: true })
   login_method: string;
 
+  @Field(() => String)
+  @Column({ nullable: true })
+  tokenVersion: string;
 }
