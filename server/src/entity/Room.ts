@@ -1,13 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, OneToOne, JoinColumn, OneToMany } from "typeorm";
-import { Field, Int, ObjectType } from "type-graphql";
-import { User } from "./User";
-import GraphQLJSON from "graphql-type-json";
+import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, OneToMany, } from "typeorm";
+import { Field, Int, ObjectType, ID } from "type-graphql";
 import { Photo } from "./Photo";
 
 @ObjectType()
 @Entity()
 export class Room extends BaseEntity {
-  @Field(() => Int)
+  @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -16,67 +14,58 @@ export class Room extends BaseEntity {
   name: string;
 
   @Field(() => String)
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @Field(() => String)
-  @Column()
+  @Column({ nullable: true })
   country: string;
 
   @Field(() => String)
-  @Column()
+  @Column({ nullable: true })
   city: string;
 
   @Field(() => Int)
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', nullable: true })
   price: Number;
 
   @Field(() => String)
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   address: String;
 
   @Field(() => Int)
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', nullable: true })
   guests: Number;
 
   @Field(() => Int)
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', nullable: true })
   beds: Number;
 
   @Field(() => Int)
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', nullable: true })
   bedrooms: Number;
 
   @Field(() => Int)
-  @Column({ type: 'integer' })
+  @Column({ type: 'integer', nullable: true })
   baths: Number;
 
   @Field(() => Int)
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', nullable: true })
   check_in: Number;
 
   @Field(() => Int)
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', nullable: true })
   check_out: Number;
 
   @Field(() => Boolean)
-  @Column({ type: 'boolean' })
+  @Column({ type: 'boolean', nullable: true })
   instant_book: Boolean;
 
-  @Field()
-  @OneToOne(() => User, { cascade: true })
-    @JoinColumn()
-    host: User;
-
   @Field(() => String)
-  @Column()
+  @Column({ nullable: true })
   room_type: String;
 
-  @Field(() => GraphQLJSON)
-  @OneToMany( () => Photo , photo => photo.id, { 
-    cascade : true 
-  })
-  photos : Photo[];
-
-
+  @Field(() => [Photo])
+  @OneToMany(() => Photo, photo => photo.room)
+  photoConnection: Promise<Photo[]>;
 }

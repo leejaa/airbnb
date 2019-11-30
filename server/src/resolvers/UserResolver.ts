@@ -10,7 +10,7 @@ import {
     Int
   } from "type-graphql";
   import { hash, compare } from "bcryptjs";
-  import { User } from "..//entity/User";
+  import { User } from "../entity/User";
   import { MyContext } from "../auth/MyContext";
   import { createRefreshToken, createAccessToken } from "../auth/auth";
   import { isAuth } from "../auth/isAuth";

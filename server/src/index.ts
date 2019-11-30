@@ -6,6 +6,7 @@ import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { verify } from "jsonwebtoken";
 import { UserResolver } from "./resolvers/UserResolver";
+import { RoomResolver } from "./resolvers/RoomResolver";
 import { User } from "./entity/User";
 import { sendRefreshToken } from "./auth/sendRefreshToken";
 import { createRefreshToken, createAccessToken } from "./auth/auth";
@@ -17,12 +18,12 @@ import { createRefreshToken, createAccessToken } from "./auth/auth";
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver]
+      resolvers: [RoomResolver, UserResolver]
     }),
     context: ({ req, res }) => ({ req, res })
   });
 
-  apolloServer.applyMiddleware({ app, cors: false });
+  apolloServer.applyMiddleware({ app, cors: true });
 
   app.post("/refresh_token", async (req, res) => {
     const token = req.cookies.jid;

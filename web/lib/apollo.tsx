@@ -163,7 +163,7 @@ function initApolloClient(initState: any, serverAccessToken?: string) {
 function createApolloClient(initialState = {}, serverAccessToken?: string) {
   const httpLink = new HttpLink({
     uri: "http://localhost:4000/graphql",
-    credentials: "include",
+    credentials: "omit",
     fetch
   });
 

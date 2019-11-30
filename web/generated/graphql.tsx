@@ -58,6 +58,12 @@ export type Mutation = {
   revokeRefreshTokensForUser: Scalars['Boolean'],
   login: LoginResponse,
   register: Scalars['Boolean'],
+  createRoom: Room,
+  createPhoto: Photo,
+  updateRoom: Room,
+  deleteRoom: Scalars['Boolean'],
+  deletePhoto: Scalars['Boolean'],
+  deleteUser: Scalars['Boolean'],
 };
 
 
@@ -77,12 +83,33 @@ export type MutationRegisterArgs = {
   email: Scalars['String']
 };
 
+
+export type MutationCreateRoomArgs = {
+  options: RoomInput
+};
+
+
+export type MutationCreatePhotoArgs = {
+  options: PhotoInput
+};
+
+
+export type MutationUpdateRoomArgs = {
+  id: Scalars['Float'],
+  options: RoomInput
+};
+
 export type Photo = {
    __typename?: 'Photo',
-  id: Scalars['Int'],
+  id: Scalars['ID'],
   caption: Scalars['String'],
   file: Scalars['String'],
-  room: Scalars['JSON'],
+};
+
+export type PhotoInput = {
+  caption: Scalars['String'],
+  file: Scalars['String'],
+  roomId: Scalars['Float'],
 };
 
 export type Query = {
@@ -91,6 +118,14 @@ export type Query = {
   bye: Scalars['String'],
   users: Array<User>,
   me?: Maybe<User>,
+  selectPhotos: Array<Photo>,
+  selectRooms: Array<Room>,
+};
+
+
+export type QuerySelectRoomsArgs = {
+  cursor: Scalars['Float'],
+  first: Scalars['Float']
 };
 
 export type Reservation = {
@@ -120,7 +155,7 @@ export type Review = {
 
 export type Room = {
    __typename?: 'Room',
-  id: Scalars['Int'],
+  id: Scalars['ID'],
   name: Scalars['String'],
   description: Scalars['String'],
   country: Scalars['String'],
@@ -134,14 +169,22 @@ export type Room = {
   check_in: Scalars['Int'],
   check_out: Scalars['Int'],
   instant_book: Scalars['Boolean'],
-  host: User,
   room_type: Scalars['String'],
-  photos: Array<Scalars['JSON']>,
+  photoConnection: Array<Photo>,
+};
+
+export type RoomInput = {
+  name: Scalars['String'],
+  description: Scalars['String'],
+  city: Scalars['String'],
+  price: Scalars['Int'],
+  address: Scalars['String'],
+  hostId: Scalars['Float'],
 };
 
 export type User = {
    __typename?: 'User',
-  id: Scalars['Int'],
+  id: Scalars['ID'],
   email: Scalars['String'],
   password: Scalars['String'],
   avatar: Scalars['String'],
@@ -155,6 +198,24 @@ export type User = {
   login_method: Scalars['String'],
   tokenVersion: Scalars['String'],
 };
+
+export type SelectRoomsQueryVariables = {
+  first: Scalars['Float'],
+  cursor: Scalars['Float']
+};
+
+
+export type SelectRoomsQuery = (
+  { __typename?: 'Query' }
+  & { selectRooms: Array<(
+    { __typename?: 'Room' }
+    & Pick<Room, 'id' | 'name' | 'city' | 'address' | 'description' | 'price'>
+    & { photoConnection: Array<(
+      { __typename?: 'Photo' }
+      & Pick<Photo, 'id' | 'caption' | 'file'>
+    )> }
+  )> }
+);
 
 export type LoginMutationVariables = {
   email: Scalars['String'],
@@ -216,6 +277,33 @@ export type UsersQuery = (
 );
 
 
+export const SelectRoomsDocument = gql`
+    query selectRooms($first: Float!, $cursor: Float!) {
+  selectRooms(first: $first, cursor: $cursor) {
+    id
+    name
+    city
+    address
+    description
+    price
+    photoConnection {
+      id
+      caption
+      file
+    }
+  }
+}
+    `;
+
+    export function useSelectRoomsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SelectRoomsQuery, SelectRoomsQueryVariables>) {
+      return ApolloReactHooks.useQuery<SelectRoomsQuery, SelectRoomsQueryVariables>(SelectRoomsDocument, baseOptions);
+    }
+      export function useSelectRoomsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SelectRoomsQuery, SelectRoomsQueryVariables>) {
+        return ApolloReactHooks.useLazyQuery<SelectRoomsQuery, SelectRoomsQueryVariables>(SelectRoomsDocument, baseOptions);
+      }
+      
+export type SelectRoomsQueryHookResult = ReturnType<typeof useSelectRoomsQuery>;
+export type SelectRoomsQueryResult = ApolloReactCommon.QueryResult<SelectRoomsQuery, SelectRoomsQueryVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {

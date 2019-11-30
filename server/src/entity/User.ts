@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
-import { Field, Int, ObjectType } from "type-graphql";
+import { Field, ObjectType, ID } from "type-graphql";
 
 export enum Gender {
   GENDER_MALE = "male",
@@ -9,7 +9,7 @@ export enum Gender {
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
-  @Field(() => Int)
+  @Field(() => ID)
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -60,4 +60,5 @@ export class User extends BaseEntity {
   @Field(() => String)
   @Column({ nullable: true })
   tokenVersion: string;
+
 }
