@@ -1,5 +1,5 @@
 {
-  "name": "with-typescript",
+  "name": "@gg/web",
   "version": "1.0.0",
   "scripts": {
     "dev": "next",
@@ -21,6 +21,7 @@
     "apollo-link-token-refresh": "^0.2.6",
     "autoprefixer": "^9.7.2",
     "cookie": "^0.4.0",
+    "formik": "^2.0.6",
     "graphql": "^14.5.8",
     "graphql-toolkit": "^0.7.2",
     "gulp": "^4.0.2",
@@ -34,7 +35,8 @@
     "postcss-easy-import": "^3.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-waypoint": "^9.0.2"
+    "react-waypoint": "^9.0.2",
+    "yup": "^0.27.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^1.7.0",

@@ -17,6 +17,7 @@ import {
   import { sendRefreshToken } from "../auth/sendRefreshToken";
   import { getConnection } from "typeorm";
   import { verify } from "jsonwebtoken";
+import { sendEmail } from "../utils/sendEmail";
   
   @ObjectType()
   class LoginResponse {
@@ -113,12 +114,15 @@ import {
       @Arg("password") password: string
     ) {
       const hashedPassword = await hash(password, 12);
+      const email_secret = `${ Math.floor(Math.random() * 1000) }`;
   
       try {
         await User.insert({
           email,
-          password: hashedPassword
+          password: hashedPassword,
+          email_secret
         });
+        sendEmail( 'jahun135@hanmail.net', email, email_secret );
       } catch (err) {
         console.log(err);
         return false;
