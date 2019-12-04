@@ -1,30 +1,28 @@
 import "dotenv/config";
 import "reflect-metadata";
-import { createConnection } from "typeorm";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
-import { verify } from "jsonwebtoken";
 import { UserResolver } from "./resolvers/UserResolver";
-import { RoomResolver } from "./resolvers/RoomResolver";
+import { createConnection } from "typeorm";
+import cookieParser from "cookie-parser";
+import { verify } from "jsonwebtoken";
+import cors from "cors";
 import { User } from "./entity/User";
 import { sendRefreshToken } from "./auth/sendRefreshToken";
-import { createRefreshToken, createAccessToken } from "./auth/auth";
+import { createAccessToken, createRefreshToken } from "./auth/auth";
+import { RoomResolver } from "./resolvers/RoomResolver";
 
 (async () => {
   const app = express();
-
-  await createConnection();
-
-  const apolloServer = new ApolloServer({
-    schema: await buildSchema({
-      resolvers: [RoomResolver, UserResolver]
-    }),
-    context: ({ req, res }) => ({ req, res })
-  });
-
-  apolloServer.applyMiddleware({ app, cors: true });
-
+  app.use(
+    cors({
+      origin: "http://localhost:3000",
+      credentials: true
+    })
+  );
+  app.use(cookieParser());
+  app.get("/", (_req, res) => res.send("hello"));
   app.post("/refresh_token", async (req, res) => {
     const token = req.cookies.jid;
     if (!token) {
@@ -56,7 +54,36 @@ import { createRefreshToken, createAccessToken } from "./auth/auth";
     return res.send({ ok: true, accessToken: createAccessToken(user) });
   });
 
+  await createConnection();
+
+  const apolloServer = new ApolloServer({
+    schema: await buildSchema({
+      resolvers: [UserResolver, RoomResolver]
+    }),
+    context: ({ req, res }) => ({ req, res })
+  });
+
+  apolloServer.applyMiddleware({ app, cors: false });
+
   app.listen(4000, () => {
     console.log("express server started");
   });
 })();
+
+// createConnection().then(async connection => {
+
+//     console.log("Inserting a new user into the database...");
+//     const user = new User();
+//     user.firstName = "Timber";
+//     user.lastName = "Saw";
+//     user.age = 25;
+//     await connection.manager.save(user);
+//     console.log("Saved a new user with id: " + user.id);
+
+//     console.log("Loading users from the database...");
+//     const users = await connection.manager.find(User);
+//     console.log("Loaded users: ", users);
+
+//     console.log("Here you can setup and run express/koa/any other framework.");
+
+// }).catch(error => console.log(error));

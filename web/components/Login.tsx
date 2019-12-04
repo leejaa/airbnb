@@ -1,11 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import {
     Formik,
     Field,
     Form,
-    useField,
-    FieldAttributes,
-    FieldArray
 } from "formik";
 import * as yup from "yup";
 import Link from "next/link";
@@ -19,7 +16,6 @@ const validationSchema = yup.object({
     password: yup
         .string()
         .required()
-
 });
 
 type Props = {
@@ -27,8 +23,6 @@ type Props = {
 
 const Login: React.FunctionComponent<Props> = ({
 }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [login] = useLoginMutation();
     return (
         <div className="container lg:w-5/12 md:w-1/4 mx-auto my-16 flex flex-col items-center border p-6 border-gray-400">
@@ -66,8 +60,7 @@ const Login: React.FunctionComponent<Props> = ({
                             });
                         }
                     });
-                    console.log('response', JSON.stringify(response));
-                    window.location.href = "/"
+                    window.location.href = '/';
                     setSubmitting(false);
                 }}
             >

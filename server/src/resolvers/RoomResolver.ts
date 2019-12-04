@@ -69,7 +69,7 @@ class PhotoInput {
     }
 
     @Query(() => [Room])
-    async selectRooms(@Arg("first") first: number, @Arg("cursor") cursor: number){
+    async selectRooms(@Arg("skip") skip: number, @Arg("take") take: number){
       const rooms = await Room.find({
         join: {
           alias: "Room",
@@ -77,8 +77,8 @@ class PhotoInput {
             photo: "Room.photoConnection"
           }
         },
-        skip: first,
-        take: cursor
+        skip,
+        take,
       });
       return rooms;
     }

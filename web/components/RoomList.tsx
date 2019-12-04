@@ -11,65 +11,50 @@ const RoomList: React.FunctionComponent<Props> = ({
 
 }) => {
     const { data, loading, fetchMore, networkStatus, refetch } = useSelectRoomsQuery({
-        variables: { first: 0, cursor: 12 },
+        variables: { skip: 0, take: 12 },
         notifyOnNetworkStatusChange: true,
     });
-    const countRef = useRef([]);
-    const [ scrollHeight, setScrollHeight ] = useState(0);
-
-    if ( !data ) {
+    if (!data) {
         return (
             <div>로딩중...</div>
         );
     }
-
     const onScroll = useCallback(() => {
         if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 10) {
-            setScrollHeight( document.documentElement.scrollHeight - 50 );
-            const lastId = data.selectRooms[data.selectRooms.length - 1].id;
-            if (!countRef.current.includes(lastId)) {
-                fetchMore({
-                    variables: {
-                        first: 0,
-                        cursor: data.selectRooms.length + 20
-                    },
-                    updateQuery: (pv, { fetchMoreResult }) => {
-                        if (!fetchMoreResult) {
-                            return pv;
-                        }
-                        return {
-                            __typename: "Room",
-                            selectRooms: [
-                                ...fetchMoreResult.selectRooms
-                            ]
-                        };
+            fetchMore({
+                variables: {
+                    skip: data.selectRooms.length,
+                    take: data.selectRooms.length + 4
+                },
+                updateQuery: (pv, { fetchMoreResult }) => {
+                    if (!fetchMoreResult) {
+                        return pv;
                     }
-                });
-              countRef.current.push(lastId);
-            }
+                    return {
+                        __typename: "Room",
+                        selectRooms: [
+                            ...pv.selectRooms,
+                            ...fetchMoreResult.selectRooms
+                        ]
+                    };
+                }
+            });
         }
-      }, [data.selectRooms.length]);
-    
-      useEffect(() => {
+    }, [ data.selectRooms.length ]);
+    useEffect(() => {
         window.addEventListener('scroll', onScroll);
-        window.scrollTo(0, scrollHeight);
         return () => {
-            window.removeEventListener('scroll', onScroll);
+          window.removeEventListener('scroll', onScroll);
         };
-      }, [data.selectRooms.length]);
-
+    }, [data.selectRooms.length]);
     return (
         <div className="container mx-auto pb-10">
             <div className="rounded-xl -mx-40 h-50vh mb-24 bg-cover bg-center">
                 <div className="flex flex-wrap mx-5 my-16 mb-10 mt-24">
                     {
-                        loading ? (
-                            <div>로딩중...</div>
-                        ) : (
-                            data.selectRooms.map( ( room, i ) => (
-                                <RoomCard key={ room.id } room={ room as any }/>
-                            ))
-                        )
+                        data.selectRooms.map((room, i) => (
+                            <RoomCard room={room as any} key={ room.id }/>
+                        ))
                     }
                 </div>
             </div>

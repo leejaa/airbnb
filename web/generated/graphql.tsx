@@ -124,8 +124,8 @@ export type Query = {
 
 
 export type QuerySelectRoomsArgs = {
-  cursor: Scalars['Float'],
-  first: Scalars['Float']
+  take: Scalars['Float'],
+  skip: Scalars['Float']
 };
 
 export type Reservation = {
@@ -200,8 +200,8 @@ export type User = {
 };
 
 export type SelectRoomsQueryVariables = {
-  first: Scalars['Float'],
-  cursor: Scalars['Float']
+  skip: Scalars['Float'],
+  take: Scalars['Float']
 };
 
 
@@ -278,8 +278,8 @@ export type UsersQuery = (
 
 
 export const SelectRoomsDocument = gql`
-    query selectRooms($first: Float!, $cursor: Float!) {
-  selectRooms(first: $first, cursor: $cursor) {
+    query selectRooms($skip: Float!, $take: Float!) {
+  selectRooms(skip: $skip, take: $take) {
     id
     name
     city

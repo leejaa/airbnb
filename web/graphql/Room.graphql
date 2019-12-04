@@ -1,5 +1,5 @@
-query selectRooms($first: Float!, $cursor: Float!){
-  selectRooms(first: $first, cursor: $cursor){
+query selectRooms($skip: Float!, $take: Float!){
+  selectRooms(skip: $skip, take: $take){
     id
     name
     city
