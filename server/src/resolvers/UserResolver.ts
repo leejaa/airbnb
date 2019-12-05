@@ -10,6 +10,7 @@ import {
     Int
   } from "type-graphql";
   import { hash, compare } from "bcryptjs";
+  import axios from "axios";
   import { User } from "../entity/User";
   import { MyContext } from "../auth/MyContext";
   import { createRefreshToken, createAccessToken } from "../auth/auth";
@@ -128,6 +129,24 @@ import { sendEmail } from "../utils/sendEmail";
         return false;
       }
   
+      return true;
+    }
+
+    @Mutation(() => Boolean)
+    async push(
+    ) {
+      const message = { text: "회원가입이 완료되었습니다.", number: "+821034414148" };
+      try {
+        const response = await axios({
+          url: "https://azw4tjufpa.execute-api.ap-northeast-2.amazonaws.com/pushNotification/push",
+          method: "get",
+          data: JSON.stringify(message),
+        });
+        console.log('response', response);
+      } catch (error) {
+        console.log('error', error);
+        return false;
+      }
       return true;
     }
   }
