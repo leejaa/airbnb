@@ -6,10 +6,14 @@ import {
     InputType,
     Field,
     Query,
+    UseMiddleware,
+    Ctx,
   } from "type-graphql";
 import { Room } from "../entity/Room";
 import { Photo } from "../entity/Photo";
 import { User } from "../entity/User";
+import { isAuth } from "../auth/isAuth";
+import { MyContext } from "../auth/MyContext";
 
 @InputType()
 class RoomInput {
@@ -69,8 +73,15 @@ class PhotoInput {
     }
 
     @Query(() => [Room])
-    async selectRooms(@Arg("skip") skip: number, @Arg("take") take: number){
+    @UseMiddleware(isAuth)
+    async selectRooms(
+      @Arg("skip") skip: number,
+      @Arg("take") take: number,
+      @Ctx() { payload }: MyContext
+      ){
+      const { userId = '' }: any = payload;
       const rooms = await Room.find({
+        where: { userId },
         join: {
           alias: "Room",
           innerJoinAndSelect: {
@@ -88,7 +99,7 @@ class PhotoInput {
       @Arg("options", () => RoomInput) options: RoomInput,
       @Arg("id") id: number,
     ) {
-      const room = await Room.update(options, { id })
+      const room = await Room.update(options, { id });
       return room;
     }
 

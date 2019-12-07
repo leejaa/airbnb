@@ -58,12 +58,14 @@ export type Mutation = {
   revokeRefreshTokensForUser: Scalars['Boolean'],
   login: LoginResponse,
   register: Scalars['Boolean'],
+  updateUser: Scalars['Boolean'],
+  deleteUser: Scalars['Boolean'],
+  push: Scalars['Boolean'],
   createRoom: Room,
   createPhoto: Photo,
   updateRoom: Room,
   deleteRoom: Scalars['Boolean'],
   deletePhoto: Scalars['Boolean'],
-  deleteUser: Scalars['Boolean'],
 };
 
 
@@ -79,8 +81,15 @@ export type MutationLoginArgs = {
 
 
 export type MutationRegisterArgs = {
+  name?: Maybe<Scalars['String']>,
   password: Scalars['String'],
   email: Scalars['String']
+};
+
+
+export type MutationUpdateUserArgs = {
+  id: Scalars['Float'],
+  input: UserInput
 };
 
 
@@ -117,9 +126,15 @@ export type Query = {
   hello: Scalars['String'],
   bye: Scalars['String'],
   users: Array<User>,
+  selectUser: User,
   me?: Maybe<User>,
   selectPhotos: Array<Photo>,
   selectRooms: Array<Room>,
+};
+
+
+export type QuerySelectUserArgs = {
+  id: Scalars['Float']
 };
 
 
@@ -186,6 +201,7 @@ export type User = {
    __typename?: 'User',
   id: Scalars['ID'],
   email: Scalars['String'],
+  name: Scalars['String'],
   password: Scalars['String'],
   avatar: Scalars['String'],
   gender: Scalars['String'],
@@ -197,6 +213,11 @@ export type User = {
   email_secret: Scalars['String'],
   login_method: Scalars['String'],
   tokenVersion: Scalars['String'],
+  roomConnection: Array<Room>,
+};
+
+export type UserInput = {
+  name: Scalars['String'],
 };
 
 export type SelectRoomsQueryVariables = {
@@ -250,13 +271,14 @@ export type MeQuery = (
   { __typename?: 'Query' }
   & { me: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'email'>
+    & Pick<User, 'id' | 'email' | 'name'>
   )> }
 );
 
 export type RegisterMutationVariables = {
   email: Scalars['String'],
-  password: Scalars['String']
+  password: Scalars['String'],
+  name?: Maybe<Scalars['String']>
 };
 
 
@@ -341,6 +363,7 @@ export const MeDocument = gql`
   me {
     id
     email
+    name
   }
 }
     `;
@@ -355,8 +378,8 @@ export const MeDocument = gql`
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeQueryResult = ApolloReactCommon.QueryResult<MeQuery, MeQueryVariables>;
 export const RegisterDocument = gql`
-    mutation Register($email: String!, $password: String!) {
-  register(email: $email, password: $password)
+    mutation Register($email: String!, $password: String!, $name: String) {
+  register(email: $email, password: $password, name: $name)
 }
     `;
 export type RegisterMutationFn = ApolloReactCommon.MutationFunction<RegisterMutation, RegisterMutationVariables>;

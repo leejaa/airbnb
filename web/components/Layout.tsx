@@ -12,9 +12,6 @@ const Layout: React.FunctionComponent<Props> = ({
   title = "This is the default title"
 }) => {
   const { data, loading } = useMeQuery();
-  if ( !loading ) {
-    console.log('data', JSON.stringify(data));
-  }
   return (
     <div>
       <Head>
@@ -50,17 +47,33 @@ const Layout: React.FunctionComponent<Props> = ({
                 가장 좋아하는
               </a>
             </li>
+            {
+              data && data.me && (
+                <li className="nav_link">
+                  <Link href="/profile">
+                    <a href="">
+                      프로필
+                    </a>
+                  </Link>
+                </li>
+              )
+            }
             <li className="nav_link">
-              <a href="">
-                프로필
-              </a>
-            </li>
-            <li className="nav_link">
-              <Link href="/login">
-                <a href="">
-                  로그인
-                </a>
-              </Link>
+              {
+                data && data.me ? (
+                  <Link href="/logout">
+                    <a href="">
+                      로그아웃
+                    </a>
+                  </Link>
+                ) : (
+                    <Link href="/login">
+                      <a href="">
+                        로그인
+                    </a>
+                    </Link>
+                  )
+              }
             </li>
           </ul>
         </header>

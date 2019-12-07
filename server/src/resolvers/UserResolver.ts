@@ -7,7 +7,8 @@ import {
     Field,
     Ctx,
     UseMiddleware,
-    Int
+    Int,
+    InputType
   } from "type-graphql";
   import { hash, compare } from "bcryptjs";
   import axios from "axios";
@@ -19,7 +20,14 @@ import {
   import { getConnection } from "typeorm";
   import { verify } from "jsonwebtoken";
 import { sendEmail } from "../utils/sendEmail";
-  
+
+  @InputType()
+  class UserInput {
+    @Field()
+    name: string;
+  }
+
+
   @ObjectType()
   class LoginResponse {
     @Field()
@@ -45,6 +53,13 @@ import { sendEmail } from "../utils/sendEmail";
     @Query(() => [User])
     users() {
       return User.find();
+    }
+
+    @Query(() => User)
+    selectUser(
+      @Arg("id") id: number,
+    ) {
+      return User.findOne({ id });
     }
   
     @Query(() => User, { nullable: true })
@@ -112,7 +127,8 @@ import { sendEmail } from "../utils/sendEmail";
     @Mutation(() => Boolean)
     async register(
       @Arg("email") email: string,
-      @Arg("password") password: string
+      @Arg("password") password: string,
+      @Arg("name", { nullable: true }) name: string
     ) {
       const hashedPassword = await hash(password, 12);
       const email_secret = `${ Math.floor(Math.random() * 1000) }`;
@@ -121,6 +137,7 @@ import { sendEmail } from "../utils/sendEmail";
         await User.insert({
           email,
           password: hashedPassword,
+          name,
           email_secret
         });
         sendEmail( 'jahun135@hanmail.net', email, email_secret );
@@ -130,6 +147,35 @@ import { sendEmail } from "../utils/sendEmail";
       }
   
       return true;
+    }
+
+    @Mutation(() => Boolean)
+    async updateUser(
+      @Arg("input", () => UserInput) input: UserInput,
+      @Arg("id") id: number,
+      ) {
+      try {
+        const result = await User.update({ id }, input);
+        if ( result.affected === 0 ) {
+          return false;
+        }
+        return true;
+      } catch (error) {
+        console.log('error', error);
+        return false;
+      }
+    }
+
+    @Mutation(() => Boolean)
+    async deleteUser(
+      ) {
+      try {
+        User.delete({});
+        return true;
+      } catch (error) {
+        console.log('error', error);
+        return false;
+      }
     }
 
     @Mutation(() => Boolean)

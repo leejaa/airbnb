@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from "typeorm";
 import { Field, ObjectType, ID } from "type-graphql";
+import { Room } from "./Room";
 
 export enum Gender {
   GENDER_MALE = "male",
@@ -16,6 +17,10 @@ export class User extends BaseEntity {
   @Field(() => String)
   @Column()
   email: string;
+
+  @Field(() => String)
+  @Column({ nullable: true })
+  name: string;
 
   @Field(() => String)
   @Column()
@@ -60,5 +65,9 @@ export class User extends BaseEntity {
   @Field(() => String)
   @Column({ nullable: true })
   tokenVersion: string;
+
+  @Field(() => [Room])
+  @OneToMany(() => Room, room => room.id)
+  roomConnection: Promise<Room[]>;
 
 }
