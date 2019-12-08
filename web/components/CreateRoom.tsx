@@ -1,0 +1,62 @@
+import * as React from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
+
+type Props = {
+};
+
+const CreateRoom: React.FunctionComponent<Props> = ({
+}) => {
+    const [houseType, setHouseType] = useState();
+    const [ isError, setIsError ] = useState(false);
+    const houseTypeRef = useRef();
+    const onClickHouseType = useCallback((type) => {
+        setHouseType(type);
+    }, [houseTypeRef]);
+    const goNextStep = useCallback( () => {
+        if ( !houseType ) {
+            setIsError(true);
+        }
+    }, []);
+    return (
+        <div className="container max-w-2xl mx-auto my-64 flex flex-col items-center border p-6 border-gray-400">
+            {
+                isError && (
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-10 py-3 rounded relative" role="alert">
+                        <strong className="font-bold">입력란을 채워주셔야 합니다.</strong>
+                        <span className="absolute top-0 bottom-0 right-0 px-4 py-3 ml-3">
+                            <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" /></svg>
+                        </span>
+                    </div>
+                )
+            }
+            <div className="w-full max-w-2xl">
+                <div>
+                    <div className="flex items-center py-2">
+                        <p className="text-lg">등록하실 숙소의 종류는 무엇인가요?</p>
+                    </div>
+                    <div className="flex items-center border-b border-b-2 border-gray-500 py-2">
+                        <button className={`${houseType === 'apartment' ? 'bg-gray-900 text-white' : 'bg-transparent'} hover:bg-gray-900 font-semibold hover:text-white py-2 px-4 border border-gray-900 hover:border-transparent rounded mr-2`} onClick={() => onClickHouseType('apartment')}>
+                            아파트
+                        </button>
+                        <button className={`${houseType === 'jootek' ? 'bg-gray-900 text-white' : 'bg-transparent'} hover:bg-gray-900 font-semibold hover:text-white py-2 px-4 border border-gray-900 hover:border-transparent rounded mr-2`} onClick={() => onClickHouseType('jootek')}>
+                            주택
+                        </button>
+                        <button className={`${houseType === 'hotel' ? 'bg-gray-900 text-white' : 'bg-transparent'} hover:bg-gray-900 font-semibold hover:text-white py-2 px-4 border border-gray-900 hover:border-transparent rounded mr-2`} onClick={() => onClickHouseType('hotel')}>
+                            호텔
+                        </button>
+                    </div>
+                </div>
+                <div className="inline-flex my-5">
+                    <button className="bg-gray-300 hover:bg-gray-400 font-bold py-2 px-4 rounded-l bg-green-600 text-white">
+                        이전
+                    </button>
+                    <button className="bg-gray-300 hover:bg-gray-400 font-bold py-2 px-4 rounded-r ml-50vh bg-green-600 text-white" onClick= { goNextStep }>
+                        다음
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default CreateRoom;

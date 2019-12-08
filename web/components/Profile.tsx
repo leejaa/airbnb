@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Room, useMeQuery, useSelectRoomsQuery } from "../generated/graphql";
 import RoomCard from "./RoomCard";
+import Link from "next/link";
 
 type Props = {
     room: Room
@@ -23,12 +24,11 @@ const Profile: React.FunctionComponent<Props> = ({
             </div>
         );
     }
-    console.log('data2', JSON.stringify(data2));
     return (
         <div className="min-h-75vh">
             <div className="container lg:w-5/12 md:w-1/2 xl:w-1/4 mx-auto my-10 flex flex-col items-center border p-6 border-gray-400">
 
-                <div className="{{h_and_w|default:'h-20 w-20'}} rounded-full bg-cover" style={{ backgroundImage: `url("http://www.okiz.co.kr/shopimages/mizpark/mobile/6/330186_represent")` }}>
+                <div className="rounded-full bg-cover" style={{ backgroundImage: `url("http://www.okiz.co.kr/shopimages/mizpark/mobile/6/330186_represent")` }}>
                 </div>
 
                 <div className="flex items-center">
@@ -37,8 +37,9 @@ const Profile: React.FunctionComponent<Props> = ({
                 </div>
 
                 <span className="text-lg mb-5">{ data.me.email }</span>
-
-                <a href="{% url 'users:update' %}" className="btn-link">프로필 수정</a>
+                <Link href="/updateProfile">
+                    <a href="" className="btn-link">프로필 수정</a>
+                </Link>
 
             </div>
             <h3 className="mb-12 text-2xl text-center">{ data.me.name }'s Rooms</h3>

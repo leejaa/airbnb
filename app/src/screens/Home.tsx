@@ -1,18 +1,38 @@
-import React, { useContext } from "react";
-import { Text, View, SafeAreaView, FlatList } from "react-native";
-import SecureStore from "expo-secure-store";
-import { UserContext } from "../UserContext";
-import { Button } from "react-native-paper";
+import React from "react";
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import { NavigationStackScreenProps } from "react-navigation-stack";
-import { useFetch } from "../utils/useFetch";
-import { useSelectRoomsQuery } from "../../generated/graphql";
+
+const styles = StyleSheet.create({
+  view1: {
+    width: 1000,
+    maxWidth: 1000,
+    overflow: 'hidden',
+    borderRadius: 0.25,
+    borderWidth: 1,
+    backgroundColor: '#fff',
+  },
+  view2: {
+    position: 'relative',
+  },
+  view3: {
+    height: 500,
+    alignItems: 'center',
+    width: 500
+  }
+});
 
 export const Home: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
-  const { data, loading } = useSelectRoomsQuery();
-  console.log('data', JSON.stringify(data));
+
   return (
-    <View>
-        <Text>홈</Text>
+    <View style={ styles.view1 }>
+      <View style={ styles.view2 }>
+        <ImageBackground style={ styles.view3 } source={ { uri: "https://picsum.photos/245/245" } }>
+
+        </ImageBackground>
+        <View></View>
+        <View></View>
+      </View>
+      <Text>홈</Text>
     </View>
   );
 };
