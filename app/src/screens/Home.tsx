@@ -188,7 +188,7 @@ export const Home: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
           <Text style={styles.CardTitle}>{data[0].title}</Text>
           <Text style={styles.CardContent}>{data[0].content}</Text>
         </View>
-        
+
       </View>
     </View>
   );
