@@ -1,8 +1,10 @@
-import React from "react";
-import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, Dimensions, Image } from 'react-native';
+import React, { useState } from "react";
+import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, Dimensions, Image, ScrollView, FlatList } from 'react-native';
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import { SearchBar } from 'react-native-elements';
 import Carousel from 'react-native-anchor-carousel';
+import _ from 'lodash';
+const uuidv1 = require('uuid/v1');
 
 // const styles = StyleSheet.create({
 //   view1: {
@@ -27,30 +29,158 @@ const { width } = Dimensions.get('window');
 
 const data = [
   {
+    id: uuidv1(),
     uri: 'https://i.imgur.com/GImvG4q.jpg',
     title: 'Lorem ipsum dolor sit amet',
     content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
   },
   {
+    id: uuidv1(),
     uri: 'https://i.imgur.com/Pz2WYAc.jpg',
     title: 'Lorem ipsum ',
     content: 'Neque porro quisquam est qui dolorem ipsum '
   },
   {
+    id: uuidv1(),
     uri: 'https://i.imgur.com/IGRuEAa.jpg',
     title: 'Lorem ipsum dolor',
     content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
   },
   {
+    id: uuidv1(),
     uri: 'https://i.imgur.com/fRGHItn.jpg',
     title: 'Lorem ipsum dolor',
     content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet'
   },
   {
+    id: uuidv1(),
     uri: 'https://i.imgur.com/WmenvXr.jpg',
     title: 'Lorem ipsum ',
     content: 'Neque porro quisquam est qui dolorem ipsum quia dolor '
-  }
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/GImvG4q.jpg',
+    title: 'Lorem ipsum dolor sit amet',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/Pz2WYAc.jpg',
+    title: 'Lorem ipsum ',
+    content: 'Neque porro quisquam est qui dolorem ipsum '
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/IGRuEAa.jpg',
+    title: 'Lorem ipsum dolor',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/fRGHItn.jpg',
+    title: 'Lorem ipsum dolor',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet'
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/WmenvXr.jpg',
+    title: 'Lorem ipsum ',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor '
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/GImvG4q.jpg',
+    title: 'Lorem ipsum dolor sit amet',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/Pz2WYAc.jpg',
+    title: 'Lorem ipsum ',
+    content: 'Neque porro quisquam est qui dolorem ipsum '
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/IGRuEAa.jpg',
+    title: 'Lorem ipsum dolor',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/fRGHItn.jpg',
+    title: 'Lorem ipsum dolor',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet'
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/WmenvXr.jpg',
+    title: 'Lorem ipsum ',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor '
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/GImvG4q.jpg',
+    title: 'Lorem ipsum dolor sit amet',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/Pz2WYAc.jpg',
+    title: 'Lorem ipsum ',
+    content: 'Neque porro quisquam est qui dolorem ipsum '
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/IGRuEAa.jpg',
+    title: 'Lorem ipsum dolor',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/fRGHItn.jpg',
+    title: 'Lorem ipsum dolor',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet'
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/WmenvXr.jpg',
+    title: 'Lorem ipsum ',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor '
+  },
+];
+
+const tempData = [
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/GImvG4q.jpg',
+    title: 'Lorem ipsum dolor sit amet',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/Pz2WYAc.jpg',
+    title: 'Lorem ipsum ',
+    content: 'Neque porro quisquam est qui dolorem ipsum '
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/IGRuEAa.jpg',
+    title: 'Lorem ipsum dolor',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/fRGHItn.jpg',
+    title: 'Lorem ipsum dolor',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet'
+  },
+  {
+    id: uuidv1(),
+    uri: 'https://i.imgur.com/WmenvXr.jpg',
+    title: 'Lorem ipsum ',
+    content: 'Neque porro quisquam est qui dolorem ipsum quia dolor '
+  },
 ];
 
 const styles = StyleSheet.create({
@@ -115,7 +245,8 @@ const styles = StyleSheet.create({
 });
 
 export const Home: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
-
+  const [ list, setList ] = useState(data);
+  const [ page, setPage ] = useState(5);
   const renderItem = ({ item, index }) => {
     const { uri, title, content } = item;
     return (
@@ -154,7 +285,7 @@ export const Home: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
           inputContainerStyle={{ borderRadius: 7, backgroundColor: '#FFFFFF' }}
         />
       </View>
-      <View>
+      {/* <ScrollView>
         <Carousel
           style={styles.carousel}
           data={data}
@@ -166,29 +297,27 @@ export const Home: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
             // this.numberCarousel = c;
           }}
         />
-      </View>
+      </ScrollView> */}
       <View>
-        <View style={styles.CardContainer}>
-          <Image source={{ uri: data[0].uri }} style={{ width: "100%", height: 200, borderRadius: 4 }} />
-          <Text style={styles.CardTitle}>{data[0].title}</Text>
-          <Text style={styles.CardContent}>{data[0].content}</Text>
-        </View>
-        <View style={styles.CardContainer}>
-          <Image source={{ uri: data[0].uri }} style={{ width: "100%", height: 200, borderRadius: 4 }} />
-          <Text style={styles.CardTitle}>{data[0].title}</Text>
-          <Text style={styles.CardContent}>{data[0].content}</Text>
-        </View>
-        <View style={styles.CardContainer}>
-          <Image source={{ uri: data[0].uri }} style={{ width: "100%", height: 200, borderRadius: 4 }} />
-          <Text style={styles.CardTitle}>{data[0].title}</Text>
-          <Text style={styles.CardContent}>{data[0].content}</Text>
-        </View>
-        <View style={styles.CardContainer}>
-          <Image source={{ uri: data[0].uri }} style={{ width: "100%", height: 200, borderRadius: 4 }} />
-          <Text style={styles.CardTitle}>{data[0].title}</Text>
-          <Text style={styles.CardContent}>{data[0].content}</Text>
-        </View>
-
+        {
+            <FlatList
+              keyExtractor={ item => item.id }
+              data={ list.slice( 0, page ) }
+              onEndReachedThreshold={ 0.1 }
+              onEndReached={ () => {
+                setPage( page + 5 );
+              }}
+              renderItem={ ({ item }) => {
+                return (
+                  <View style={styles.CardContainer}>
+                    <Image source={{ uri: item.uri }} style={{ width: "100%", height: 200, borderRadius: 4 }}/>
+                    <Text style={styles.CardTitle}>{item.title}</Text>
+                    <Text style={styles.CardContent}>{item.content}</Text>
+                  </View>
+                );
+              }}
+            />
+        }
       </View>
     </View>
   );
