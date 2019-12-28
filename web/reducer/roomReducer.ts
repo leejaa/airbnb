@@ -5,6 +5,10 @@ export const initialState = {
     houseType: 'apartment',
     houseRadio: 'all',
     convenience: [],
+    lat: 0,
+    lng: 0,
+    address: [],
+    postCode: '',
   }
 
 export const roomReducer = (state, action) => {
@@ -21,6 +25,18 @@ export const roomReducer = (state, action) => {
         } else {
             return { ...state, convenience: _.concat( state.convenience, action.value ) };
         }
+    }
+    case 'setLng': {
+      return { ...state, lng: action.value };
+    }
+    case 'setLat': {
+      return { ...state, lat: action.value };
+    }
+    case 'setAddress': {
+      return { ...state, address: action.value };
+    }
+    case 'setPostcode': {
+      return { ...state, postCode: action.value };
     }
     default: {
       throw new Error(`unexpected action.type: ${action.type}`)
