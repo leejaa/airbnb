@@ -6,6 +6,7 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { Provider as PaperProvider } from "react-native-paper";
 import { Home } from "./screens/Home";
+import Header from './components/header'
 import { Login } from "./screens/Login";
 import { Register } from "./screens/Register";
 import { AuthLoading } from "./screens/AuthLoading";
@@ -13,8 +14,16 @@ import { UserContext, AuthPayload } from "./UserContext";
 import { SECURESTORAGE_JWT } from "./constants";
 import decode from "jwt-decode";
 import { client } from "./lib/apolloClient";
+import { SearchBar } from "react-native-elements";
 
-const AppStack = createStackNavigator({ Home });
+const AppStack = createStackNavigator({
+    Home: {
+        screen: Home,
+        navigationOptions: () => ({
+            headerTitle: () => <Header />
+        }),
+    }
+});
 const AuthStack = createSwitchNavigator(
     { Login, Register },
     {
