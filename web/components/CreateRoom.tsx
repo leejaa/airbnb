@@ -4,14 +4,16 @@ import _ from 'lodash';
 import axios from 'axios';
 import { CreateRoomContext } from "../pages/createRoom";
 import Map from "./Map";
+import { ImageUpload } from "./ImageUpload";
 
 type Props = {
 };
 
 const CreateRoom: React.FunctionComponent<Props> = ({
 }) => {
-    const [step, setStep] = useState(2);
+    const [step, setStep] = useState(1);
     const [isError, setIsError] = useState(false);
+    const [ files, setFiles ] = useState([]);
     const [state, dispatch] = useContext(CreateRoomContext);
     const onChange = useCallback(e => {
         dispatch({ type: 'setConvenience', value: e.target.value });
@@ -68,6 +70,22 @@ const CreateRoom: React.FunctionComponent<Props> = ({
             }
         }
     };
+    const addFile = file => {
+        console.log(file);
+        this.setState({
+          files: file.map(file =>
+            Object.assign(file, {
+              preview: URL.createObjectURL(file)
+            })
+          )
+        });
+    };
+    useEffect( () => {
+        return () => {
+            let newFiles = _.clone( files );
+            newFiles.forEach( file => URL.revokeObjectURL( file.preview ) );
+        }
+    });
     return (
         <div className="container max-w-2xl mx-auto my-64 flex flex-col items-center border p-6 border-gray-400">
             {
@@ -199,6 +217,29 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                             options={ options }
                             onMount={ addMarkers( links ) }
                         />
+                    </div>
+                )
+            }
+            {
+                step === 4 && (
+                    <div className="w-full max-w-2xl">
+                        <div>
+                            <div className="flex items-center py-2">
+                                <p className="text-lg">숙소사진 올리기</p>
+                            </div>
+                        </div>
+                        <div>
+                            {
+                                state.imageUrl ? (
+                                    <img src={ state.imageUrl } />
+                                ) : (
+                                    <ImageUpload 
+                                        state={ state }
+                                        dispatch={ dispatch }
+                                    />
+                                )
+                            }
+                        </div>
                     </div>
                 )
             }

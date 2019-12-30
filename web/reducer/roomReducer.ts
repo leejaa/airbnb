@@ -9,6 +9,7 @@ export const initialState = {
     lng: 0,
     address: [],
     postCode: '',
+    imageUrl: '',
   }
 
 export const roomReducer = (state, action) => {
@@ -37,6 +38,9 @@ export const roomReducer = (state, action) => {
     }
     case 'setPostcode': {
       return { ...state, postCode: action.value };
+    }
+    case 'setImageUrl': {
+      return { ...state, imageUrl: action.value };
     }
     default: {
       throw new Error(`unexpected action.type: ${action.type}`)
