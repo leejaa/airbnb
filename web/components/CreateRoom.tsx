@@ -11,12 +11,15 @@ type Props = {
 
 const CreateRoom: React.FunctionComponent<Props> = ({
 }) => {
-    const [step, setStep] = useState(5);
+    const [step, setStep] = useState(1);
     const [isError, setIsError] = useState(false);
     const [files, setFiles] = useState([]);
     const [ rule, setRule ] = useState("");
     const [ rules, setRules ] = useState([]);
     const [state, dispatch] = useContext(CreateRoomContext);
+    const tempSave = useCallback( () => {
+        window.localStorage.setItem( 'state', JSON.stringify(state) );
+    }, [ state ]);
     const onChange = useCallback(e => {
         dispatch({ type: 'setConvenience', value: e.target.value });
     }, [state]);
@@ -103,7 +106,8 @@ const CreateRoom: React.FunctionComponent<Props> = ({
         }
     });
     return (
-        <div className="container max-w-2xl mx-auto my-64 flex flex-col items-center border p-6 border-gray-400">
+        <div className="cotainer max-w-2xl mx-auto my-64 flex flex-col items-center border p-6 border-gray-400">
+            <button onClick={ tempSave }>임시저장</button>
             {
                 isError && (
                     <div className="bg-red-100 border border-red-400 text-red-700 px-10 py-3 rounded relative" role="alert">

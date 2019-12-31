@@ -11,7 +11,15 @@ import { roomReducer, initialState } from "../reducer/roomReducer";
 export const CreateRoomContext = createContext(null);
 
 export default () => {
-  const [state, dispatch] = useReducer(roomReducer, initialState);
+  let savedInitialState = initialState;
+  if ( typeof window !== 'undefined' ) {
+    try {
+      savedInitialState = JSON.parse( window.localStorage.getItem( 'state' ) );
+    } catch (error) {
+      console.log( error );
+    }
+  }
+  const [state, dispatch] = useReducer(roomReducer, savedInitialState);
   return (
     <Layout>
       <CreateRoomContext.Provider value={ [ state, dispatch ] }>
