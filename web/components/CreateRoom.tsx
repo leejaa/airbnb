@@ -11,9 +11,11 @@ type Props = {
 
 const CreateRoom: React.FunctionComponent<Props> = ({
 }) => {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(5);
     const [isError, setIsError] = useState(false);
-    const [ files, setFiles ] = useState([]);
+    const [files, setFiles] = useState([]);
+    const [ rule, setRule ] = useState("");
+    const [ rules, setRules ] = useState([]);
     const [state, dispatch] = useContext(CreateRoomContext);
     const onChange = useCallback(e => {
         dispatch({ type: 'setConvenience', value: e.target.value });
@@ -26,41 +28,55 @@ const CreateRoom: React.FunctionComponent<Props> = ({
         let newStep = _.clone(step);
         setStep(++newStep);
     }, [step]);
-    const options = useMemo( () => {
+    const onChageRule = useCallback( e => {
+        setRule( e.target.value );
+        console.log('rule', rule);
+    }, [ rule ]);
+    const addRules = useCallback( e => {
+        const newRules = _.union( rules, [ rule ] );
+        setRules( newRules );
+        setRule("");
+    }, [ rules, rule ]);
+    const removeRule = useCallback( index => { 
+        const newRules = _.clone( rules );
+        _.pullAt( newRules, [ index ] );
+        setRules( newRules );
+    }, [ rules ]);
+    const options = useMemo(() => {
         const option = { center: { lat: state.lat, lng: state.lng }, zoom: 15 };
         return option;
-    }, [ state ]);
-    const links = useMemo( () => {
+    }, [state]);
+    const links = useMemo(() => {
         return [{
             coords: { lat: state.lat, lng: state.lng }, // required: latitude & longitude
             // at which to display the marker
             title: `Life, the Universe and Area 51`, // optional
             url: `https://wikipedia.org/wiki/Area_51`, // optional
-          }];
-    }, [ state ]);
+        }];
+    }, [state]);
     const addMarkers = links => map => {
         console.log();
         links.forEach((link, index) => {
-          const marker = new window.google.maps.Marker({
-            map,
-            position: link.coords,
-            label: `${index + 1}`,
-            title: link.title,
-          })
-          marker.addListener(`click`, () => {
-            window.location.href = link.url
-          })
+            const marker = new window.google.maps.Marker({
+                map,
+                position: link.coords,
+                label: `${index + 1}`,
+                title: link.title,
+            })
+            marker.addListener(`click`, () => {
+                window.location.href = link.url
+            })
         })
-      }
+    }
     const setCurrentLocation = async () => {
         const geoInfo = await axios.post(
             'https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBBT02YSLxubEfcSxZA9UIiqy3rxD0pHfc'
         );
-        if ( geoInfo ) {
+        if (geoInfo) {
             const { data: { location: { lat = 0, lng = 0 } } } = geoInfo;
-            const locationInfo = await axios.get( `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBBT02YSLxubEfcSxZA9UIiqy3rxD0pHfc` );
+            const locationInfo = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBBT02YSLxubEfcSxZA9UIiqy3rxD0pHfc`);
             const { data: { results } } = locationInfo;
-            if ( !_.isEmpty( results ) ) {
+            if (!_.isEmpty(results)) {
                 const address = results[0].formatted_address || '';
                 const { plus_code: { global_code = '' } } = results[0];
                 dispatch({ type: 'setLat', value: lat });
@@ -73,17 +89,17 @@ const CreateRoom: React.FunctionComponent<Props> = ({
     const addFile = file => {
         console.log(file);
         this.setState({
-          files: file.map(file =>
-            Object.assign(file, {
-              preview: URL.createObjectURL(file)
-            })
-          )
+            files: file.map(file =>
+                Object.assign(file, {
+                    preview: URL.createObjectURL(file)
+                })
+            )
         });
     };
-    useEffect( () => {
+    useEffect(() => {
         return () => {
-            let newFiles = _.clone( files );
-            newFiles.forEach( file => URL.revokeObjectURL( file.preview ) );
+            let newFiles = _.clone(files);
+            newFiles.forEach(file => URL.revokeObjectURL(file.preview));
         }
     });
     return (
@@ -174,7 +190,7 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                                 <p className="text-lg">숙소의 위치는 어디인가요?</p>
                             </div>
                             <div className="flex items-center border-b border-b-2 border-gray-500 py-2">
-                                <button className={`bg-transparent font-semibold py-2 px-4 border-2 border-green-600 rounded mr-2 text-green-600`} onClick={ setCurrentLocation }>
+                                <button className={`bg-transparent font-semibold py-2 px-4 border-2 border-green-600 rounded mr-2 text-green-600`} onClick={setCurrentLocation}>
                                     현재위치 사용
                                 </button>
                             </div>
@@ -183,11 +199,11 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                             <div className="-mx-3 md:flex mb-6">
                                 <div className="md:w-1/2 px-3 mb-6 md:mb-0">
                                     <span>시/도</span>
-                                    <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" placeholder="시/도" value={ !_.isEmpty( state.address ) ? `${state.address[2]} ${state.address[3]}` : '' }/>
+                                    <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" placeholder="시/도" value={!_.isEmpty(state.address) ? `${state.address[2]} ${state.address[3]}` : ''} />
                                 </div>
                                 <div className="md:w-1/2 px-3">
                                     <span>시/군/구</span>
-                                    <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" placeholder="시/군/구" value={ !_.isEmpty( state.address ) ? `${state.address[4]}` : '' }/>
+                                    <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" placeholder="시/군/구" value={!_.isEmpty(state.address) ? `${state.address[4]}` : ''} />
                                 </div>
                             </div>
                         </div>
@@ -195,7 +211,7 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                             <div className="-mx-3 mb-6">
                                 <div className="md:w-2/2 px-3 mb-6 md:mb-0">
                                     <span>도로명주소</span>
-                                    <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" placeholder="도로명주소" value={ !_.isEmpty( state.address ) ? `${state.address[0]} ${state.address[1]} ${state.address[2]} ${state.address[3]} ${state.address[4]}` : '' }/>
+                                    <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" placeholder="도로명주소" value={!_.isEmpty(state.address) ? `${state.address[0]} ${state.address[1]} ${state.address[2]} ${state.address[3]} ${state.address[4]}` : ''} />
                                 </div>
                             </div>
                         </div>
@@ -203,7 +219,7 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                             <div className="-mx-3 md:flex mb-6">
                                 <div className="md:w-1/2 px-3 mb-6 md:mb-0">
                                     <span>우편번호</span>
-                                    <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" placeholder="우편번호" value={ state.postCode }/>
+                                    <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" placeholder="우편번호" value={state.postCode} />
                                 </div>
                             </div>
                         </div>
@@ -214,8 +230,8 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                 step === 3 && (
                     <div className="w-full max-w-2xl">
                         <Map
-                            options={ options }
-                            onMount={ addMarkers( links ) }
+                            options={options}
+                            onMount={addMarkers(links)}
                         />
                     </div>
                 )
@@ -231,20 +247,99 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                         <div>
                             {
                                 state.imageUrl ? (
-                                    <img src={ state.imageUrl } />
+                                    <img src={state.imageUrl} />
                                 ) : (
-                                    <ImageUpload 
-                                        state={ state }
-                                        dispatch={ dispatch }
-                                    />
-                                )
+                                        <ImageUpload
+                                            state={state}
+                                            dispatch={dispatch}
+                                        />
+                                    )
                             }
                         </div>
                     </div>
                 )
             }
+            {
+                step === 5 && (
+                    <div className="w-full max-w-2xl">
+                        <div>
+                            <div className="flex items-center py-2">
+                                <p className="text-3xl font-bold">게스트가 지켜야할 이용규칙을 정하세요</p>
+                            </div>
+                            <div className="flex items-center py-2 relative">
+                                <p className="text-lg">어린이 숙박에 적합함</p>
+                                <div className="absolute right-0">
+                                    <button className="font-semibold hover:text-white w-8 h-8 bg-green-700 rounded mr-2 rounded-full pl-2" onClick={null}>
+                                        <svg className="fill-current w-4 h-4 text-white" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
+                                    </button>
+                                    <button className="font-semibold hover:text-white w-8 h-8 border border-gray-400 bg-white rounded mr-2 rounded-full pl-1" onClick={null}>
+                                        <svg className="fill-current text-gray-600" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="flex items-center py-2 relative">
+                                <p className="text-lg">유아 숙박에 적합함</p>
+                                <div className="absolute right-0">
+                                    <button className="font-semibold hover:text-white w-8 h-8 bg-green-700 rounded mr-2 rounded-full pl-2" onClick={null}>
+                                        <svg className="fill-current w-4 h-4 text-white" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
+                                    </button>
+                                    <button className="font-semibold hover:text-white w-8 h-8 border border-gray-400 bg-white rounded mr-2 rounded-full pl-1" onClick={null}>
+                                        <svg className="fill-current text-gray-600" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="flex items-center py-2 relative">
+                                <p className="text-lg">반려동물 숙박에 적합함</p>
+                                <div className="absolute right-0">
+                                    <button className="font-semibold hover:text-white w-8 h-8 bg-green-700 rounded mr-2 rounded-full pl-2" onClick={null}>
+                                        <svg className="fill-current w-4 h-4 text-white" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
+                                    </button>
+                                    <button className="font-semibold hover:text-white w-8 h-8 border border-gray-400 bg-white rounded mr-2 rounded-full pl-1" onClick={null}>
+                                        <svg className="fill-current text-gray-600" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="flex items-center py-2 mt-3">
+                                <p className="text-2xl font-bold">추가규칙</p>
+                            </div>
+                            {
+                                rules.map( ( rule, index ) => {
+                                    return (
+                                        <div className="flex relative items-center">
+                                            <p className="text-lg">{ rule }</p>
+                                            <div className="absolute right-0">
+                                                <button className="font-semibold hover:text-white w-8 h-8 bg-white rounded mr-2 rounded-full pl-1" onClick={ () => removeRule( index ) }>
+                                                    <svg className="fill-current text-gray-600" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                                        <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+                            <div>
+                                <div className="inline-block mt-2 w-3/4">
+                                    <input className="w-full py-3 text-gray-700 h-12" type="text" placeholder="조용히 해야하는 시간" onChange={ onChageRule }/>
+                                </div>
+                                <div className="inline-block mt-2 w-1/4">
+                                    <button className="w-full py-3 text-gray-700 border border-gray-500 h-12" onClick={ addRules }>추가</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
             <div className="inline-flex my-5">
-                <button className="bg-gray-300 hover:bg-gray-400 font-bold py-2 px-4 rounded-l bg-green-600 text-white" onClick={goPrevStep}>
+                <button className="bg-gray-300 hover:bg-gray-400 font-bold py-2 px-4 rounded-l bg-green-700 text-white" onClick={goPrevStep}>
                     이전
             </button>
                 <button className="bg-gray-300 hover:bg-gray-400 font-bold py-2 px-4 rounded-r ml-50vh bg-green-600 text-white" onClick={goNextStep}>
