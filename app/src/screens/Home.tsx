@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, Dimensions, Image, ScrollView, FlatList } from 'react-native';
+import React, { useState, useContext } from "react";
+import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, Dimensions, Image, ScrollView, FlatList, Button } from 'react-native';
 import { NavigationStackScreenProps } from "react-navigation-stack";
-import { SearchBar } from 'react-native-elements';
+import Modal from "react-native-modal";
 import { Ionicons } from '@expo/vector-icons';
 import _ from 'lodash';
-const uuidv1 = require('uuid/v1');
 import Carousel from '../components/Carousel';
+import { Search } from '../components/Search';
 import { data } from "../constants";
+import { UserContext } from "../UserContext";
 
 const styles = StyleSheet.create({
   carousel: {
@@ -73,9 +74,17 @@ const styles = StyleSheet.create({
 export const Home: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
   const [list, setList] = useState(data);
   const [page, setPage] = useState(5);
+  const [ state, dispatch ] = useContext( UserContext );
 
   return (
     <View>
+      <Modal
+      isVisible={ state.isModalOpen }
+      backdropOpacity={ 1 }
+      backdropColor="white"
+      >
+        <Search />
+      </Modal>
       <Carousel />
       <View>
         {
@@ -88,9 +97,9 @@ export const Home: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
             }}
             renderItem={({ item }) => {
               return (
-                <View style={ { flex: 1, flexDirection: 'row', marginTop: 20 } }>
+                <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
                   <View style={styles.CardContainer}>
-                    <View style={ { position: 'absolute', right: 0, zIndex: 1 } }>
+                    <View style={{ position: 'absolute', right: 0, zIndex: 1 }}>
                       <Ionicons name="md-heart-empty" size={16} color="red" />
                     </View>
                     <Image source={{ uri: item.uri }} style={{ width: "100%", height: 200, borderRadius: 4 }} />
@@ -99,7 +108,7 @@ export const Home: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
                   </View>
 
                   <View style={styles.CardContainer}>
-                    <View style={ { position: 'absolute', right: 0, zIndex: 1 } }>
+                    <View style={{ position: 'absolute', right: 0, zIndex: 1 }}>
                       <Ionicons name="md-heart-empty" size={16} color="red" />
                     </View>
                     <Image source={{ uri: item.uri }} style={{ width: "100%", height: 200, borderRadius: 4 }} />
@@ -107,7 +116,7 @@ export const Home: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
                     <Text style={styles.CardContent}>{item.content}</Text>
                   </View>
                 </View>
-                );
+              );
             }}
           />
         }

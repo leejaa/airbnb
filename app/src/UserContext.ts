@@ -8,8 +8,4 @@ export interface AuthPayload {
   };
 }
 
-export const UserContext = createContext<{
-  authPayload: AuthPayload;
-  setAuthPayload: (authPayload: AuthPayload) => void;
-  logout: () => void;
-}>(null);
+export const UserContext = createContext<any>(null);

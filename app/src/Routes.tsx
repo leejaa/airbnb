@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { View, Text } from "react-native";
 import * as SecureStore from "expo-secure-store";
@@ -15,6 +15,7 @@ import { SECURESTORAGE_JWT } from "./constants";
 import decode from "jwt-decode";
 import { client } from "./lib/apolloClient";
 import { SearchBar } from "react-native-elements";
+import { homeReducer, initialState } from "./reducer/HomeReducer";
 
 const AppStack = createStackNavigator({
     Home: {
@@ -69,7 +70,7 @@ function getPersistenceFunctions() {
 }
 
 export const Routes: React.FC<Props> = () => {
-    const [authPayload, setAuthPayload] = useState<AuthPayload | null>(null);
+    const [ state, dispatch ] = useReducer( homeReducer, initialState );
 
     useEffect(() => {
 
@@ -77,7 +78,9 @@ export const Routes: React.FC<Props> = () => {
 
     return (
         <ApolloProvider client={client}>
-            <AppContainer />
+            <UserContext.Provider value={ [ state, dispatch ] }>
+                <AppContainer />
+            </UserContext.Provider>
         </ApolloProvider>
     );
 };
