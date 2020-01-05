@@ -75,7 +75,6 @@ export const Home: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
   const [list, setList] = useState(data);
   const [page, setPage] = useState(5);
   const [ state, dispatch ] = useContext( UserContext );
-
   return (
     <View>
       <Modal

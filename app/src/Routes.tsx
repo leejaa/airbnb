@@ -21,7 +21,10 @@ const AppStack = createStackNavigator({
     Home: {
         screen: Home,
         navigationOptions: () => ({
-            headerTitle: () => <Header />
+            headerTitle: () => <Header />,
+            headerStyle: {
+                height: 100
+            }
         }),
     }
 });

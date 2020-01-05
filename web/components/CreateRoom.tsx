@@ -1,7 +1,10 @@
 import * as React from "react";
 import { useState, useMemo, useCallback, useEffect, useContext } from "react";
+import { Popover, Button } from 'antd';
+import 'antd/dist/antd.css';
 import _ from 'lodash';
 import axios from 'axios';
+import '../assets/scss/room.scss'
 import { CreateRoomContext } from "../pages/createRoom";
 import Map from "./Map";
 import { ImageUpload } from "./ImageUpload";
@@ -11,15 +14,15 @@ type Props = {
 
 const CreateRoom: React.FunctionComponent<Props> = ({
 }) => {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(5);
     const [isError, setIsError] = useState(false);
     const [files, setFiles] = useState([]);
-    const [ rule, setRule ] = useState("");
-    const [ rules, setRules ] = useState([]);
+    const [rule, setRule] = useState("");
+    const [rules, setRules] = useState([]);
     const [state, dispatch] = useContext(CreateRoomContext);
-    const tempSave = useCallback( () => {
-        window.localStorage.setItem( 'state', JSON.stringify(state) );
-    }, [ state ]);
+    const tempSave = useCallback(() => {
+        window.localStorage.setItem('state', JSON.stringify(state));
+    }, [state]);
     const onChange = useCallback(e => {
         dispatch({ type: 'setConvenience', value: e.target.value });
     }, [state]);
@@ -31,20 +34,20 @@ const CreateRoom: React.FunctionComponent<Props> = ({
         let newStep = _.clone(step);
         setStep(++newStep);
     }, [step]);
-    const onChageRule = useCallback( e => {
-        setRule( e.target.value );
+    const onChageRule = useCallback(e => {
+        setRule(e.target.value);
         console.log('rule', rule);
-    }, [ rule ]);
-    const addRules = useCallback( e => {
-        const newRules = _.union( rules, [ rule ] );
-        setRules( newRules );
+    }, [rule]);
+    const addRules = useCallback(e => {
+        const newRules = _.union(rules, [rule]);
+        setRules(newRules);
         setRule("");
-    }, [ rules, rule ]);
-    const removeRule = useCallback( index => { 
-        const newRules = _.clone( rules );
-        _.pullAt( newRules, [ index ] );
-        setRules( newRules );
-    }, [ rules ]);
+    }, [rules, rule]);
+    const removeRule = useCallback(index => {
+        const newRules = _.clone(rules);
+        _.pullAt(newRules, [index]);
+        setRules(newRules);
+    }, [rules]);
     const options = useMemo(() => {
         const option = { center: { lat: state.lat, lng: state.lng }, zoom: 15 };
         return option;
@@ -105,9 +108,17 @@ const CreateRoom: React.FunctionComponent<Props> = ({
             newFiles.forEach(file => URL.revokeObjectURL(file.preview));
         }
     });
+    const content = useMemo( () => {
+        return (
+            <div>
+                <p>Content</p>
+                <p>Content</p>
+            </div>
+        );
+    }, []);
     return (
         <div className="cotainer max-w-2xl mx-auto my-64 flex flex-col items-center border p-6 border-gray-400">
-            <button onClick={ tempSave }>임시저장</button>
+            <button onClick={tempSave}>임시저장</button>
             {
                 isError && (
                     <div className="bg-red-100 border border-red-400 text-red-700 px-10 py-3 rounded relative" role="alert">
@@ -272,6 +283,9 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                             </div>
                             <div className="flex items-center py-2 relative">
                                 <p className="text-lg">어린이 숙박에 적합함</p>
+                                <Popover content={content} title="Title" placement="right">
+                                    <i className="material-icons" style={ { marginBottom: 15, marginLeft: 5 } }>notification_important</i>
+                                </Popover>
                                 <div className="absolute right-0">
                                     <button className="font-semibold hover:text-white w-8 h-8 bg-green-700 rounded mr-2 rounded-full pl-2" onClick={null}>
                                         <svg className="fill-current w-4 h-4 text-white" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
@@ -315,12 +329,12 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                                 <p className="text-2xl font-bold">추가규칙</p>
                             </div>
                             {
-                                rules.map( ( rule, index ) => {
+                                rules.map((rule, index) => {
                                     return (
                                         <div className="flex relative items-center">
-                                            <p className="text-lg">{ rule }</p>
+                                            <p className="text-lg">{rule}</p>
                                             <div className="absolute right-0">
-                                                <button className="font-semibold hover:text-white w-8 h-8 bg-white rounded mr-2 rounded-full pl-1" onClick={ () => removeRule( index ) }>
+                                                <button className="font-semibold hover:text-white w-8 h-8 bg-white rounded mr-2 rounded-full pl-1" onClick={() => removeRule(index)}>
                                                     <svg className="fill-current text-gray-600" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                                                         <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
                                                     </svg>
@@ -332,10 +346,10 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                             }
                             <div>
                                 <div className="inline-block mt-2 w-3/4">
-                                    <input className="w-full py-3 text-gray-700 h-12" type="text" placeholder="조용히 해야하는 시간" onChange={ onChageRule }/>
+                                    <input className="w-full py-3 text-gray-700 h-12" type="text" placeholder="조용히 해야하는 시간" onChange={onChageRule} />
                                 </div>
                                 <div className="inline-block mt-2 w-1/4">
-                                    <button className="w-full py-3 text-gray-700 border border-gray-500 h-12" onClick={ addRules }>추가</button>
+                                    <button className="w-full py-3 text-gray-700 border border-gray-500 h-12" onClick={addRules}>추가</button>
                                 </div>
                             </div>
                         </div>

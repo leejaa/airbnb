@@ -1,11 +1,13 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react'
+import React, { useRef, useEffect, useCallback, useState, useContext } from 'react'
 import { View, Dimensions, StyleSheet, TouchableOpacity, Text, Platform, FlatList, TouchableHighlight } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import axios from 'axios';
 import _ from 'lodash';
+import { UserContext } from '../UserContext';
 
 export const Search = (props) => {
+    const [ state, dispatch ] = useContext( UserContext );
     const searchBarRef = useRef();
     const [ searchlist, setSearchlist ] = useState([]);
     const [ searchtext, setSearchtext ] = useState("");
@@ -24,20 +26,28 @@ export const Search = (props) => {
             setSearchlist( newSearchlist );
         }
     }, [ searchlist ]);
+    const onPressCancel = useCallback( () => {
+        dispatch({ type: 'setIsModalOpen', value: !state.isModalOpen });
+    },[ state ]);
     useEffect(() => {
         searchBarRef.current.focus();
     }, []);
     return (
         <View style={{ justifyContent: 'flex-start', flex: 1 }}>
-            <View style={{ width: '100%' }}>
-                <SearchBar
-                    placeholder="'코스타데발렌시아'에 가보는건 어떠세요?"
-                    value={ searchtext }
-                    containerStyle={{ backgroundColor: '#FFFFFF', borderTopColor: '#FFFFFF', borderBottomWidth: 0, shadowOffset: { width: 0, height: 4 }, shadowColor: '#000', shadowOpacity: 0.4, shadowRadius: 2, elevation: 1 }}
-                    inputContainerStyle={{ borderRadius: 7, backgroundColor: '#FFFFFF' }}
-                    ref={searchBarRef}
-                    onChange={ onChangeSearch }
-                />
+            <View style={{ width: '100%', flex: 1, flexDirection: 'row' }}>
+                <View style={ { position: 'absolute', width: '80%' } }>
+                    <SearchBar
+                        placeholder="'코스타데발렌시아'에 가보는건 어떠세요?"
+                        value={ searchtext }
+                        containerStyle={{ backgroundColor: '#FFFFFF', borderTopColor: '#FFFFFF', borderBottomWidth: 0, shadowOffset: { width: 0, height: 4 }, shadowColor: '#000', shadowOpacity: 0.4, shadowRadius: 2, elevation: 1 }}
+                        inputContainerStyle={{ borderRadius: 7, backgroundColor: '#FFFFFF' }}
+                        ref={searchBarRef}
+                        onChange={ onChangeSearch }
+                    />
+                </View>
+                <TouchableOpacity style={ { position: 'absolute', width: '20%', right: 0, paddingTop: 15, paddingLeft: 20 } } onPress={ onPressCancel }>
+                    <Text style={ { fontSize: 20 } }>취소</Text>
+                </TouchableOpacity>
             </View>
             <FlatList
                 data={ searchlist }
