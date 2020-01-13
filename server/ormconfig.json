@@ -1,9 +1,9 @@
 {
   "type": "postgres",
-  "host": "localhost",
+  "host": "airbnb.c5f6a3okykzq.us-east-1.rds.amazonaws.com",
   "port": 5432,
-  "username": "jahun",
-  "password": "ncm2154",
+  "username": "root",
+  "password": "ncm21544",
   "database": "airbnb",
   "synchronize": true,
   "logging": false,

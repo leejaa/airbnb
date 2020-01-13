@@ -60,12 +60,14 @@ import { RoomResolver } from "./resolvers/RoomResolver";
     schema: await buildSchema({
       resolvers: [UserResolver, RoomResolver]
     }),
-    context: ({ req, res }) => ({ req, res })
+    context: ({ req, res }) => ({ req, res }),
+    introspection: true,
+    playground: true
   });
 
   apolloServer.applyMiddleware({ app, cors: false });
 
-  app.listen(4000, () => {
+  app.listen(process.env.PORT || 4000, () => {
     console.log("express server started");
   });
 })();

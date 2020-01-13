@@ -2,6 +2,11 @@
   "name": "@gg/server",
   "version": "0.0.1",
   "devDependencies": {
+    "nodemon": "^1.19.4",
+    "ts-node": "8.5.2",
+    "typescript": "3.7.2"
+  },
+  "dependencies": {
     "@types/axios": "^0.14.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/cookie-parser": "^1.4.2",
@@ -9,11 +14,8 @@
     "@types/graphql-type-json": "^0.3.2",
     "@types/jsonwebtoken": "^8.3.5",
     "@types/node": "^12.12.8",
-    "nodemon": "^1.19.4",
-    "ts-node": "8.5.2",
-    "typescript": "3.7.2"
-  },
-  "dependencies": {
+    "typescript": "3.7.2",
+    "@types/node-fetch": "^2.5.4",
     "apollo-server-express": "^2.9.9",
     "axios": "^0.19.0",
     "bcryptjs": "^2.4.3",
@@ -30,6 +32,8 @@
     "typeorm": "0.2.20"
   },
   "scripts": {
-    "start": "nodemon --exec ts-node src/index.ts"
+    "build": "tsc",
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "start": "npx ts-node src/index.ts"
   }
 }

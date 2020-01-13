@@ -24,14 +24,14 @@
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "resolveJsonModule": true,
-    "baseUrl": "."
+    "resolveJsonModule": true
+    // "baseUrl": "."
   },
   "exclude": [
     "node_modules"
   ],
   "include": [
-    "./src/**/*.tsx",
-    "./src/**/*.ts"
+    "./**/*.tsx",
+    "./**/*.ts"
   ]
 }
