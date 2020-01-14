@@ -5,12 +5,12 @@ import { withApollo } from "../lib/apollo";
 import { fire } from "../firebase";
 
 class MyApp extends App<any> {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
-    fire();
+    // fire();
   }
   render() {
-    const { Component, pageProps, apolloClient } = this.props;
+    const { Component, pageProps, apolloClient }: any = this.props;
     return (
       <Container>
         <ApolloProvider client={apolloClient}>

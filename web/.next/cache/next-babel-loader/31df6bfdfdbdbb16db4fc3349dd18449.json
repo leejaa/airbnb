@@ -1,0 +1,1 @@
+{"ast":null,"code":"export const API_PRODUCTION = \"https://jahunbnb-api.herokuapp.com\";\nexport const API_DEVELOPMENT = \"http://localhost:4000\";\nexport const IS_PRODUCTION = true;","map":null,"metadata":{},"sourceType":"module"}

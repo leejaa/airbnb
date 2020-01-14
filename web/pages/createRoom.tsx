@@ -8,13 +8,13 @@ import { roomReducer, initialState } from "../reducer/roomReducer";
 
 
 
-export const CreateRoomContext = createContext(null);
+export const CreateRoomContext : any = createContext(null);
 
 export default () => {
   let savedInitialState = initialState;
   if ( typeof window !== 'undefined' ) {
     try {
-      savedInitialState = JSON.parse( window.localStorage.getItem( 'state' ) );
+      savedInitialState = JSON.parse( `${window.localStorage.getItem( 'state' )}` );
     } catch (error) {
       console.log( error );
     }

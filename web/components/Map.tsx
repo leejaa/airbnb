@@ -1,20 +1,20 @@
 import React, { useEffect, useRef } from 'react'
 
-export default function Map({ options, onMount, className }) {
-  const ref = useRef()
+export default function Map({ options, onMount, className }: any) {
+  const ref: any = useRef();
   useEffect(() => {
-    const onLoad = () => {
-      const map = new window.google.maps.Map(ref.current, options);
-      if (typeof onMount === `function`) onMount(map)
-    }
-    if (!window.google) {
-      const script = document.createElement(`script`)
-      script.src =
-        `https://maps.googleapis.com/maps/api/js?key=AIzaSyBBT02YSLxubEfcSxZA9UIiqy3rxD0pHfc`
-      document.head.append(script)
-      script.addEventListener(`load`, onLoad)
-      return () => script.removeEventListener(`load`, onLoad)
-    } else onLoad()
+    // const onLoad = () => {
+    //   const map = new window.google.maps.Map(ref.current, options);
+    //   if (typeof onMount === `function`) onMount(map)
+    // }
+    // if (!window.google) {
+    //   const script = document.createElement(`script`)
+    //   script.src =
+    //     `https://maps.googleapis.com/maps/api/js?key=AIzaSyBBT02YSLxubEfcSxZA9UIiqy3rxD0pHfc`
+    //   document.head.append(script)
+    //   script.addEventListener(`load`, onLoad)
+    //   return () => script.removeEventListener(`load`, onLoad)
+    // } else onLoad()
   }, [onMount, options])
 
   return (

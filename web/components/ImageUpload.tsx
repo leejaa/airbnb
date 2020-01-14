@@ -5,12 +5,12 @@ import * as firebase from 'firebase';
 export const ImageUpload = ({
     state,
     dispatch
-}) => {
+}: any) => {
     const [preview, setPreview] = useState('');
     const { acceptedFiles, rejectedFiles, getRootProps, getInputProps, inputRef } = useDropzone({
         accept: 'image/jpeg, image/png'
     });
-    const fileUpload = (files) => {
+    const fileUpload = (files: any) => {
         // File or Blob named mountains.jpg
         const file = files[0];
         // Create a root reference
@@ -62,14 +62,14 @@ export const ImageUpload = ({
                 });
             });
     };
-    const addFile = file => {
+    const addFile = (file: { map: (arg0: (file: any) => any) => void; }) => {
         const files = file.map(file =>
             Object.assign(file, {
                 preview: URL.createObjectURL(file)
             }));
         fileUpload(files);
     };
-    const onDrop = (accepted, rejected) => {
+    const onDrop = (accepted: any, rejected: any) => {
         if (Object.keys(rejected).length !== 0) {
             const message = "Please submit valid file type";
         } else {

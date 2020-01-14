@@ -1,7 +1,5 @@
 import React from "react";
 import { useMeQuery, useLogoutMutation } from "../generated/graphql";
-import Link from "next/link";
-import { setAccessToken } from "../lib/accessToken";
 
 interface Props {}
 

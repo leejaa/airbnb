@@ -31,7 +31,7 @@ const RoomList: React.FunctionComponent<Props> = ({
                         return pv;
                     }
                     return {
-                        __typename: "Room",
+                        // __typename: "Room",
                         selectRooms: [
                             ...pv.selectRooms,
                             ...fetchMoreResult.selectRooms

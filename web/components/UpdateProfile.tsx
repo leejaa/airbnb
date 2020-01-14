@@ -8,7 +8,7 @@ type Props = {
 
 const UpdateProfile: React.FunctionComponent<Props> = ({
 }) => {
-    const { data, loading } = useMeQuery();
+    const { data, loading }: any = useMeQuery();
     if ( loading || !data.me ) {
         return(
             <div>

@@ -12,7 +12,7 @@ export const initialState = {
     imageUrl: '',
   }
 
-export const roomReducer = (state, action) => {
+export const roomReducer = (state: any, action: any) => {
   switch (action.type) {
     case 'setHouseType': {
       return { ...state, houseType: action.value };

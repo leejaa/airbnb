@@ -1,0 +1,1 @@
+{"ast":null,"code":"var accessToken = \"\";\nexport var setAccessToken = function setAccessToken(s) {\n  accessToken = s;\n};\nexport var getAccessToken = function getAccessToken() {\n  return accessToken;\n};","map":null,"metadata":{},"sourceType":"module"}

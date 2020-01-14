@@ -16,10 +16,10 @@ const CreateRoom: React.FunctionComponent<Props> = ({
 }) => {
     const [step, setStep] = useState(5);
     const [isError, setIsError] = useState(false);
-    const [files, setFiles] = useState([]);
+    const [files, setFiles] : any = useState([]);
     const [rule, setRule] = useState("");
     const [rules, setRules] = useState([]);
-    const [state, dispatch] = useContext(CreateRoomContext);
+    const [state, dispatch] : any = useContext(CreateRoomContext);
     const tempSave = useCallback(() => {
         window.localStorage.setItem('state', JSON.stringify(state));
     }, [state]);
@@ -40,7 +40,7 @@ const CreateRoom: React.FunctionComponent<Props> = ({
     }, [rule]);
     const addRules = useCallback(e => {
         const newRules = _.union(rules, [rule]);
-        setRules(newRules);
+        setRules(newRules as any);
         setRule("");
     }, [rules, rule]);
     const removeRule = useCallback(index => {
@@ -60,18 +60,17 @@ const CreateRoom: React.FunctionComponent<Props> = ({
             url: `https://wikipedia.org/wiki/Area_51`, // optional
         }];
     }, [state]);
-    const addMarkers = links => map => {
-        console.log();
-        links.forEach((link, index) => {
-            const marker = new window.google.maps.Marker({
-                map,
-                position: link.coords,
-                label: `${index + 1}`,
-                title: link.title,
-            })
-            marker.addListener(`click`, () => {
-                window.location.href = link.url
-            })
+    const addMarkers = (links: { forEach: (arg0: (link: any, index: any) => void) => void; }) => (map: any) => {
+        links.forEach((link: any, index: any) => {
+            // const marker = new window.google.maps.Marker({
+            //     map,
+            //     position: link.coords,
+            //     label: `${index + 1}`,
+            //     title: link.title,
+            // })
+            // marker.addListener(`click`, () => {
+            //     window.location.href = link.url
+            // })
         })
     }
     const setCurrentLocation = async () => {
@@ -92,20 +91,27 @@ const CreateRoom: React.FunctionComponent<Props> = ({
             }
         }
     };
-    const addFile = file => {
+    const addFile = (file: { map: (arg0: (file: any) => any) => void; }) => {
         console.log(file);
-        this.setState({
-            files: file.map(file =>
+        // this.setState({
+        //     files: file.map((file: any) =>
+        //         Object.assign(file, {
+        //             preview: URL.createObjectURL(file)
+        //         })
+        //     )
+        // });
+        setFiles({
+            files: file.map((file: any) =>
                 Object.assign(file, {
                     preview: URL.createObjectURL(file)
                 })
             )
-        });
+        } as any);
     };
     useEffect(() => {
         return () => {
             let newFiles = _.clone(files);
-            newFiles.forEach(file => URL.revokeObjectURL(file.preview));
+            newFiles.forEach((file: { preview: string; }) => URL.revokeObjectURL(file.preview));
         }
     });
     const content = useMemo( () => {
@@ -244,10 +250,10 @@ const CreateRoom: React.FunctionComponent<Props> = ({
             {
                 step === 3 && (
                     <div className="w-full max-w-2xl">
-                        <Map
+                        {/* <Map
                             options={options}
                             onMount={addMarkers(links)}
-                        />
+                        /> */}
                     </div>
                 )
             }
@@ -287,10 +293,10 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                                     <i className="material-icons" style={ { marginBottom: 15, marginLeft: 5 } }>notification_important</i>
                                 </Popover>
                                 <div className="absolute right-0">
-                                    <button className="font-semibold hover:text-white w-8 h-8 bg-green-700 rounded mr-2 rounded-full pl-2" onClick={null}>
+                                    <button className="font-semibold hover:text-white w-8 h-8 bg-green-700 rounded mr-2 rounded-full pl-2">
                                         <svg className="fill-current w-4 h-4 text-white" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
                                     </button>
-                                    <button className="font-semibold hover:text-white w-8 h-8 border border-gray-400 bg-white rounded mr-2 rounded-full pl-1" onClick={null}>
+                                    <button className="font-semibold hover:text-white w-8 h-8 border border-gray-400 bg-white rounded mr-2 rounded-full pl-1">
                                         <svg className="fill-current text-gray-600" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                                             <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
                                         </svg>
@@ -300,10 +306,10 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                             <div className="flex items-center py-2 relative">
                                 <p className="text-lg">유아 숙박에 적합함</p>
                                 <div className="absolute right-0">
-                                    <button className="font-semibold hover:text-white w-8 h-8 bg-green-700 rounded mr-2 rounded-full pl-2" onClick={null}>
+                                    <button className="font-semibold hover:text-white w-8 h-8 bg-green-700 rounded mr-2 rounded-full pl-2">
                                         <svg className="fill-current w-4 h-4 text-white" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
                                     </button>
-                                    <button className="font-semibold hover:text-white w-8 h-8 border border-gray-400 bg-white rounded mr-2 rounded-full pl-1" onClick={null}>
+                                    <button className="font-semibold hover:text-white w-8 h-8 border border-gray-400 bg-white rounded mr-2 rounded-full pl-1">
                                         <svg className="fill-current text-gray-600" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                                             <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
                                         </svg>
@@ -313,10 +319,10 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                             <div className="flex items-center py-2 relative">
                                 <p className="text-lg">반려동물 숙박에 적합함</p>
                                 <div className="absolute right-0">
-                                    <button className="font-semibold hover:text-white w-8 h-8 bg-green-700 rounded mr-2 rounded-full pl-2" onClick={null}>
+                                    <button className="font-semibold hover:text-white w-8 h-8 bg-green-700 rounded mr-2 rounded-full pl-2">
                                         <svg className="fill-current w-4 h-4 text-white" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z" /></svg>
                                     </button>
-                                    <button className="font-semibold hover:text-white w-8 h-8 border border-gray-400 bg-white rounded mr-2 rounded-full pl-1" onClick={null}>
+                                    <button className="font-semibold hover:text-white w-8 h-8 border border-gray-400 bg-white rounded mr-2 rounded-full pl-1">
                                         <svg className="fill-current text-gray-600" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                                             <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
                                         </svg>

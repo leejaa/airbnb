@@ -7,10 +7,10 @@ type Props = {
     room: Room
 };
 
-const Profile: React.FunctionComponent<Props> = ({
+const Profile: React.FunctionComponent<any> = ({
     room
 }) => {
-    const { data, loading } = useMeQuery();
+    const { data, loading } : any = useMeQuery();
     const { data: data2, loading: loading2 } = useSelectRoomsQuery({
         variables: {
             skip: 0,

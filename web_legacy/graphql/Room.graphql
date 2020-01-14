@@ -1,0 +1,15 @@
+query selectRooms($skip: Float!, $take: Float!){
+  selectRooms(skip: $skip, take: $take){
+    id
+    name
+    city
+    address
+    description
+    price
+  	photoConnection{
+      id
+      caption
+      file
+    }
+  }
+}

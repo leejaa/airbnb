@@ -11,6 +11,7 @@ import { getAccessToken, setAccessToken } from "./accessToken";
 import { onError } from "apollo-link-error";
 import { ApolloLink } from "apollo-link";
 import cookie from "cookie";
+import { IS_PRODUCTION, API_PRODUCTION, API_DEVELOPMENT } from "../env";
 
 const isServer = () => typeof window === "undefined";
 
@@ -35,7 +36,6 @@ export function withApollo(PageComponent: any, { ssr = true } = {}) {
     const client = apolloClient || initApolloClient(apolloState);
     return <PageComponent {...pageProps} apolloClient={client} />;
   };
-
   if (process.env.NODE_ENV !== "production") {
     // Find correct display name
     const displayName =
@@ -60,9 +60,9 @@ export function withApollo(PageComponent: any, { ssr = true } = {}) {
       let serverAccessToken = "";
 
       if (isServer()) {
-        const cookies = cookie.parse(req.headers.cookie);
+        const cookies : any = cookie.parse(`${req.headers.cookie}`);
         if (cookies.jid) {
-          const response = await fetch("http://localhost:4000/refresh_token", {
+          const response = await fetch(IS_PRODUCTION ? `${API_PRODUCTION}/refresh_token` : `${API_DEVELOPMENT}/refresh_token`, {
             method: "POST",
             credentials: "include",
             headers: {
@@ -162,7 +162,7 @@ function initApolloClient(initState: any, serverAccessToken?: string) {
  */
 function createApolloClient(initialState = {}, serverAccessToken?: string) {
   const httpLink = new HttpLink({
-    uri: "http://localhost:4000/graphql",
+    uri: IS_PRODUCTION ? `${API_PRODUCTION}/graphql` : `${API_DEVELOPMENT}/graphql`,
     credentials: "include",
     fetch
   });
@@ -188,7 +188,7 @@ function createApolloClient(initialState = {}, serverAccessToken?: string) {
       }
     },
     fetchAccessToken: () => {
-      return fetch("http://localhost:4000/refresh_token", {
+      return fetch(IS_PRODUCTION ? `${API_PRODUCTION}/refresh_token` : `${API_DEVELOPMENT}/refresh_token`, {
         method: "POST",
         credentials: "include"
       });
