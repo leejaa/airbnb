@@ -1,0 +1,13 @@
+overwrite: true
+schema: "https://jahunbnb-api.herokuapp.com/graphql"
+documents: "../graphql/*.graphql"
+generates:
+  generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      withHOC: false
+      withComponent: false
+      withHooks: true

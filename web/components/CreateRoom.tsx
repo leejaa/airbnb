@@ -14,7 +14,7 @@ type Props = {
 
 const CreateRoom: React.FunctionComponent<Props> = ({
 }) => {
-    const [step, setStep] = useState(5);
+    const [step, setStep] = useState(1);
     const [isError, setIsError] = useState(false);
     const [files, setFiles] : any = useState([]);
     const [rule, setRule] = useState("");
