@@ -120,39 +120,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IS_PRODUCTION", function() { return IS_PRODUCTION; });
 const API_PRODUCTION = "https://jahunbnb-api.herokuapp.com";
 const API_DEVELOPMENT = "http://localhost:4000";
-const IS_PRODUCTION = true;
-
-/***/ }),
-
-/***/ "./firebase.ts":
-/*!*********************!*\
-  !*** ./firebase.ts ***!
-  \*********************/
-/*! exports provided: fire */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fire", function() { return fire; });
-/* harmony import */ var firebase__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! firebase */ "firebase");
-/* harmony import */ var firebase__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(firebase__WEBPACK_IMPORTED_MODULE_0__);
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCMQYEZjdc6hZtTSMvgK1wkJkHWLmZLdlQ",
-  authDomain: "file-upload-b032e.firebaseapp.com",
-  databaseURL: "https://file-upload-b032e.firebaseio.com",
-  projectId: "file-upload-b032e",
-  storageBucket: "file-upload-b032e.appspot.com",
-  messagingSenderId: "362361590662",
-  appId: "1:362361590662:web:6f04fcd1abbf26fc3ed207",
-  measurementId: "G-NPZ2M8JC80"
-};
-const fire = () => {
-  if (!firebase__WEBPACK_IMPORTED_MODULE_0__["apps"].length) {
-    firebase__WEBPACK_IMPORTED_MODULE_0__["initializeApp"](firebaseConfig);
-    firebase__WEBPACK_IMPORTED_MODULE_0__["analytics"]();
-  }
-};
+const IS_PRODUCTION = false;
 
 /***/ }),
 
@@ -240,7 +208,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _jsxFileName = "/Users/leejahun/practice/next-ts/lib/apollo.tsx";
+var _jsxFileName = "/Users/leejahun/practice/airbnb/web/lib/apollo.tsx";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement;
 
 function ownKeys(object, enumerableOnly) { var keys = _babel_runtime_corejs2_core_js_object_keys__WEBPACK_IMPORTED_MODULE_5___default()(object); if (_babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default.a) { var symbols = _babel_runtime_corejs2_core_js_object_get_own_property_symbols__WEBPACK_IMPORTED_MODULE_4___default()(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return _babel_runtime_corejs2_core_js_object_get_own_property_descriptor__WEBPACK_IMPORTED_MODULE_3___default()(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -323,7 +291,7 @@ function withApollo(PageComponent, {
       let serverAccessToken = "";
 
       if (isServer()) {
-        const cookies = cookie__WEBPACK_IMPORTED_MODULE_22___default.a.parse(req.headers.cookie);
+        const cookies = cookie__WEBPACK_IMPORTED_MODULE_22___default.a.parse(`${req.headers.cookie}`);
 
         if (cookies.jid) {
           const response = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_16___default()(_env__WEBPACK_IMPORTED_MODULE_23__["IS_PRODUCTION"] ? `${_env__WEBPACK_IMPORTED_MODULE_23__["API_PRODUCTION"]}/refresh_token` : `${_env__WEBPACK_IMPORTED_MODULE_23__["API_DEVELOPMENT"]}/refresh_token`, {
@@ -483,7 +451,8 @@ function createApolloClient(initialState = {}, serverAccessToken) {
     ssrMode: true,
     // Disables forceFetch on the server (so queries are only run once)
     link: apollo_link__WEBPACK_IMPORTED_MODULE_21__["ApolloLink"].from([refreshLink, authLink, errorLink, httpLink]),
-    cache: new apollo_cache_inmemory__WEBPACK_IMPORTED_MODULE_13__["InMemoryCache"]().restore(initialState)
+    cache: new apollo_cache_inmemory__WEBPACK_IMPORTED_MODULE_13__["InMemoryCache"]().restore(initialState),
+    connectToDevTools: true
   });
 }
 
@@ -6029,11 +5998,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _apollo_react_hooks__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @apollo/react-hooks */ "@apollo/react-hooks");
 /* harmony import */ var _apollo_react_hooks__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_apollo_react_hooks__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _lib_apollo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../lib/apollo */ "./lib/apollo.tsx");
-/* harmony import */ var _firebase__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../firebase */ "./firebase.ts");
 
-var _jsxFileName = "/Users/leejahun/practice/next-ts/pages/_app.tsx";
+var _jsxFileName = "/Users/leejahun/practice/airbnb/web/pages/_app.tsx";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement;
-
 
 
 
@@ -6041,8 +6008,7 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement;
 
 class MyApp extends next_app__WEBPACK_IMPORTED_MODULE_1___default.a {
   constructor(props) {
-    super(props);
-    Object(_firebase__WEBPACK_IMPORTED_MODULE_5__["fire"])();
+    super(props); // fire();
   }
 
   render() {
@@ -6198,17 +6164,6 @@ module.exports = require("apollo-link-token-refresh");
 /***/ (function(module, exports) {
 
 module.exports = require("cookie");
-
-/***/ }),
-
-/***/ "firebase":
-/*!***************************!*\
-  !*** external "firebase" ***!
-  \***************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("firebase");
 
 /***/ }),
 

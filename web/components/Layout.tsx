@@ -1,7 +1,10 @@
 import * as React from "react";
 import Head from "next/head";
-import Link from 'next/link'
+import Link from 'next/link';
+import { useApolloClient } from "@apollo/react-hooks";
 import { useMeQuery } from "../generated/graphql";
+import gql from "graphql-tag";
+
 
 type Props = {
   title?: string;
@@ -12,6 +15,22 @@ const Layout: React.FunctionComponent<Props> = ({
   title = "This is the default title"
 }) => {
   const { data, loading } = useMeQuery();
+  const client = useApolloClient();
+  const save = () => {
+    // client.writeFragment({
+    //   id: 'me',
+    //   fragment,
+    //   data: {
+    //     me: true,
+    //   },
+    // });
+  };
+  const get = () => {
+    // const data = client.readFragment({
+    //   id: 'me',
+    //   fragment,
+    // });
+  };
   return (
     <div>
       <Head>
@@ -44,8 +63,13 @@ const Layout: React.FunctionComponent<Props> = ({
               </a>
             </li>
             <li className="nav_link">
-              <a href="">
-                가장 좋아하는
+              <a onClick={ save }>
+                SAVE
+              </a>
+            </li>
+            <li className="nav_link">
+              <a onClick={ get }>
+                GET
               </a>
             </li>
             {
