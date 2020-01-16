@@ -1,6 +1,7 @@
 import "dotenv/config";
 import "reflect-metadata";
 import express from "express";
+import { createServer } from 'http';
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { UserResolver } from "./resolvers/UserResolver";
@@ -12,6 +13,8 @@ import { User } from "./entity/User";
 import { sendRefreshToken } from "./auth/sendRefreshToken";
 import { createAccessToken, createRefreshToken } from "./auth/auth";
 import { RoomResolver } from "./resolvers/RoomResolver";
+import { pubSub } from "../redis";
+import { RecipeResolver } from "./resolvers/RecipeResolver";
 
 (async () => {
   const app = express();
@@ -58,7 +61,8 @@ import { RoomResolver } from "./resolvers/RoomResolver";
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver, RoomResolver]
+      resolvers: [UserResolver, RoomResolver, RecipeResolver],
+      pubSub
     }),
     context: ({ req, res }) => ({ req, res }),
     introspection: true,
@@ -66,8 +70,10 @@ import { RoomResolver } from "./resolvers/RoomResolver";
   });
 
   apolloServer.applyMiddleware({ app, cors: false });
+  const httpServer = createServer(app);
+  apolloServer.installSubscriptionHandlers(httpServer);
 
-  app.listen(process.env.PORT || 4000, () => {
+  httpServer.listen(process.env.PORT || 4000, () => {
     console.log("express server started");
   });
 })();
