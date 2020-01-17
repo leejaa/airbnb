@@ -1,11 +1,21 @@
 import React, { useState, useContext, useCallback, useRef, useEffect } from "react";
-import { View, TouchableOpacity, Text, TouchableHighlight, Modal } from 'react-native';
+import { View, TouchableOpacity, Text, TouchableHighlight } from 'react-native';
+import Modal from "react-native-modal";
 import { SearchBar, Button } from 'react-native-elements';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { Calendar, CalendarList, LocaleConfig } from 'react-native-calendars';
 import _ from 'lodash';
 import { UserContext } from "../UserContext";
 
+LocaleConfig.locales['kr'] = {
+  monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+  monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+  dayNames: ['월','화','수','목','금','토','일'],
+  dayNamesShort: ['월','화','수','목','금','토','일'],
+};
+LocaleConfig.defaultLocale = 'kr';
+
 const Header: React.FC<any> = ({ navigation }) => {
+  const [isCalenderVisible, setIsCalenderVisible] = useState(false);
   const [state, dispatch] = useContext(UserContext);
   const searchBarRef = useRef();
   const onFocusSearch = useCallback(() => {
@@ -28,50 +38,35 @@ const Header: React.FC<any> = ({ navigation }) => {
         <Button
           title="날짜"
           titleStyle={{ color: 'black' }}
-          onPress={null}
+          onPress={() => setIsCalenderVisible(!isCalenderVisible)}
           containerStyle={{ borderRadius: 30, width: '15%', height: 8, marginLeft: 10, marginTop: 10 }}
           buttonStyle={{ borderRadius: 30, backgroundColor: '#FFFFFF', borderColor: 'black', borderWidth: 1 }}
         />
       </View>
       <Modal
-        animationType="slide"
-        transparent={false}
-        visible={true}
+        isVisible={isCalenderVisible}
+        backdropOpacity={0.7}
+        backdropColor="black"
       >
-        <View style={{ marginTop: 22 }}>
-          <Calendar
-            // Specify style for calendar container element. Default = {}
-            style={{
-              borderWidth: 1,
-              borderColor: 'gray',
-              height: 350
-            }}
-            // Specify theme properties to override specific styles for calendar parts. Default = {}
-            theme={{
-              backgroundColor: '#ffffff',
-              calendarBackground: '#ffffff',
-              textSectionTitleColor: '#b6c1cd',
-              selectedDayBackgroundColor: '#00adf5',
-              selectedDayTextColor: '#ffffff',
-              todayTextColor: '#00adf5',
-              dayTextColor: '#2d4150',
-              textDisabledColor: '#d9e1e8',
-              dotColor: '#00adf5',
-              selectedDotColor: '#ffffff',
-              arrowColor: 'orange',
-              monthTextColor: 'blue',
-              indicatorColor: 'blue',
-              textDayFontFamily: 'monospace',
-              textMonthFontFamily: 'monospace',
-              textDayHeaderFontFamily: 'monospace',
-              textDayFontWeight: '300',
-              textMonthFontWeight: 'bold',
-              textDayHeaderFontWeight: '300',
-              textDayFontSize: 16,
-              textMonthFontSize: 16,
-              textDayHeaderFontSize: 16
-            }}
-          />
+        <View style={{ marginTop: 0, height: 600 }}>
+          <Button
+            title="close"
+            onPress={() => setIsCalenderVisible(false)}
+          >
+          </Button>
+            <CalendarList
+              // Callback which gets executed when visible months change in scroll view. Default = undefined
+              onVisibleMonthsChange={(months) => { console.log('now these months are visible', months); }}
+              // Max amount of months allowed to scroll to the past. Default = 50
+              pastScrollRange={10}
+              // Max amount of months allowed to scroll to the future. Default = 50
+              futureScrollRange={10}
+              // Enable or disable scrolling of calendar list
+              scrollEnabled={true}
+              // Enable or disable vertical scroll indicator. Default = false
+              showScrollIndicator={true}
+              calendarWidth={370}
+            />
         </View>
       </Modal>
     </TouchableOpacity>

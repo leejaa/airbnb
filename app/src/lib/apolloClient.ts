@@ -8,6 +8,7 @@ import { onError } from "apollo-link-error";
 import { ApolloLink, Observable } from "apollo-link";
 import { TokenRefreshLink } from "apollo-link-token-refresh";
 import jwtDecode from "jwt-decode";
+import { IS_PRODUCTION, API_DEVELOPMENT, API_PRODUCTION } from "../../env";
 
 const cache = new InMemoryCache({});
 
@@ -42,7 +43,7 @@ export const client = new ApolloClient({
         return true;
       },
       fetchAccessToken: () => {
-        return fetch("http://localhost:4000/refresh_token", {
+        return fetch(`${IS_PRODUCTION ? API_PRODUCTION : API_DEVELOPMENT}/refresh_token`, {
           method: "POST",
           credentials: "include"
         });
@@ -60,7 +61,7 @@ export const client = new ApolloClient({
     }),
     requestLink,
     new HttpLink({
-      uri: "http://48:00:11:22:4000/graphql",
+      uri: `${IS_PRODUCTION ? API_PRODUCTION : API_DEVELOPMENT}/graphql`,
       credentials: "omit"
     })
   ]),

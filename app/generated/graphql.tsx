@@ -15,6 +15,19 @@ export type Scalars = {
   JSON: any,
 };
 
+export type Comment = {
+   __typename?: 'Comment',
+  nickname?: Maybe<Scalars['String']>,
+  content: Scalars['String'],
+  date: Scalars['DateTime'],
+};
+
+export type CommentInput = {
+  recipeId: Scalars['ID'],
+  nickname?: Maybe<Scalars['String']>,
+  content: Scalars['String'],
+};
+
 export type Conversation = {
    __typename?: 'Conversation',
   id: Scalars['Int'],
@@ -58,12 +71,15 @@ export type Mutation = {
   revokeRefreshTokensForUser: Scalars['Boolean'],
   login: LoginResponse,
   register: Scalars['Boolean'],
+  updateUser: Scalars['Boolean'],
+  deleteUser: Scalars['Boolean'],
+  push: Scalars['Boolean'],
   createRoom: Room,
   createPhoto: Photo,
   updateRoom: Room,
   deleteRoom: Scalars['Boolean'],
   deletePhoto: Scalars['Boolean'],
-  deleteUser: Scalars['Boolean'],
+  addNewComment: Scalars['Boolean'],
 };
 
 
@@ -79,8 +95,15 @@ export type MutationLoginArgs = {
 
 
 export type MutationRegisterArgs = {
+  name?: Maybe<Scalars['String']>,
   password: Scalars['String'],
   email: Scalars['String']
+};
+
+
+export type MutationUpdateUserArgs = {
+  id: Scalars['Float'],
+  input: UserInput
 };
 
 
@@ -97,6 +120,11 @@ export type MutationCreatePhotoArgs = {
 export type MutationUpdateRoomArgs = {
   id: Scalars['Float'],
   options: RoomInput
+};
+
+
+export type MutationAddNewCommentArgs = {
+  comment: CommentInput
 };
 
 export type Photo = {
@@ -117,15 +145,35 @@ export type Query = {
   hello: Scalars['String'],
   bye: Scalars['String'],
   users: Array<User>,
+  selectUser: User,
   me?: Maybe<User>,
   selectPhotos: Array<Photo>,
   selectRooms: Array<Room>,
+  recipe?: Maybe<Recipe>,
+};
+
+
+export type QuerySelectUserArgs = {
+  id: Scalars['Float']
 };
 
 
 export type QuerySelectRoomsArgs = {
-  cursor: Scalars['Float'],
-  first: Scalars['Float']
+  take: Scalars['Float'],
+  skip: Scalars['Float']
+};
+
+
+export type QueryRecipeArgs = {
+  id: Scalars['ID']
+};
+
+export type Recipe = {
+   __typename?: 'Recipe',
+  id: Scalars['ID'],
+  title: Scalars['String'],
+  description?: Maybe<Scalars['String']>,
+  comments: Array<Comment>,
 };
 
 export type Reservation = {
@@ -182,10 +230,16 @@ export type RoomInput = {
   hostId: Scalars['Float'],
 };
 
+export type Subscription = {
+   __typename?: 'Subscription',
+  newComments: Comment,
+};
+
 export type User = {
    __typename?: 'User',
   id: Scalars['ID'],
   email: Scalars['String'],
+  name: Scalars['String'],
   password: Scalars['String'],
   avatar: Scalars['String'],
   gender: Scalars['String'],
@@ -197,11 +251,16 @@ export type User = {
   email_secret: Scalars['String'],
   login_method: Scalars['String'],
   tokenVersion: Scalars['String'],
+  roomConnection: Array<Room>,
+};
+
+export type UserInput = {
+  name: Scalars['String'],
 };
 
 export type SelectRoomsQueryVariables = {
-  first: Scalars['Float'],
-  cursor: Scalars['Float']
+  skip: Scalars['Float'],
+  take: Scalars['Float']
 };
 
 
@@ -250,13 +309,14 @@ export type MeQuery = (
   { __typename?: 'Query' }
   & { me: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'email'>
+    & Pick<User, 'id' | 'email' | 'name'>
   )> }
 );
 
 export type RegisterMutationVariables = {
   email: Scalars['String'],
-  password: Scalars['String']
+  password: Scalars['String'],
+  name?: Maybe<Scalars['String']>
 };
 
 
@@ -278,8 +338,8 @@ export type UsersQuery = (
 
 
 export const SelectRoomsDocument = gql`
-    query selectRooms($first: Float!, $cursor: Float!) {
-  selectRooms(first: $first, cursor: $cursor) {
+    query selectRooms($skip: Float!, $take: Float!) {
+  selectRooms(skip: $skip, take: $take) {
     id
     name
     city
@@ -341,6 +401,7 @@ export const MeDocument = gql`
   me {
     id
     email
+    name
   }
 }
     `;
@@ -355,8 +416,8 @@ export const MeDocument = gql`
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeQueryResult = ApolloReactCommon.QueryResult<MeQuery, MeQueryVariables>;
 export const RegisterDocument = gql`
-    mutation Register($email: String!, $password: String!) {
-  register(email: $email, password: $password)
+    mutation Register($email: String!, $password: String!, $name: String) {
+  register(email: $email, password: $password, name: $name)
 }
     `;
 export type RegisterMutationFn = ApolloReactCommon.MutationFunction<RegisterMutation, RegisterMutationVariables>;
