@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useState, useMemo, useCallback, useEffect, useContext } from "react";
-import { Popover, Button } from 'antd';
+import { Popover, Calendar } from 'antd';
 import 'antd/dist/antd.css';
+import moment from 'moment';
 import _ from 'lodash';
 import axios from 'axios';
 import '../assets/scss/room.scss'
@@ -14,7 +15,7 @@ type Props = {
 
 const CreateRoom: React.FunctionComponent<Props> = ({
 }) => {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(6);
     const [isError, setIsError] = useState(false);
     const [files, setFiles] : any = useState([]);
     const [rule, setRule] = useState("");
@@ -123,7 +124,7 @@ const CreateRoom: React.FunctionComponent<Props> = ({
         );
     }, []);
     return (
-        <div className="cotainer max-w-2xl mx-auto my-64 flex flex-col items-center border p-6 border-gray-400">
+        <div className="cotainer max-w-4xl mx-auto my-64 flex flex-col items-center border p-6 border-gray-400">
             <button onClick={tempSave}>임시저장</button>
             {
                 isError && (
@@ -358,6 +359,23 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                                     <button className="w-full py-3 text-gray-700 border border-gray-500 h-12" onClick={addRules}>추가</button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                )
+            }
+            {
+                step === 6 && (
+                    <div className="w-full max-w-3xl">
+                        <div>
+                            <div className="flex items-center py-2">
+                                <p className="text-3xl font-bold">달력을 업데이트하세요</p>
+                            </div>
+                            <div className="flex items-center py-2">
+                                <p className="text-xl">예약을 차단하거나 차단 해제할 날짜를 선택하세요.</p>
+                            </div>
+                        </div>
+                        <div>
+                            <Calendar value={moment('2020-01-19')} />
                         </div>
                     </div>
                 )

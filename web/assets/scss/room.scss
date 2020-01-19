@@ -1,3 +1,35 @@
 .test {
     font-weight: bold;
 }
+// .ant-fullcalendar-date :hover {
+//     background-color: white !important;
+// }
+.ant-fullcalendar-date {
+    border-right: 2px solid #e8e8e8 !important;
+    border-left: 2px solid #e8e8e8 !important;
+    border-bottom: 2px solid #e8e8e8 !important;
+    padding-top: 0px !important;
+    padding-left: 0px !important;
+    padding-bottom: 0px !important;
+    padding-right: 0px !important;
+    border-top-width: 1px !important;
+    border-left-width: 1px !important;
+    border-bottom-width: 1px !important;
+    border-right-width: 1px !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    background-color: #dfdddd;
+    &:hover {
+        background-color: white !important;
+    }
+}
+.ant-fullcalendar td {
+    padding-top: 0px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-bottom: 0px !important;
+}
+.ant-fullcalendar-fullscreen .ant-fullcalendar-month-panel-selected-cell .ant-fullcalendar-month,
+.ant-fullcalendar-fullscreen .ant-fullcalendar-selected-day .ant-fullcalendar-date {
+  background: white !important;
+}

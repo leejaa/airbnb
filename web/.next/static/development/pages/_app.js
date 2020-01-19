@@ -14,7 +14,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IS_PRODUCTION", function() { return IS_PRODUCTION; });
 var API_PRODUCTION = "https://jahunbnb-api.herokuapp.com";
 var API_DEVELOPMENT = "http://localhost:4000";
-var IS_PRODUCTION = false;
+var IS_PRODUCTION = true;
 
 /***/ }),
 
