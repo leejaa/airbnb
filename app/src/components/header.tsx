@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useRef, useEffect } from "react";
+import React, { useState, useContext, useCallback, useRef, useEffect, useMemo } from "react";
 import { View, TouchableOpacity, Text, TouchableHighlight } from 'react-native';
 import Modal from "react-native-modal";
 import { SearchBar, Button } from 'react-native-elements';
@@ -30,24 +30,41 @@ const Header: React.FC<any> = ({ navigation }) => {
     let newMarkedDates = {};
     if (_.isEmpty(markedDates)) {
       newMarkedDates[day.dateString] = { startingDay: true, color: 'black', textColor: 'white' };
-      // const dates = {
-      //   '2020-01-21': { startingDay: true, color: 'black', textColor: 'white' },
-      //   '2020-01-22': { color: 'black', endingDay: true, textColor: 'white' }
-      // };
     } else {
-      let key = '';
-      let beforeDate = moment(day.dateString).isBefore(Object.keys(markedDates)[0]) ? day.dateString : Object.keys(markedDates)[0];
-      const afterDate = moment(day.dateString).isBefore(Object.keys(markedDates)[0]) ? Object.keys(markedDates)[0] : day.dateString;
-      newMarkedDates[beforeDate] = { startingDay: true, color: 'black', textColor: 'white' };
-      do {
-        beforeDate = moment(beforeDate).add(1, 'd').format('YYYY-MM-DD');
-        newMarkedDates[beforeDate] = { color: 'black', textColor: 'white' };
-      } while (moment(beforeDate).isBefore(afterDate));
-      newMarkedDates[afterDate] = { endingDay: true, color: 'black', textColor: 'white' };
+      let beforeDate;
+      let afterDate;
+      if ( moment(day.dateString).isBefore(Object.keys(markedDates)[0]) ) {
+        beforeDate = day.dateString;
+        newMarkedDates[beforeDate] = { startingDay: true, color: 'black', textColor: 'white' };
+      }
+      if ( moment(day.dateString).isAfter(Object.keys(markedDates)[ Object.keys(markedDates).length - 1 ]) && Object.keys(markedDates).length === 1 ) {
+        beforeDate = Object.keys(markedDates)[0];
+        afterDate = day.dateString;
+        newMarkedDates[beforeDate] = { startingDay: true, color: 'black', textColor: 'white' };
+        do {
+          beforeDate = moment(beforeDate).add(1, 'd').format('YYYY-MM-DD');
+          newMarkedDates[beforeDate] = { color: 'black', textColor: 'white' };
+        } while (moment(beforeDate).isBefore(afterDate));
+        newMarkedDates[afterDate] = { endingDay: true, color: 'black', textColor: 'white' };
+      }
+      if ( moment(day.dateString).isAfter(Object.keys(markedDates)[ Object.keys(markedDates).length - 1 ]) && Object.keys(markedDates).length > 1 ) {
+        beforeDate = day.dateString;
+        newMarkedDates[beforeDate] = { startingDay: true, color: 'black', textColor: 'white' };
+      }
+      if ( moment(day.dateString).isBetween(Object.keys(markedDates)[0], Object.keys(markedDates)[ Object.keys(markedDates).length - 1 ], null, '[]') ) {
+        beforeDate = day.dateString;
+        newMarkedDates[beforeDate] = { startingDay: true, color: 'black', textColor: 'white' };
+      }
     }
     setMarkedDates(newMarkedDates);
   }, [markedDates]);
-  console.log('markedDates', JSON.stringify(markedDates));
+  const buttonTitle = useMemo( () => {
+    let title = '체크인';
+    if ( !_.isEmpty(markedDates) ) {
+      title = `${Object.keys(markedDates)[0]} ~ ${Object.keys(markedDates)[ Object.keys(markedDates).length - 1 ]}`;
+    }
+    return title;
+  }, [markedDates]);
   return (
     <TouchableOpacity style={{ width: '100%' }} onPress={onFocusSearch}>
       <View pointerEvents="none" style={{ flex: 1 }}>
@@ -76,15 +93,15 @@ const Header: React.FC<any> = ({ navigation }) => {
         <View style={{ marginTop: 0, height: 500, marginBottom: 80 }}>
           <Button
             buttonStyle={{ backgroundColor: 'white', height: 50, borderBottomLeftRadius: 0, borderBottomRightRadius: 0, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
-            title="체크인"
+            title={buttonTitle}
             titleStyle={{ color: 'black' }}
           >
           </Button>
           <TouchableOpacity
-            style={{ position: 'absolute', left: 5, marginLeft: 5, marginTop: 5 }}
+            style={{ position: 'absolute', left: 5, marginLeft: 10, marginTop: 10 }}
             onPress={() => setIsCalenderVisible(false)}
           >
-            <Ionicons name="md-close" size={30} color="black" />
+            <Ionicons name="md-close" size={25} color="black" />
           </TouchableOpacity>
           <CalendarList
             // Callback which gets executed when visible months change in scroll view. Default = undefined
@@ -116,7 +133,7 @@ const Header: React.FC<any> = ({ navigation }) => {
               title="결과보기"
               titleStyle={{ color: 'white' }}
               containerStyle={{ borderRadius: 10, width: '25%', height: 8, marginLeft: 10, marginTop: 10 , position: 'absolute', right: 10 }}
-              buttonStyle={{ borderRadius: 10, backgroundColor: 'black', borderColor: 'black', borderWidth: 1, }}
+              buttonStyle={{ borderRadius: 10, backgroundColor: `${Object.keys(markedDates).length > 1 ? 'black' : 'gray'}` }}
             />
           </TouchableOpacity>
         </View>
