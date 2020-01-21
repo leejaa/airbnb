@@ -2,15 +2,17 @@ import React, { useReducer } from 'react';
 import _ from 'lodash';
 
 export const initialState = {
-    houseType: 'apartment',
-    houseRadio: 'all',
-    convenience: [],
-    lat: 0,
-    lng: 0,
-    address: [],
-    postCode: '',
-    imageUrl: '',
-  }
+  houseType: 'apartment',
+  houseRadio: 'all',
+  convenience: [],
+  lat: 0,
+  lng: 0,
+  address: [],
+  postCode: '',
+  imageUrl: '',
+  startDate: '',
+  endDate: ''
+}
 
 export const roomReducer = (state: any, action: any) => {
   switch (action.type) {
@@ -18,14 +20,14 @@ export const roomReducer = (state: any, action: any) => {
       return { ...state, houseType: action.value };
     }
     case 'setHouseRadio': {
-        return { ...state, houseRadio: action.value };
+      return { ...state, houseRadio: action.value };
     }
     case 'setConvenience': {
-        if ( _.includes( state.convenience, action.value ) ) {
-            return { ...state, convenience: _.pull( state.convenience, action.value ) };
-        } else {
-            return { ...state, convenience: _.concat( state.convenience, action.value ) };
-        }
+      if (_.includes(state.convenience, action.value)) {
+        return { ...state, convenience: _.pull(state.convenience, action.value) };
+      } else {
+        return { ...state, convenience: _.concat(state.convenience, action.value) };
+      }
     }
     case 'setLng': {
       return { ...state, lng: action.value };

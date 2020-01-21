@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, JoinColumn, ManyToOne } from "typeorm";
 import { Field, ObjectType, ID } from "type-graphql";
 import { Room } from "./Room";
 
@@ -17,11 +17,15 @@ export class Photo extends BaseEntity {
   @Column({ nullable: true })
   file: string;
 
-  @PrimaryColumn()
+  @Column({ nullable: true })
   roomId: number;
 
-  @ManyToOne(() => Room,  room => room.photoConnection, { primary: true })
-    @JoinColumn({ name: "roomId" })
-    room: Promise<Room>;
+  @Field(() => Room)
+  @ManyToOne(() => Room,  room => room.photoConnection, { nullable: true })
+  @JoinColumn({ name: "roomId" })
+  room: Promise<Room>;
+
+  @Column({ nullable: true })
+  hostId: number;
 
 } 

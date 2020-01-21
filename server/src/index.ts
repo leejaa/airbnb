@@ -5,7 +5,7 @@ import { createServer } from 'http';
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { UserResolver } from "./resolvers/UserResolver";
-import { createConnection } from "typeorm";
+import { createConnection, getConnection } from "typeorm";
 import cookieParser from "cookie-parser";
 import { verify } from "jsonwebtoken";
 import cors from "cors";
@@ -58,6 +58,7 @@ import { RecipeResolver } from "./resolvers/RecipeResolver";
   });
 
   await createConnection();
+  // await getConnection().synchronize(true);
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
