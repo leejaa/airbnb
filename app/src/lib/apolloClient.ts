@@ -62,7 +62,7 @@ export const client = new ApolloClient({
     requestLink,
     new HttpLink({
       uri: `${IS_PRODUCTION ? API_PRODUCTION : API_DEVELOPMENT}/graphql`,
-      credentials: "omit"
+      credentials: "include"
     })
   ]),
   cache

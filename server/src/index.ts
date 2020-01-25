@@ -20,7 +20,11 @@ import { RecipeResolver } from "./resolvers/RecipeResolver";
   const app = express();
   app.use(
     cors({
-      origin: "http://localhost:3000",
+      origin: [
+        `${process.env.FRONT_URL}`,
+        `${process.env.FRONT_DEV_URL}`,
+        `${process.env.FRONT_DEV_APP_URL}`,
+      ],
       credentials: true
     })
   );

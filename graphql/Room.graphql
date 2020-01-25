@@ -13,3 +13,20 @@ query selectRooms($skip: Float!, $take: Float!){
     }
   }
 }
+
+query selectAllRooms{
+  selectAllRooms{
+    id
+    name
+    description
+    country
+    city
+    price
+    address
+   	photoConnection{
+      id
+      caption
+      file
+    }
+  }
+}

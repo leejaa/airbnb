@@ -1,6 +1,4 @@
-import { CircularProgress, List, ListItem, Paper } from "@material-ui/core";
 import React, { useEffect, useCallback, useState, useRef } from "react";
-import { Waypoint } from "react-waypoint";
 import RoomCard from "./RoomCard";
 import { useSelectRoomsQuery } from "../generated/graphql";
 
@@ -20,7 +18,7 @@ const RoomList: React.FunctionComponent<Props> = ({
         );
     }
     const onScroll = useCallback(() => {
-        if (window.scrollY + document.documentElement.clientHeight > document.documentElement.scrollHeight - 10) {
+        if (window.scrollY + document.documentElement?.clientHeight > document.documentElement?.scrollHeight - 10) {
             fetchMore({
                 variables: {
                     skip: data.selectRooms.length,

@@ -1,9 +1,11 @@
 import React, { useState, useContext } from "react";
-import { Text, View, KeyboardAvoidingView } from "react-native";
+import { Text, View, KeyboardAvoidingView, AsyncStorage } from "react-native";
 import { NavigationSwitchScreenProps, SafeAreaView } from "react-navigation";
 import { Headline, Button, TextInput } from "react-native-paper";
+import * as SecureStore from "expo-secure-store";
 import { useMutation } from "../utils/useMutation";
 import { UserContext } from "../UserContext";
+import { SECURESTORAGE_JWT } from "../constants";
 
 export const Login: React.FC<NavigationSwitchScreenProps> = ({
   navigation
@@ -14,8 +16,8 @@ export const Login: React.FC<NavigationSwitchScreenProps> = ({
   const [errorText, setErrorText] = useState("");
   const [loading, setLoading] = useState(false);
   const mutate = useMutation();
-  const { setAuthPayload } = useContext(UserContext);
-
+  const [ state, dispatch ] = useContext(UserContext);
+// dispatch({ type: 'setIsModalOpen', value: !state.isModalOpen });
   return (
     <SafeAreaView
       style={{
@@ -73,14 +75,9 @@ export const Login: React.FC<NavigationSwitchScreenProps> = ({
                 setErrorText(errorText);
                 setLoading(false);
               } else {
-                setAuthPayload({
-                  token: user.token,
-                  user: {
-                    id: user.id,
-                    username: user.username
-                  }
-                });
-                navigation.navigate("App");
+                await AsyncStorage.setItem('token', user.token);
+                await SecureStore.setItemAsync(user.token, JSON.stringify(user));
+                navigation.navigate("Home");
               }
             } catch (err) {
               console.log(err);

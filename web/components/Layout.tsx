@@ -2,8 +2,10 @@ import * as React from "react";
 import Head from "next/head";
 import Link from 'next/link';
 import { useApolloClient } from "@apollo/react-hooks";
-import { useMeQuery } from "../generated/graphql";
+import { useMeQuery, useLogoutMutation, useSelectRoomsQuery } from "../generated/graphql";
 import gql from "graphql-tag";
+import { setAccessToken } from "../lib/accessToken";
+import { useCallback } from "react";
 
 
 type Props = {
@@ -15,7 +17,12 @@ const Layout: React.FunctionComponent<Props> = ({
   title = "This is the default title"
 }) => {
   const { data, loading } = useMeQuery();
-  const client = useApolloClient();
+  // const client = useApolloClient();
+  const [logout] = useLogoutMutation();
+  const { refetch } = useSelectRoomsQuery({
+    variables: { skip: 0, take: 12 },
+    notifyOnNetworkStatusChange: true,
+  });
   const save = () => {
     // client.writeFragment({
     //   id: 'me',
@@ -31,6 +38,12 @@ const Layout: React.FunctionComponent<Props> = ({
     //   fragment,
     // });
   };
+  const fnLogout = useCallback(async () => {
+    await logout();
+    setAccessToken("");
+    // await client!.resetStore();
+    location.reload();
+  }, []);
   return (
     <div>
       <Head>
@@ -63,12 +76,12 @@ const Layout: React.FunctionComponent<Props> = ({
               </a>
             </li>
             <li className="nav_link">
-              <a onClick={ save }>
+              <a onClick={save}>
                 SAVE
               </a>
             </li>
             <li className="nav_link">
-              <a onClick={ get }>
+              <a onClick={get}>
                 GET
               </a>
             </li>
@@ -86,11 +99,9 @@ const Layout: React.FunctionComponent<Props> = ({
             <li className="nav_link">
               {
                 data && data.me ? (
-                  <Link href="/logout">
-                    <a href="">
-                      로그아웃
+                  <a onClick={fnLogout}>
+                    로그아웃
                     </a>
-                  </Link>
                 ) : (
                     <Link href="/login">
                       <a href="">

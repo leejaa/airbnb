@@ -13,6 +13,19 @@ export type Scalars = {
   JSON: any,
 };
 
+export type Comment = {
+   __typename?: 'Comment',
+  nickname?: Maybe<Scalars['String']>,
+  content: Scalars['String'],
+  date: Scalars['DateTime'],
+};
+
+export type CommentInput = {
+  recipeId: Scalars['ID'],
+  nickname?: Maybe<Scalars['String']>,
+  content: Scalars['String'],
+};
+
 export type Conversation = {
    __typename?: 'Conversation',
   id: Scalars['Int'],
@@ -32,6 +45,7 @@ export type List = {
 export type LoginResponse = {
    __typename?: 'LoginResponse',
   accessToken: Scalars['String'],
+  refreshToken: Scalars['String'],
   user: User,
 };
 
@@ -56,14 +70,18 @@ export type Mutation = {
   revokeRefreshTokensForUser: Scalars['Boolean'],
   login: LoginResponse,
   register: Scalars['Boolean'],
+  registerFake: Scalars['Boolean'],
   updateUser: Scalars['Boolean'],
   deleteUser: Scalars['Boolean'],
   push: Scalars['Boolean'],
   createRoom: Room,
+  createFakeRoom: Room,
   createPhoto: Photo,
+  createFakePhoto: Photo,
   updateRoom: Room,
   deleteRoom: Scalars['Boolean'],
   deletePhoto: Scalars['Boolean'],
+  addNewComment: Scalars['Boolean'],
 };
 
 
@@ -106,17 +124,24 @@ export type MutationUpdateRoomArgs = {
   options: RoomInput
 };
 
+
+export type MutationAddNewCommentArgs = {
+  comment: CommentInput
+};
+
 export type Photo = {
    __typename?: 'Photo',
   id: Scalars['ID'],
   caption: Scalars['String'],
   file: Scalars['String'],
+  room: Room,
 };
 
 export type PhotoInput = {
   caption: Scalars['String'],
   file: Scalars['String'],
   roomId: Scalars['Float'],
+  hostId: Scalars['Float'],
 };
 
 export type Query = {
@@ -126,8 +151,10 @@ export type Query = {
   users: Array<User>,
   selectUser: User,
   me?: Maybe<User>,
-  selectPhotos: Array<Photo>,
+  selectAllPhotos: Array<Photo>,
+  selectAllRooms: Array<Room>,
   selectRooms: Array<Room>,
+  recipe?: Maybe<Recipe>,
 };
 
 
@@ -139,6 +166,19 @@ export type QuerySelectUserArgs = {
 export type QuerySelectRoomsArgs = {
   take: Scalars['Float'],
   skip: Scalars['Float']
+};
+
+
+export type QueryRecipeArgs = {
+  id: Scalars['ID']
+};
+
+export type Recipe = {
+   __typename?: 'Recipe',
+  id: Scalars['ID'],
+  title: Scalars['String'],
+  description?: Maybe<Scalars['String']>,
+  comments: Array<Comment>,
 };
 
 export type Reservation = {
@@ -184,15 +224,22 @@ export type Room = {
   instant_book: Scalars['Boolean'],
   room_type: Scalars['String'],
   photoConnection: Array<Photo>,
+  user: User,
 };
 
 export type RoomInput = {
   name: Scalars['String'],
+  country: Scalars['String'],
   description: Scalars['String'],
   city: Scalars['String'],
   price: Scalars['Int'],
   address: Scalars['String'],
-  hostId: Scalars['Float'],
+  userId: Scalars['Float'],
+};
+
+export type Subscription = {
+   __typename?: 'Subscription',
+  newComments: Comment,
 };
 
 export type User = {
@@ -246,7 +293,7 @@ export type LoginMutation = (
   { __typename?: 'Mutation' }
   & { login: (
     { __typename?: 'LoginResponse' }
-    & Pick<LoginResponse, 'accessToken'>
+    & Pick<LoginResponse, 'accessToken' | 'refreshToken'>
     & { user: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'email'>
@@ -332,6 +379,7 @@ export const LoginDocument = gql`
       id
       email
     }
+    refreshToken
   }
 }
     `;

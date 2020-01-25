@@ -47,6 +47,7 @@ export type List = {
 export type LoginResponse = {
    __typename?: 'LoginResponse',
   accessToken: Scalars['String'],
+  refreshToken: Scalars['String'],
   user: User,
 };
 
@@ -71,11 +72,14 @@ export type Mutation = {
   revokeRefreshTokensForUser: Scalars['Boolean'],
   login: LoginResponse,
   register: Scalars['Boolean'],
+  registerFake: Scalars['Boolean'],
   updateUser: Scalars['Boolean'],
   deleteUser: Scalars['Boolean'],
   push: Scalars['Boolean'],
   createRoom: Room,
+  createFakeRoom: Room,
   createPhoto: Photo,
+  createFakePhoto: Photo,
   updateRoom: Room,
   deleteRoom: Scalars['Boolean'],
   deletePhoto: Scalars['Boolean'],
@@ -132,12 +136,14 @@ export type Photo = {
   id: Scalars['ID'],
   caption: Scalars['String'],
   file: Scalars['String'],
+  room: Room,
 };
 
 export type PhotoInput = {
   caption: Scalars['String'],
   file: Scalars['String'],
   roomId: Scalars['Float'],
+  hostId: Scalars['Float'],
 };
 
 export type Query = {
@@ -147,7 +153,8 @@ export type Query = {
   users: Array<User>,
   selectUser: User,
   me?: Maybe<User>,
-  selectPhotos: Array<Photo>,
+  selectAllPhotos: Array<Photo>,
+  selectAllRooms: Array<Room>,
   selectRooms: Array<Room>,
   recipe?: Maybe<Recipe>,
 };
@@ -219,15 +226,17 @@ export type Room = {
   instant_book: Scalars['Boolean'],
   room_type: Scalars['String'],
   photoConnection: Array<Photo>,
+  user: User,
 };
 
 export type RoomInput = {
   name: Scalars['String'],
+  country: Scalars['String'],
   description: Scalars['String'],
   city: Scalars['String'],
   price: Scalars['Int'],
   address: Scalars['String'],
-  hostId: Scalars['Float'],
+  userId: Scalars['Float'],
 };
 
 export type Subscription = {
@@ -276,6 +285,21 @@ export type SelectRoomsQuery = (
   )> }
 );
 
+export type SelectAllRoomsQueryVariables = {};
+
+
+export type SelectAllRoomsQuery = (
+  { __typename?: 'Query' }
+  & { selectAllRooms: Array<(
+    { __typename?: 'Room' }
+    & Pick<Room, 'id' | 'name' | 'description' | 'country' | 'city' | 'price' | 'address'>
+    & { photoConnection: Array<(
+      { __typename?: 'Photo' }
+      & Pick<Photo, 'id' | 'caption' | 'file'>
+    )> }
+  )> }
+);
+
 export type LoginMutationVariables = {
   email: Scalars['String'],
   password: Scalars['String']
@@ -286,7 +310,7 @@ export type LoginMutation = (
   { __typename?: 'Mutation' }
   & { login: (
     { __typename?: 'LoginResponse' }
-    & Pick<LoginResponse, 'accessToken'>
+    & Pick<LoginResponse, 'accessToken' | 'refreshToken'>
     & { user: (
       { __typename?: 'User' }
       & Pick<User, 'id' | 'email'>
@@ -364,6 +388,34 @@ export const SelectRoomsDocument = gql`
       
 export type SelectRoomsQueryHookResult = ReturnType<typeof useSelectRoomsQuery>;
 export type SelectRoomsQueryResult = ApolloReactCommon.QueryResult<SelectRoomsQuery, SelectRoomsQueryVariables>;
+export const SelectAllRoomsDocument = gql`
+    query selectAllRooms {
+  selectAllRooms {
+    id
+    name
+    description
+    country
+    city
+    price
+    address
+    photoConnection {
+      id
+      caption
+      file
+    }
+  }
+}
+    `;
+
+    export function useSelectAllRoomsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SelectAllRoomsQuery, SelectAllRoomsQueryVariables>) {
+      return ApolloReactHooks.useQuery<SelectAllRoomsQuery, SelectAllRoomsQueryVariables>(SelectAllRoomsDocument, baseOptions);
+    }
+      export function useSelectAllRoomsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SelectAllRoomsQuery, SelectAllRoomsQueryVariables>) {
+        return ApolloReactHooks.useLazyQuery<SelectAllRoomsQuery, SelectAllRoomsQueryVariables>(SelectAllRoomsDocument, baseOptions);
+      }
+      
+export type SelectAllRoomsQueryHookResult = ReturnType<typeof useSelectAllRoomsQuery>;
+export type SelectAllRoomsQueryResult = ApolloReactCommon.QueryResult<SelectAllRoomsQuery, SelectAllRoomsQueryVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
@@ -372,6 +424,7 @@ export const LoginDocument = gql`
       id
       email
     }
+    refreshToken
   }
 }
     `;

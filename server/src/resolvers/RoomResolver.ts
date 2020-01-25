@@ -145,9 +145,10 @@ class PhotoInput {
       @Arg("take") take: number,
       @Ctx() { payload }: MyContext
       ){
+      console.log('11111');
       const { userId = '' }: any = payload;
       const rooms = await Room.find({
-        where: { userId },
+        // where: { userId },
         join: {
           alias: "Room",
           innerJoinAndSelect: {

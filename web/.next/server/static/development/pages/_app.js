@@ -291,9 +291,22 @@ function withApollo(PageComponent, {
       let serverAccessToken = "";
 
       if (isServer()) {
+        // const cookies : any = cookie.parse(`${req.headers.cookie}`);
+        // if (cookies.jid) {
+        //   const response = await fetch(IS_PRODUCTION ? `${API_PRODUCTION}/refresh_token` : `${API_DEVELOPMENT}/refresh_token`, {
+        //     method: "POST",
+        //     credentials: "include",
+        //     headers: {
+        //       cookie: "jid=" + cookies.jid
+        //     }
+        //   });
+        //   const data = await response.json();
+        //   serverAccessToken = data.accessToken;
+        // }
         const cookies = cookie__WEBPACK_IMPORTED_MODULE_22___default.a.parse(`${req.headers.cookie}`);
 
         if (cookies.jid) {
+          console.log('cookies.jid', cookies.jid);
           const response = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_16___default()(_env__WEBPACK_IMPORTED_MODULE_23__["IS_PRODUCTION"] ? `${_env__WEBPACK_IMPORTED_MODULE_23__["API_PRODUCTION"]}/refresh_token` : `${_env__WEBPACK_IMPORTED_MODULE_23__["API_DEVELOPMENT"]}/refresh_token`, {
             method: "POST",
             credentials: "include",
@@ -331,7 +344,7 @@ function withApollo(PageComponent, {
               apolloClient: apolloClient,
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 101
+                lineNumber: 115
               },
               __self: this
             }));

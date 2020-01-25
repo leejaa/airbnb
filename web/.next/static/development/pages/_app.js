@@ -183,18 +183,31 @@ function withApollo(PageComponent) {
               serverAccessToken = "";
 
               if (!isServer()) {
-                _context.next = 12;
+                _context.next = 13;
                 break;
               }
 
+              // const cookies : any = cookie.parse(`${req.headers.cookie}`);
+              // if (cookies.jid) {
+              //   const response = await fetch(IS_PRODUCTION ? `${API_PRODUCTION}/refresh_token` : `${API_DEVELOPMENT}/refresh_token`, {
+              //     method: "POST",
+              //     credentials: "include",
+              //     headers: {
+              //       cookie: "jid=" + cookies.jid
+              //     }
+              //   });
+              //   const data = await response.json();
+              //   serverAccessToken = data.accessToken;
+              // }
               cookies = cookie__WEBPACK_IMPORTED_MODULE_23___default.a.parse("".concat(req.headers.cookie));
 
               if (!cookies.jid) {
-                _context.next = 12;
+                _context.next = 13;
                 break;
               }
 
-              _context.next = 7;
+              console.log('cookies.jid', cookies.jid);
+              _context.next = 8;
               return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_7___default.a.awrap(isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_17___default()(_env__WEBPACK_IMPORTED_MODULE_24__["IS_PRODUCTION"] ? "".concat(_env__WEBPACK_IMPORTED_MODULE_24__["API_PRODUCTION"], "/refresh_token") : "".concat(_env__WEBPACK_IMPORTED_MODULE_24__["API_DEVELOPMENT"], "/refresh_token"), {
                 method: "POST",
                 credentials: "include",
@@ -203,65 +216,65 @@ function withApollo(PageComponent) {
                 }
               }));
 
-            case 7:
+            case 8:
               response = _context.sent;
-              _context.next = 10;
+              _context.next = 11;
               return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_7___default.a.awrap(response.json());
 
-            case 10:
+            case 11:
               data = _context.sent;
               serverAccessToken = data.accessToken;
 
-            case 12:
+            case 13:
               // Run all GraphQL queries in the component tree
               // and extract the resulting data
               apolloClient = ctx.ctx.apolloClient = initApolloClient({}, serverAccessToken);
 
               if (!PageComponent.getInitialProps) {
-                _context.next = 19;
+                _context.next = 20;
                 break;
               }
 
-              _context.next = 16;
+              _context.next = 17;
               return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_7___default.a.awrap(PageComponent.getInitialProps(ctx));
 
-            case 16:
+            case 17:
               _context.t0 = _context.sent;
-              _context.next = 20;
+              _context.next = 21;
               break;
 
-            case 19:
+            case 20:
               _context.t0 = {};
 
-            case 20:
+            case 21:
               pageProps = _context.t0;
 
               if (true) {
-                _context.next = 38;
+                _context.next = 39;
                 break;
               }
 
               if (!(res && res.finished)) {
-                _context.next = 24;
+                _context.next = 25;
                 break;
               }
 
               return _context.abrupt("return", {});
 
-            case 24:
+            case 25:
               if (!ssr) {
-                _context.next = 37;
+                _context.next = 38;
                 break;
               }
 
-              _context.prev = 25;
-              _context.next = 28;
+              _context.prev = 26;
+              _context.next = 29;
               return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_7___default.a.awrap(__webpack_require__.e(/*! import() */ 0).then(__webpack_require__.bind(null, /*! @apollo/react-ssr */ "./node_modules/@apollo/react-ssr/lib/react-ssr.esm.js")));
 
-            case 28:
+            case 29:
               _ref3 = _context.sent;
               getDataFromTree = _ref3.getDataFromTree;
-              _context.next = 32;
+              _context.next = 33;
               return _babel_runtime_corejs2_regenerator__WEBPACK_IMPORTED_MODULE_7___default.a.awrap(getDataFromTree(__jsx(AppTree, {
                 pageProps: _objectSpread({}, pageProps, {
                   apolloClient: apolloClient
@@ -269,29 +282,29 @@ function withApollo(PageComponent) {
                 apolloClient: apolloClient,
                 __source: {
                   fileName: _jsxFileName,
-                  lineNumber: 101
+                  lineNumber: 115
                 },
                 __self: this
               })));
 
-            case 32:
-              _context.next = 37;
+            case 33:
+              _context.next = 38;
               break;
 
-            case 34:
-              _context.prev = 34;
-              _context.t1 = _context["catch"](25);
+            case 35:
+              _context.prev = 35;
+              _context.t1 = _context["catch"](26);
               // Prevent Apollo Client GraphQL errors from crashing SSR.
               // Handle them in components via the data.error prop:
               // https://www.apollographql.com/docs/react/api/react-apollo.html#graphql-query-data-error
               console.error("Error while running `getDataFromTree`", _context.t1);
 
-            case 37:
+            case 38:
               // getDataFromTree does not call componentWillUnmount
               // head side effect therefore need to be cleared manually
               next_head__WEBPACK_IMPORTED_MODULE_12___default.a.rewind();
 
-            case 38:
+            case 39:
               // Extract query data from the Apollo store
               apolloState = apolloClient.cache.extract();
               return _context.abrupt("return", _objectSpread({}, pageProps, {
@@ -299,12 +312,12 @@ function withApollo(PageComponent) {
                 serverAccessToken: serverAccessToken
               }));
 
-            case 40:
+            case 41:
             case "end":
               return _context.stop();
           }
         }
-      }, null, this, [[25, 34]]);
+      }, null, this, [[26, 35]]);
     };
   }
 

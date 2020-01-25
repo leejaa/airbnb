@@ -3,6 +3,9 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import * as SecureStore from "expo-secure-store";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+import decode from "jwt-decode";
+import * as Network from 'expo-network';
+import publicIP from 'react-native-public-ip';
 import { Home } from "./screens/Home";
 import Header from './components/header'
 import { Login } from "./screens/Login";
@@ -11,6 +14,9 @@ import { AuthLoading } from "./screens/AuthLoading";
 import { UserContext, AuthPayload } from "./UserContext";
 import { client } from "./lib/apolloClient";
 import { homeReducer, initialState } from "./reducer/HomeReducer";
+import { SECURESTORAGE_JWT } from "./constants";
+import { AsyncStorage } from "react-native";
+import { useMutation } from "./utils/useMutation";
 
 const AppStack = createStackNavigator({
     Home: {
@@ -68,15 +74,27 @@ function getPersistenceFunctions() {
 }
 
 export const Routes: React.FC<Props> = () => {
-    const [ state, dispatch ] = useReducer( homeReducer, initialState );
-
+    const [state, dispatch] = useReducer(homeReducer, initialState);
+    const initialAction = async () => {
+        // const ipAddress = await Network.getIpAddressAsync();
+        // console.log('ipAddress', ipAddress);
+        // publicIP()
+        //     .then(ip => {
+        //         console.log(ip);
+        //         // '47.122.71.234'
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //         // 'Unable to get IP address.'
+        //     });
+    };
     useEffect(() => {
-
+        initialAction();
     }, []);
 
     return (
         <ApolloProvider client={client}>
-            <UserContext.Provider value={ [ state, dispatch ] }>
+            <UserContext.Provider value={[state, dispatch]}>
                 <AppContainer />
             </UserContext.Provider>
         </ApolloProvider>

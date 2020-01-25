@@ -60,13 +60,27 @@ export function withApollo(PageComponent: any, { ssr = true } = {}) {
       let serverAccessToken = "";
 
       if (isServer()) {
+        // const cookies : any = cookie.parse(`${req.headers.cookie}`);
+        // if (cookies.jid) {
+        //   const response = await fetch(IS_PRODUCTION ? `${API_PRODUCTION}/refresh_token` : `${API_DEVELOPMENT}/refresh_token`, {
+        //     method: "POST",
+        //     credentials: "include",
+        //     headers: {
+        //       cookie: "jid=" + cookies.jid
+        //     }
+        //   });
+        //   const data = await response.json();
+        //   serverAccessToken = data.accessToken;
+        // }
+
         const cookies : any = cookie.parse(`${req.headers.cookie}`);
         if (cookies.jid) {
+          console.log('cookies.jid', cookies.jid);
           const response = await fetch(IS_PRODUCTION ? `${API_PRODUCTION}/refresh_token` : `${API_DEVELOPMENT}/refresh_token`, {
             method: "POST",
             credentials: "include",
             headers: {
-              cookie: "jid=" + cookies.jid
+              cookie: "jid=" + cookies.jid,
             }
           });
           const data = await response.json();
@@ -164,7 +178,7 @@ function createApolloClient(initialState = {}, serverAccessToken?: string) {
   const httpLink = new HttpLink({
     uri: IS_PRODUCTION ? `${API_PRODUCTION}/graphql` : `${API_DEVELOPMENT}/graphql`,
     credentials: "include",
-    fetch
+    fetch,
   });
 
   const refreshLink = new TokenRefreshLink({
@@ -190,7 +204,7 @@ function createApolloClient(initialState = {}, serverAccessToken?: string) {
     fetchAccessToken: () => {
       return fetch(IS_PRODUCTION ? `${API_PRODUCTION}/refresh_token` : `${API_DEVELOPMENT}/refresh_token`, {
         method: "POST",
-        credentials: "include"
+        credentials: "include",
       });
     },
     handleFetch: accessToken => {
@@ -207,7 +221,7 @@ function createApolloClient(initialState = {}, serverAccessToken?: string) {
     return {
       headers: {
         ...headers,
-        authorization: token ? `bearer ${token}` : ""
+        authorization: token ? `bearer ${token}` : "",
       }
     };
   });

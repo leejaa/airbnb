@@ -43,7 +43,7 @@ const Login: React.FunctionComponent<Props> = ({
                 validationSchema={validationSchema}
                 onSubmit={async (data, { setSubmitting }) => {
                     setSubmitting(true);
-                    const response = await login({
+                    const response : any = await login({
                         variables: {
                             email: data.email || "",
                             password: data.password || ""
@@ -58,8 +58,11 @@ const Login: React.FunctionComponent<Props> = ({
                                     me: data.login.user as any
                                 }
                             });
+                            return null;
                         }
                     });
+                    console.log('response', response);
+                    document.cookie = `jid=${response?.data?.login?.refreshToken}`;
                     window.location.href = '/';
                     setSubmitting(false);
                 }}

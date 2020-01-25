@@ -8,6 +8,7 @@ import Carousel from '../components/Carousel';
 import { Search } from '../components/Search';
 import { data } from "../constants";
 import { UserContext } from "../UserContext";
+import { useSelectRoomsQuery, useSelectAllRoomsQuery } from "../../generated/graphql";
 
 const styles = StyleSheet.create({
   carousel: {
@@ -72,15 +73,16 @@ const styles = StyleSheet.create({
 });
 
 export const Home: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
-  const [list, setList] = useState(data);
+  // const [list, setList] = useState(data);
   const [page, setPage] = useState(5);
-  const [ state, dispatch ] = useContext( UserContext );
+  const [state, dispatch] = useContext(UserContext);
+  const { data, loading, error } = useSelectAllRoomsQuery();
   return (
     <View>
       <Modal
-      isVisible={ state.isModalOpen }
-      backdropOpacity={ 1 }
-      backdropColor="white"
+        isVisible={state.isModalOpen}
+        backdropOpacity={1}
+        backdropColor="white"
       >
         <Search />
       </Modal>
@@ -89,7 +91,7 @@ export const Home: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
         {
           <FlatList
             keyExtractor={item => item.id}
-            data={list.slice(0, page)}
+            data={data?.selectAllRooms?.slice(0, page)}
             onEndReachedThreshold={0.1}
             onEndReached={() => {
               setPage(page + 5);
@@ -101,18 +103,18 @@ export const Home: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
                     <View style={{ position: 'absolute', right: 0, zIndex: 1 }}>
                       <Ionicons name="md-heart-empty" size={16} color="red" />
                     </View>
-                    <Image source={{ uri: item.uri }} style={{ width: "100%", height: 200, borderRadius: 4 }} />
-                    <Text style={styles.CardTitle}>{item.title}</Text>
-                    <Text style={styles.CardContent}>{item.content}</Text>
+                    <Image source={{ uri: item?.photoConnection[0]?.file }} style={{ width: "100%", height: 200, borderRadius: 4 }} />
+                    <Text style={styles.CardTitle}>{item?.name}</Text>
+                    <Text style={styles.CardContent}>{item?.description}</Text>
                   </View>
 
                   <View style={styles.CardContainer}>
                     <View style={{ position: 'absolute', right: 0, zIndex: 1 }}>
                       <Ionicons name="md-heart-empty" size={16} color="red" />
                     </View>
-                    <Image source={{ uri: item.uri }} style={{ width: "100%", height: 200, borderRadius: 4 }} />
-                    <Text style={styles.CardTitle}>{item.title}</Text>
-                    <Text style={styles.CardContent}>{item.content}</Text>
+                    <Image source={{ uri: item?.photoConnection[0]?.file }} style={{ width: "100%", height: 200, borderRadius: 4 }} />
+                    <Text style={styles.CardTitle}>{item?.name}</Text>
+                    <Text style={styles.CardContent}>{item?.description}</Text>
                   </View>
                 </View>
               );

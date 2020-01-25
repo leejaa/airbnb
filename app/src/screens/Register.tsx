@@ -72,6 +72,8 @@ export const Register: React.FC<NavigationSwitchScreenProps> = ({
                   }
                 }
               });
+              console.log('user', user);
+              console.log('errors', errors);
               if (errors) {
                 let errorText = "";
                 Object.keys(errors).forEach(k => {
@@ -82,14 +84,7 @@ export const Register: React.FC<NavigationSwitchScreenProps> = ({
                 setErrorText(errorText);
                 setLoading(false);
               } else {
-                setAuthPayload({
-                  token: user.token,
-                  user: {
-                    id: user.id,
-                    username: user.username
-                  }
-                });
-                navigation.navigate("App");
+                navigation.navigate("Login");
               }
             } catch (err) {
               console.log(err);
