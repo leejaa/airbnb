@@ -76,9 +76,11 @@ const Layout: React.FunctionComponent<Props> = ({
               </a>
             </li>
             <li className="nav_link">
-              <a onClick={save}>
-                SAVE
-              </a>
+              <Link href="/createRoom">
+                <a>
+                  숙소추가
+                </a>
+              </Link>
             </li>
             <li className="nav_link">
               <a onClick={get}>

@@ -1,9 +1,21 @@
 .test {
     font-weight: bold;
 }
-// .ant-fullcalendar-date :hover {
-//     background-color: white !important;
-// }
+.ant-fullcalendar-fullscreen .ant-fullcalendar-month-panel-selected-cell .ant-fullcalendar-month, .ant-fullcalendar-fullscreen .ant-fullcalendar-selected-day .ant-fullcalendar-date {
+    background-color: #dfdddd;
+}
+.ant-fullcalendar-fullscreen .ant-fullcalendar-month-panel-selected-cell .ant-fullcalendar-month, .ant-fullcalendar-fullscreen .ant-fullcalendar-selected-day .ant-fullcalendar-date {
+    background-color: #dfdddd;
+    &:hover {
+        background-color: #dfdddd !important;
+    }
+}
+.ant-fullcalendar-disabled-cell:not(.ant-fullcalendar-today) .ant-fullcalendar-date, .ant-fullcalendar-disabled-cell:not(.ant-fullcalendar-today) .ant-fullcalendar-date:hover {
+    background-color: #dfdddd;
+    &:hover {
+        background-color: #dfdddd !important;
+    }
+}
 .ant-fullcalendar-date {
     border-right: 2px solid #e8e8e8 !important;
     border-left: 2px solid #e8e8e8 !important;
@@ -29,7 +41,9 @@
     padding-right: 0px !important;
     padding-bottom: 0px !important;
 }
-.ant-fullcalendar-fullscreen .ant-fullcalendar-month-panel-selected-cell .ant-fullcalendar-month,
-.ant-fullcalendar-fullscreen .ant-fullcalendar-selected-day .ant-fullcalendar-date {
-  background: white !important;
+.anticon {
+    margin-bottom: 3px;
+}
+.ant-btn-group .ant-btn + .ant-btn, .ant-btn + .ant-btn-group, .ant-btn-group span + .ant-btn, .ant-btn-group .ant-btn + span, .ant-btn-group > span + span, .ant-btn-group + .ant-btn, .ant-btn-group + .ant-btn-group {
+    margin-left: 10px;
 }

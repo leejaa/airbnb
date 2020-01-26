@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useMemo, useCallback, useEffect, useContext } from "react";
-import { Popover, Calendar } from 'antd';
+import { Popover, Calendar, Button, Icon } from 'antd';
 import 'antd/dist/antd.css';
 import moment from 'moment';
 import _ from 'lodash';
@@ -9,7 +9,8 @@ import '../assets/scss/room.scss'
 import { CreateRoomContext } from "../pages/createRoom";
 import Map from "./Map";
 import { ImageUpload } from "./ImageUpload";
-
+import ButtonGroup from "antd/lib/button/button-group";
+moment.locale('ko');
 type Props = {
 };
 
@@ -17,10 +18,13 @@ const CreateRoom: React.FunctionComponent<Props> = ({
 }) => {
     const [step, setStep] = useState(6);
     const [isError, setIsError] = useState(false);
-    const [files, setFiles] : any = useState([]);
+    const [files, setFiles]: any = useState([]);
     const [rule, setRule] = useState("");
     const [rules, setRules] = useState([]);
-    const [state, dispatch] : any = useContext(CreateRoomContext);
+    const [state, dispatch]: any = useContext(CreateRoomContext);
+    const [selectedDates, setSelectedDates] = useState<Array<string>>([]);
+    const [currentMonth, setCurrentMonth] = useState(moment().format("YYYY년 MM월"));
+    const [currentSelectedDate, setCurrentSelectedDate] = useState(moment());
     const tempSave = useCallback(() => {
         window.localStorage.setItem('state', JSON.stringify(state));
     }, [state]);
@@ -109,13 +113,57 @@ const CreateRoom: React.FunctionComponent<Props> = ({
             )
         } as any);
     };
+    const setDisableDate = useCallback(current => {
+        return current && current < moment().endOf('day');
+    }, []);
+    const onDateSelect = useCallback(date => {
+        setCurrentMonth(moment(date).format('YYYY년 MM월'));
+        setCurrentSelectedDate(moment(date));
+        let newSelectedDates = _.clone(selectedDates);
+        if (_.includes(selectedDates, moment(date).format('YYYY-MM-DD'))) {
+            newSelectedDates = _.pull(selectedDates, moment(date).format('YYYY-MM-DD'));
+        } else {
+            newSelectedDates = _.union(selectedDates, [moment(date).format('YYYY-MM-DD')]);
+        }
+        setSelectedDates(newSelectedDates);
+    }, [selectedDates, currentMonth, currentSelectedDate]);
+    const dateFullCellRender = useCallback((date) => {
+        const overrideStyle = { backgroundColor: 'white' };
+        return (
+            <div className="ant-fullcalendar-date" style={_.includes(selectedDates, moment(date).format('YYYY-MM-DD')) ? overrideStyle : {}}>
+                <div className="ant-fullcalendar-value">{moment(date).format('DD')}</div>
+                <div className="ant-fullcalendar-content"></div>
+            </div>
+        );
+    }, [selectedDates]);
+    const headerRender = useCallback(() => {
+        return (
+            <div>
+                <ButtonGroup>
+                    <Button>
+                        <Icon type="left" />
+                    </Button>
+                    <Button>
+                    <Icon type="right" />
+                    </Button>
+                </ButtonGroup>
+                <span
+                    style={ { marginLeft: 30, fontSize: 20 } }
+                >
+                    { currentMonth }
+                </span>
+            </div>
+        );
+    }, [ currentMonth, currentSelectedDate ]);
+    const onPanelChange = useCallback( date => {
+    }, []);
     useEffect(() => {
         return () => {
             let newFiles = _.clone(files);
             newFiles.forEach((file: { preview: string; }) => URL.revokeObjectURL(file.preview));
         }
     });
-    const content = useMemo( () => {
+    const content = useMemo(() => {
         return (
             <div>
                 <p>Content</p>
@@ -291,7 +339,7 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                             <div className="flex items-center py-2 relative">
                                 <p className="text-lg">어린이 숙박에 적합함</p>
                                 <Popover content={content} title="Title" placement="right">
-                                    <i className="material-icons" style={ { marginBottom: 15, marginLeft: 5 } }>notification_important</i>
+                                    <i className="material-icons" style={{ marginBottom: 15, marginLeft: 5 }}>notification_important</i>
                                 </Popover>
                                 <div className="absolute right-0">
                                     <button className="font-semibold hover:text-white w-8 h-8 bg-green-700 rounded mr-2 rounded-full pl-2">
@@ -375,7 +423,14 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                             </div>
                         </div>
                         <div>
-                            <Calendar value={moment('2020-01-19')} />
+                            <Calendar
+                                disabledDate={setDisableDate}
+                                onSelect={onDateSelect}
+                                dateFullCellRender={dateFullCellRender}
+                                headerRender={headerRender}
+                                onPanelChange={ onPanelChange }
+                                defaultValue={ currentSelectedDate }
+                            />
                         </div>
                     </div>
                 )

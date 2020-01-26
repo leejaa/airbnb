@@ -237,74 +237,80 @@ var Layout = function Layout(_ref) {
       lineNumber: 78
     },
     __self: this
-  }, __jsx("a", {
-    onClick: save,
+  }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {
+    href: "/createRoom",
     __source: {
       fileName: _jsxFileName,
       lineNumber: 79
     },
     __self: this
-  }, "SAVE")), __jsx("li", {
+  }, __jsx("a", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 80
+    },
+    __self: this
+  }, "\uC219\uC18C\uCD94\uAC00"))), __jsx("li", {
     className: "nav_link",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 83
+      lineNumber: 85
     },
     __self: this
   }, __jsx("a", {
     onClick: get,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 84
+      lineNumber: 86
     },
     __self: this
   }, "GET")), data && data.me && __jsx("li", {
     className: "nav_link",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 90
+      lineNumber: 92
     },
     __self: this
   }, __jsx(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {
     href: "/profile",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 91
+      lineNumber: 93
     },
     __self: this
   }, __jsx("a", {
     href: "",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 92
+      lineNumber: 94
     },
     __self: this
   }, "\uD504\uB85C\uD544"))), __jsx("li", {
     className: "nav_link",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 99
+      lineNumber: 101
     },
     __self: this
   }, data && data.me ? __jsx("a", {
     onClick: fnLogout,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 102
+      lineNumber: 104
     },
     __self: this
   }, "\uB85C\uADF8\uC544\uC6C3") : __jsx(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {
     href: "/login",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 106
+      lineNumber: 108
     },
     __self: this
   }, __jsx("a", {
     href: "",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 107
+      lineNumber: 109
     },
     __self: this
   }, "\uB85C\uADF8\uC778")))))), children);
