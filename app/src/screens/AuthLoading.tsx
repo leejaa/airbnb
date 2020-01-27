@@ -21,7 +21,7 @@ export const AuthLoading: React.FC<Props & NavigationSwitchScreenProps> = ({
     if ( _.isEmpty(user) ) {
       navigation.navigate("Login");
     } else {
-      navigation.navigate("Home");
+      navigation.navigate("Detail");
     }
   }
   useEffect(() => {

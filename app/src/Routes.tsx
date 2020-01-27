@@ -7,6 +7,7 @@ import decode from "jwt-decode";
 import * as Network from 'expo-network';
 import publicIP from 'react-native-public-ip';
 import { Home } from "./screens/Home";
+import { Detail } from "./screens/Detail";
 import Header from './components/header'
 import { Login } from "./screens/Login";
 import { Register } from "./screens/Register";
@@ -21,6 +22,15 @@ import { useMutation } from "./utils/useMutation";
 const AppStack = createStackNavigator({
     Home: {
         screen: Home,
+        navigationOptions: () => ({
+            headerTitle: () => <Header />,
+            headerStyle: {
+                height: 100
+            }
+        }),
+    },
+    Detail: {
+        screen: Detail,
         navigationOptions: () => ({
             headerTitle: () => <Header />,
             headerStyle: {
@@ -78,15 +88,15 @@ export const Routes: React.FC<Props> = () => {
     const initialAction = async () => {
         // const ipAddress = await Network.getIpAddressAsync();
         // console.log('ipAddress', ipAddress);
-        // publicIP()
-        //     .then(ip => {
-        //         console.log(ip);
-        //         // '47.122.71.234'
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //         // 'Unable to get IP address.'
-        //     });
+        publicIP()
+            .then(ip => {
+                console.log(ip);
+                // '47.122.71.234'
+            })
+            .catch(error => {
+                console.log(error);
+                // 'Unable to get IP address.'
+            });
     };
     useEffect(() => {
         initialAction();

@@ -1936,6 +1936,14 @@
     "@types/react" "*"
     "@types/react-native" "*"
 
+"@types/react-native-swiper@^1.5.10":
+  version "1.5.10"
+  resolved "https://registry.yarnpkg.com/@types/react-native-swiper/-/react-native-swiper-1.5.10.tgz#1c7c3c5fe6474f8b352f08ea7c275a55c54c615d"
+  integrity sha512-aaDBsobCO5v2hplagLmCi+3SgBgc+VMcc4XpI5BNAb4gbZgeStEn6/ijeEhwZIZqZDOY2/1DgSRM15pWSZUsrQ==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native-vector-icons@^6.4.4":
   version "6.4.5"
   resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.5.tgz#74cbfc564bd8435e43ad6728572a0e5b49c335d1"
@@ -10010,6 +10018,20 @@ react-native-swipe-up-down@^1.0.7:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/react-native-swipe-up-down/-/react-native-swipe-up-down-1.0.7.tgz#083714875b5db1c81d589a09eb8c32a9ffae30a4"
   integrity sha512-8j3mo+ukZBLRfQNz5N/TXLG7hTKTT8fg/2HkWWJ9umRzPz2kDthxzIkntp9QRPVh7h/sRymkhZdtLY3axdO2Zw==
+
+react-native-swiper-flatlist@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-swiper-flatlist/-/react-native-swiper-flatlist-2.0.3.tgz#e30b57060f986cf7d90f71cfaaf70314a68a44c6"
+  integrity sha512-/xqUqgNRPVLLyjfnzXDHpR/9RDuj8bGpjQXF0eXbcoos8oDwOeDqoFWt+t3amTuK0vqy+9gioKPZvJvF3O4n9Q==
+  dependencies:
+    prop-types "^15.7.2"
+
+react-native-swiper@^1.5.14:
+  version "1.5.14"
+  resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.5.14.tgz#1c6f949ca377186300f972bb0f30d24062c899aa"
+  integrity sha512-Kn0fxKooN7Shwu1qJYHB+Y8ssXXnvrIwReHXU5jCdyYNfz2QbBv0Cv3sa2Mqzr+XgzORCFFIokc8uCCUITDrVA==
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native-vector-icons@^6.6.0:
   version "6.6.0"
