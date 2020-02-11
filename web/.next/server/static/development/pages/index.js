@@ -93,6 +93,17 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
+/***/ "./assets/scss/room.scss":
+/*!*******************************!*\
+  !*** ./assets/scss/room.scss ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
 /***/ "./components/Layout.tsx":
 /*!*******************************!*\
   !*** ./components/Layout.tsx ***!
@@ -402,87 +413,228 @@ const Layout = ({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var antd_dist_antd_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! antd/dist/antd.css */ "./node_modules/antd/dist/antd.css");
+/* harmony import */ var antd_dist_antd_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(antd_dist_antd_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! antd */ "antd");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/scss/room.scss */ "./assets/scss/room.scss");
+/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3__);
 var _jsxFileName = "/Users/leejahun/practice/airbnb/web/components/RoomCard.tsx";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_0__["createElement"];
+var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+
+
+
 
 
 const RoomCard = ({
   room
 }) => {
+  const {
+    0: isShowArrow,
+    1: setIsShowArrow
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+  const {
+    0: isHoverArrowLeft,
+    1: setIsHoverArrowLeft
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+  const {
+    0: isHoverArrowRight,
+    1: setIsHoverArrowRight
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+  const carouselRef = Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+  const fnNextPrev = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(direction => {
+    switch (direction) {
+      case 'right':
+        carouselRef.current.next();
+        break;
+
+      case 'left':
+        carouselRef.current.prev();
+        break;
+
+      default:
+        break;
+    }
+  }, []);
   return __jsx("div", {
     className: "w-1/4 mb-10 px-2 overflow-hidden",
+    style: {
+      position: 'relative'
+    },
+    onMouseOver: () => setIsShowArrow(true),
+    onMouseLeave: () => setIsShowArrow(false),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 12
+      lineNumber: 30
     },
     __self: undefined
-  }, __jsx("a", {
-    href: "",
+  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_2__["Carousel"], {
+    ref: carouselRef,
+    autoplay: true,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 13
+      lineNumber: 31
+    },
+    __self: undefined
+  }, room === null || room === void 0 ? void 0 : room.photoConnection.map((photo, index) => __jsx("div", {
+    key: index,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 37
     },
     __self: undefined
   }, __jsx("div", {
     className: "w-full h-64 bg-cover bg-center rounded-lg mb-2 ",
     style: {
-      backgroundImage: `url("${room.photoConnection[0].file}")`
+      backgroundImage: `url("${room.photoConnection[index].file}")`
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 14
+      lineNumber: 38
     },
     __self: undefined
-  }), __jsx("div", {
+  })))), __jsx("div", {
+    style: {
+      borderWidth: 1,
+      borderRadius: 30,
+      width: 25,
+      height: 25,
+      backgroundColor: '#FFFFFF',
+      zIndex: 1,
+      position: 'absolute',
+      top: 108,
+      left: 15,
+      paddingBottom: 8,
+      paddingLeft: 3,
+      display: `${isShowArrow ? 'inline' : 'none'}`,
+      cursor: 'pointer',
+      boxShadow: `${isHoverArrowLeft ? '1.5px 1.5px 1.5px 1.5px gray' : ''}`
+    },
+    onMouseOver: () => setIsHoverArrowLeft(true),
+    onMouseLeave: () => setIsHoverArrowLeft(false),
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 43
+    },
+    __self: undefined
+  }, __jsx("div", {
+    style: {
+      position: 'relative'
+    },
+    onClick: () => fnNextPrev('left'),
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 52
+    },
+    __self: undefined
+  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_2__["Icon"], {
+    type: "left",
+    style: {
+      position: 'absolute',
+      top: 5,
+      fontSize: isHoverArrowLeft ? 18 : 15
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 52
+    },
+    __self: undefined
+  }))), __jsx("div", {
+    style: {
+      borderWidth: 1,
+      borderRadius: 30,
+      width: 25,
+      height: 25,
+      backgroundColor: '#FFFFFF',
+      zIndex: 1,
+      position: 'absolute',
+      top: 108,
+      right: 15,
+      paddingBottom: 8,
+      paddingLeft: 3,
+      display: `${isShowArrow ? 'inline' : 'none'}`,
+      cursor: 'pointer',
+      boxShadow: `${isHoverArrowRight ? '1.5px 1.5px 1.5px 1.5px gray' : ''}`
+    },
+    onMouseOver: () => setIsHoverArrowRight(true),
+    onMouseLeave: () => setIsHoverArrowRight(false),
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 54
+    },
+    __self: undefined
+  }, __jsx("div", {
+    style: {
+      position: 'relative'
+    },
+    onClick: () => fnNextPrev('right'),
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 64
+    },
+    __self: undefined
+  }, __jsx(antd__WEBPACK_IMPORTED_MODULE_2__["Icon"], {
+    type: "right",
+    style: {
+      position: 'absolute',
+      top: 5,
+      fontSize: isHoverArrowRight ? 18 : 15
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 64
+    },
+    __self: undefined
+  }))), __jsx("div", {
     className: "flex justify-between mb-2 truncate",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 15
+      lineNumber: 66
     },
     __self: undefined
   }, __jsx("div", {
     className: "w-4/5 overflow-hidden flex",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 16
+      lineNumber: 67
     },
     __self: undefined
   }, room.name, __jsx("span", {
     className: "mr-2 uppercase font-medium text-xs border border-black text-black rounded py-px px-1",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 18
+      lineNumber: 69
     },
     __self: undefined
   }, "\uC9D1\uC8FC\uC778"), __jsx("span", {
     className: "text-sm text-gray-600 block truncate",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 19
+      lineNumber: 70
     },
     __self: undefined
   }, `${room.city} ${room.address}`)), __jsx("span", {
     className: "text-sm flex items-center",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 21
+      lineNumber: 72
     },
     __self: undefined
   }, __jsx("i", {
     className: "fas fa-star text-red-500 text-xs mr-1",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 22
+      lineNumber: 73
     },
     __self: undefined
   }), " ", room.price)), __jsx("span", {
     className: "text-black w-11/12 block truncate",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 25
+      lineNumber: 76
     },
     __self: undefined
-  }, room.description)));
+  }, room.description));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (RoomCard);
@@ -586,7 +738,7 @@ const RoomList = ({}) => {
     __self: undefined
   }, data.selectRooms.map((room, i) => __jsx(_RoomCard__WEBPACK_IMPORTED_MODULE_1__["default"], {
     room: room,
-    key: room.id,
+    key: i,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 54
@@ -603,7 +755,7 @@ const RoomList = ({}) => {
 /*!*******************************!*\
   !*** ./generated/graphql.tsx ***!
   \*******************************/
-/*! exports provided: SelectRoomsDocument, useSelectRoomsQuery, useSelectRoomsLazyQuery, LoginDocument, useLoginMutation, LogoutDocument, useLogoutMutation, MeDocument, useMeQuery, useMeLazyQuery, RegisterDocument, useRegisterMutation, UsersDocument, useUsersQuery, useUsersLazyQuery */
+/*! exports provided: SelectRoomsDocument, useSelectRoomsQuery, useSelectRoomsLazyQuery, SelectAllRoomsDocument, useSelectAllRoomsQuery, useSelectAllRoomsLazyQuery, CreateRoomDocument, useCreateRoomMutation, LoginDocument, useLoginMutation, LogoutDocument, useLogoutMutation, MeDocument, useMeQuery, useMeLazyQuery, RegisterDocument, useRegisterMutation, RequestAuthEmailDocument, useRequestAuthEmailMutation, NewEmailDocument, useNewEmailSubscription, UsersDocument, useUsersQuery, useUsersLazyQuery */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -611,6 +763,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectRoomsDocument", function() { return SelectRoomsDocument; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useSelectRoomsQuery", function() { return useSelectRoomsQuery; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useSelectRoomsLazyQuery", function() { return useSelectRoomsLazyQuery; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectAllRoomsDocument", function() { return SelectAllRoomsDocument; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useSelectAllRoomsQuery", function() { return useSelectAllRoomsQuery; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useSelectAllRoomsLazyQuery", function() { return useSelectAllRoomsLazyQuery; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CreateRoomDocument", function() { return CreateRoomDocument; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useCreateRoomMutation", function() { return useCreateRoomMutation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginDocument", function() { return LoginDocument; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useLoginMutation", function() { return useLoginMutation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LogoutDocument", function() { return LogoutDocument; });
@@ -620,6 +777,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useMeLazyQuery", function() { return useMeLazyQuery; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegisterDocument", function() { return RegisterDocument; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useRegisterMutation", function() { return useRegisterMutation; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RequestAuthEmailDocument", function() { return RequestAuthEmailDocument; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useRequestAuthEmailMutation", function() { return useRequestAuthEmailMutation; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NewEmailDocument", function() { return NewEmailDocument; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useNewEmailSubscription", function() { return useNewEmailSubscription; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UsersDocument", function() { return UsersDocument; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useUsersQuery", function() { return useUsersQuery; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useUsersLazyQuery", function() { return useUsersLazyQuery; });
@@ -651,6 +812,48 @@ function useSelectRoomsQuery(baseOptions) {
 }
 function useSelectRoomsLazyQuery(baseOptions) {
   return _apollo_react_hooks__WEBPACK_IMPORTED_MODULE_1__["useLazyQuery"](SelectRoomsDocument, baseOptions);
+}
+const SelectAllRoomsDocument = graphql_tag__WEBPACK_IMPORTED_MODULE_0___default.a`
+    query selectAllRooms {
+  selectAllRooms {
+    id
+    name
+    description
+    country
+    city
+    price
+    address
+    photoConnection {
+      id
+      caption
+      file
+    }
+  }
+}
+    `;
+function useSelectAllRoomsQuery(baseOptions) {
+  return _apollo_react_hooks__WEBPACK_IMPORTED_MODULE_1__["useQuery"](SelectAllRoomsDocument, baseOptions);
+}
+function useSelectAllRoomsLazyQuery(baseOptions) {
+  return _apollo_react_hooks__WEBPACK_IMPORTED_MODULE_1__["useLazyQuery"](SelectAllRoomsDocument, baseOptions);
+}
+const CreateRoomDocument = graphql_tag__WEBPACK_IMPORTED_MODULE_0___default.a`
+    mutation createRoom($options: RoomInput!) {
+  createRoom(options: $options) {
+    id
+    houseType
+    houseRadio
+    convenience
+    dates
+    lat
+    lng
+    address
+    post_code
+  }
+}
+    `;
+function useCreateRoomMutation(baseOptions) {
+  return _apollo_react_hooks__WEBPACK_IMPORTED_MODULE_1__["useMutation"](CreateRoomDocument, baseOptions);
 }
 const LoginDocument = graphql_tag__WEBPACK_IMPORTED_MODULE_0___default.a`
     mutation Login($email: String!, $password: String!) {
@@ -698,11 +901,39 @@ const RegisterDocument = graphql_tag__WEBPACK_IMPORTED_MODULE_0___default.a`
 function useRegisterMutation(baseOptions) {
   return _apollo_react_hooks__WEBPACK_IMPORTED_MODULE_1__["useMutation"](RegisterDocument, baseOptions);
 }
+const RequestAuthEmailDocument = graphql_tag__WEBPACK_IMPORTED_MODULE_0___default.a`
+    mutation RequestAuthEmail($email: String!, $message: String!) {
+  requestAuthEmail(email: $email, message: $message)
+}
+    `;
+function useRequestAuthEmailMutation(baseOptions) {
+  return _apollo_react_hooks__WEBPACK_IMPORTED_MODULE_1__["useMutation"](RequestAuthEmailDocument, baseOptions);
+}
+const NewEmailDocument = graphql_tag__WEBPACK_IMPORTED_MODULE_0___default.a`
+    subscription newEmail {
+  newEmail
+}
+    `;
+function useNewEmailSubscription(baseOptions) {
+  return _apollo_react_hooks__WEBPACK_IMPORTED_MODULE_1__["useSubscription"](NewEmailDocument, baseOptions);
+}
 const UsersDocument = graphql_tag__WEBPACK_IMPORTED_MODULE_0___default.a`
     query Users {
   users {
     id
+    name
+    avatar
     email
+    roomConnection {
+      id
+      name
+      description
+      photoConnection {
+        id
+        file
+        caption
+      }
+    }
   }
 }
     `;
@@ -4520,6 +4751,17 @@ for (var i = 0; i < DOMIterables.length; i++) {
 
 /***/ }),
 
+/***/ "./node_modules/antd/dist/antd.css":
+/*!*****************************************!*\
+  !*** ./node_modules/antd/dist/antd.css ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
 /***/ "./node_modules/next/dist/client/link.js":
 /*!***********************************************!*\
   !*** ./node_modules/next/dist/client/link.js ***!
@@ -6348,27 +6590,49 @@ if (false) {} else {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Layout */ "./components/Layout.tsx");
-/* harmony import */ var _static_css_styles_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../static/css/styles.css */ "./static/css/styles.css");
-/* harmony import */ var _static_css_styles_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_static_css_styles_css__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _components_RoomList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/RoomList */ "./components/RoomList.tsx");
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! next/router */ "next/router");
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! js-cookie */ "js-cookie");
+/* harmony import */ var js_cookie__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(js_cookie__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_Layout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Layout */ "./components/Layout.tsx");
+/* harmony import */ var _static_css_styles_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../static/css/styles.css */ "./static/css/styles.css");
+/* harmony import */ var _static_css_styles_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_static_css_styles_css__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _components_RoomList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/RoomList */ "./components/RoomList.tsx");
 var _jsxFileName = "/Users/leejahun/practice/airbnb/web/pages/index.tsx";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
 
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = (() => {
-  return __jsx(_components_Layout__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  const router = Object(next_router__WEBPACK_IMPORTED_MODULE_1__["useRouter"])();
+  const {
+    refreshToken = ''
+  } = router.query;
+  const prevRefreshToken = js_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.get('jid');
+
+  if (refreshToken && prevRefreshToken !== refreshToken) {
+    js_cookie__WEBPACK_IMPORTED_MODULE_2___default.a.set('jid', refreshToken);
+
+    const isServer = () => true;
+
+    if (!isServer()) {
+      window.location.reload();
+    }
+  }
+
+  return __jsx(_components_Layout__WEBPACK_IMPORTED_MODULE_3__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 9
+      lineNumber: 20
     },
     __self: undefined
-  }, __jsx(_components_RoomList__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, __jsx(_components_RoomList__WEBPACK_IMPORTED_MODULE_5__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 10
+      lineNumber: 21
     },
     __self: undefined
   }));
@@ -6410,6 +6674,17 @@ module.exports = require("@apollo/react-hooks");
 
 /***/ }),
 
+/***/ "antd":
+/*!***********************!*\
+  !*** external "antd" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("antd");
+
+/***/ }),
+
 /***/ "graphql-tag":
 /*!******************************!*\
   !*** external "graphql-tag" ***!
@@ -6421,6 +6696,17 @@ module.exports = require("graphql-tag");
 
 /***/ }),
 
+/***/ "js-cookie":
+/*!****************************!*\
+  !*** external "js-cookie" ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("js-cookie");
+
+/***/ }),
+
 /***/ "next/head":
 /*!****************************!*\
   !*** external "next/head" ***!
@@ -6429,6 +6715,17 @@ module.exports = require("graphql-tag");
 /***/ (function(module, exports) {
 
 module.exports = require("next/head");
+
+/***/ }),
+
+/***/ "next/router":
+/*!******************************!*\
+  !*** external "next/router" ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("next/router");
 
 /***/ }),
 

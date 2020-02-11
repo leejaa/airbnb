@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, OneToMany, JoinColumn, ManyToOne, } from "typeorm";
-import { Field, Int, ObjectType, ID } from "type-graphql";
+import { Field, Int, ObjectType, ID, Float } from "type-graphql";
 import { Photo } from "./Photo";
 import { User } from "./User";
 
@@ -23,7 +23,7 @@ export class Room extends BaseEntity {
   country: string;
 
   @Field(() => String)
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: '' })
   city: string;
 
   @Field(() => Int)
@@ -63,8 +63,36 @@ export class Room extends BaseEntity {
   instant_book: Boolean;
 
   @Field(() => String)
+  @Column({ type: 'text', nullable: true })
+  houseType: String;
+
+  @Field(() => String)
+  @Column({ type: 'text', nullable: true })
+  houseRadio: String;
+
+  @Field(() => [String])
+  @Column({  type: 'text' , array: true, nullable: true })
+  convenience: string[];
+
+  @Field(() => [String])
+  @Column({ type: 'text' , array: true, nullable: true })
+  dates: string[];
+
+  @Field(() => String)
   @Column({ nullable: true })
   room_type: String;
+
+  @Field(() => String)
+  @Column({ nullable: true })
+  post_code: String;
+
+  @Field(() => Float)
+  @Column({ type: 'float' ,nullable: true })
+  lat: Number;
+
+  @Field(() => Float)
+  @Column({ type: 'float' ,nullable: true })
+  lng: Number;
 
   @Field(() => [Photo])
   @OneToMany(() => Photo, photo => photo.room)

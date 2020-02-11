@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import { ApolloClient } from "apollo-client";
+import ws from 'ws';
 import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
 import { HttpLink } from "apollo-link-http";
 import { setContext } from "apollo-link-context";
@@ -10,6 +11,7 @@ import jwtDecode from "jwt-decode";
 import { getAccessToken, setAccessToken } from "./accessToken";
 import { onError } from "apollo-link-error";
 import { ApolloLink } from "apollo-link";
+import { WebSocketLink } from 'apollo-link-ws';
 import cookie from "cookie";
 import { IS_PRODUCTION, API_PRODUCTION, API_DEVELOPMENT } from "../env";
 
@@ -73,7 +75,7 @@ export function withApollo(PageComponent: any, { ssr = true } = {}) {
         //   serverAccessToken = data.accessToken;
         // }
 
-        const cookies : any = cookie.parse(`${req.headers.cookie}`);
+        const cookies: any = cookie.parse(`${req.headers.cookie}`);
         if (cookies.jid) {
           console.log('cookies.jid', cookies.jid);
           const response = await fetch(IS_PRODUCTION ? `${API_PRODUCTION}/refresh_token` : `${API_DEVELOPMENT}/refresh_token`, {

@@ -90219,5 +90219,29 @@ div.ant-typography-edit-content {
   margin-left: 10px;
 }
 
+.ant-carousel .slick-slide {
+  text-align: center;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.ant-carousel .slick-dots-bottom {
+  bottom: 25px;
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+  width: 8px;
+  height: 8px;
+  border-radius: 50% !important;
+  margin-top: 0px;
+}
+
+.ant-carousel .slick-dots li button {
+  width: 5px;
+  height: 5px;
+  border-radius: 50% !important;
+  margin-top: 1.5px;
+}
+
 
 /*# sourceMappingURL=styles.chunk.css.map*/

@@ -5,17 +5,20 @@ import 'antd/dist/antd.css';
 import moment from 'moment';
 import _ from 'lodash';
 import axios from 'axios';
-import '../assets/scss/room.scss'
+import '../assets/scss/room.scss';
 import { CreateRoomContext } from "../pages/createRoom";
 import Map from "./Map";
 import { ImageUpload } from "./ImageUpload";
 import ButtonGroup from "antd/lib/button/button-group";
+import { useCreateRoomMutation, SelectRoomsDocument } from "../generated/graphql";
+import { useRouter } from "next/router";
 moment.locale('ko');
 type Props = {
 };
 
 const CreateRoom: React.FunctionComponent<Props> = ({
 }) => {
+    const router = useRouter();
     const [step, setStep] = useState(6);
     const [isError, setIsError] = useState(false);
     const [files, setFiles]: any = useState([]);
@@ -25,6 +28,7 @@ const CreateRoom: React.FunctionComponent<Props> = ({
     const [selectedDates, setSelectedDates] = useState<Array<string>>([]);
     const [currentMonth, setCurrentMonth] = useState(moment().format("YYYY년 MM월"));
     const [currentSelectedDate, setCurrentSelectedDate] = useState(moment());
+    const [createRoom] = useCreateRoomMutation();
     const tempSave = useCallback(() => {
         window.localStorage.setItem('state', JSON.stringify(state));
     }, [state]);
@@ -126,6 +130,7 @@ const CreateRoom: React.FunctionComponent<Props> = ({
             newSelectedDates = _.union(selectedDates, [moment(date).format('YYYY-MM-DD')]);
         }
         setSelectedDates(newSelectedDates);
+        dispatch({ type: 'setDates', value: newSelectedDates });
     }, [selectedDates, currentMonth, currentSelectedDate]);
     const dateFullCellRender = useCallback((date) => {
         const overrideStyle = { backgroundColor: 'white' };
@@ -144,19 +149,44 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                         <Icon type="left" />
                     </Button>
                     <Button>
-                    <Icon type="right" />
+                        <Icon type="right" />
                     </Button>
                 </ButtonGroup>
                 <span
-                    style={ { marginLeft: 30, fontSize: 20 } }
+                    style={{ marginLeft: 30, fontSize: 20 }}
                 >
-                    { currentMonth }
+                    {currentMonth}
                 </span>
             </div>
         );
-    }, [ currentMonth, currentSelectedDate ]);
-    const onPanelChange = useCallback( date => {
+    }, [currentMonth, currentSelectedDate]);
+    const onPanelChange = useCallback(date => {
     }, []);
+    const goComplete = useCallback(async() => {
+        createRoom({
+            variables: {
+                options: {
+                    houseType: state.houseType,
+                    houseRadio: state.houseRadio,
+                    dates: state.dates,
+                    convenience: _.compact( state.convenience ),
+                    lat: state.lat * 1,
+                    lng: state.lng * 1,
+                    post_code: state.postCode,
+                    imageUrl: state.imageUrl,
+                    address: _.join( state.address, ' ' )
+                } as any
+            },
+            update( cache, { data: createRoom } ) {
+                const { selectRooms } : any = cache.readQuery({ query: SelectRoomsDocument, variables: { skip: 0, take: 12 } });
+                cache.writeQuery({
+                    query: SelectRoomsDocument,
+                    data: { selectRooms }
+                });
+            }
+        });
+        router.push('/');
+    }, [ state ]);
     useEffect(() => {
         return () => {
             let newFiles = _.clone(files);
@@ -428,8 +458,8 @@ const CreateRoom: React.FunctionComponent<Props> = ({
                                 onSelect={onDateSelect}
                                 dateFullCellRender={dateFullCellRender}
                                 headerRender={headerRender}
-                                onPanelChange={ onPanelChange }
-                                defaultValue={ currentSelectedDate }
+                                onPanelChange={onPanelChange}
+                                defaultValue={currentSelectedDate}
                             />
                         </div>
                     </div>
@@ -438,13 +468,21 @@ const CreateRoom: React.FunctionComponent<Props> = ({
             <div className="inline-flex my-5">
                 <button className="bg-gray-300 hover:bg-gray-400 font-bold py-2 px-4 rounded-l bg-green-700 text-white" onClick={goPrevStep}>
                     이전
-            </button>
-                <button className="bg-gray-300 hover:bg-gray-400 font-bold py-2 px-4 rounded-r ml-50vh bg-green-600 text-white" onClick={goNextStep}>
-                    다음
-            </button>
+                </button>
+                {
+                    step === 6 ? (
+                        <button className="bg-gray-300 hover:bg-gray-400 font-bold py-2 px-4 rounded-r ml-50vh bg-green-600 text-white" onClick={goComplete}>
+                            완료
+                        </button>
+                    ) : (
+                        <button className="bg-gray-300 hover:bg-gray-400 font-bold py-2 px-4 rounded-r ml-50vh bg-green-600 text-white" onClick={goNextStep}>
+                            다음
+                        </button>
+                    )
+                }
             </div>
         </div>
-    );
-}
-
+            );
+        }
+        
 export default CreateRoom;

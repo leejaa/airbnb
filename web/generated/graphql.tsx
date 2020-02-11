@@ -33,6 +33,19 @@ export type Conversation = {
 };
 
 
+export type Email = {
+   __typename?: 'Email',
+  nickname?: Maybe<Scalars['String']>,
+  content: Scalars['String'],
+  date: Scalars['DateTime'],
+};
+
+export type EmailInput = {
+  recipeId: Scalars['ID'],
+  nickname?: Maybe<Scalars['String']>,
+  content: Scalars['String'],
+};
+
 
 export type List = {
    __typename?: 'List',
@@ -82,6 +95,8 @@ export type Mutation = {
   deleteRoom: Scalars['Boolean'],
   deletePhoto: Scalars['Boolean'],
   addNewComment: Scalars['Boolean'],
+  requestAuthEmail: Scalars['Boolean'],
+  sendAuthEmail: Scalars['Boolean'],
 };
 
 
@@ -127,6 +142,17 @@ export type MutationUpdateRoomArgs = {
 
 export type MutationAddNewCommentArgs = {
   comment: CommentInput
+};
+
+
+export type MutationRequestAuthEmailArgs = {
+  message: Scalars['String'],
+  email: Scalars['String']
+};
+
+
+export type MutationSendAuthEmailArgs = {
+  email: Scalars['String']
 };
 
 export type Photo = {
@@ -222,24 +248,34 @@ export type Room = {
   check_in: Scalars['Int'],
   check_out: Scalars['Int'],
   instant_book: Scalars['Boolean'],
+  houseType: Scalars['String'],
+  houseRadio: Scalars['String'],
+  convenience: Array<Scalars['String']>,
+  dates: Array<Scalars['String']>,
   room_type: Scalars['String'],
+  post_code: Scalars['String'],
+  lat: Scalars['Int'],
+  lng: Scalars['Int'],
   photoConnection: Array<Photo>,
   user: User,
 };
 
 export type RoomInput = {
-  name: Scalars['String'],
-  country: Scalars['String'],
-  description: Scalars['String'],
-  city: Scalars['String'],
-  price: Scalars['Int'],
+  houseType: Scalars['String'],
+  houseRadio: Scalars['String'],
+  convenience: Array<Scalars['String']>,
+  dates: Array<Scalars['String']>,
+  lat: Scalars['Int'],
+  lng: Scalars['Int'],
   address: Scalars['String'],
-  userId: Scalars['Float'],
+  post_code: Scalars['String'],
+  imageUrl: Scalars['String'],
 };
 
 export type Subscription = {
    __typename?: 'Subscription',
   newComments: Comment,
+  newEmail: Scalars['JSON'],
 };
 
 export type User = {
@@ -281,6 +317,34 @@ export type SelectRoomsQuery = (
       & Pick<Photo, 'id' | 'caption' | 'file'>
     )> }
   )> }
+);
+
+export type SelectAllRoomsQueryVariables = {};
+
+
+export type SelectAllRoomsQuery = (
+  { __typename?: 'Query' }
+  & { selectAllRooms: Array<(
+    { __typename?: 'Room' }
+    & Pick<Room, 'id' | 'name' | 'description' | 'country' | 'city' | 'price' | 'address'>
+    & { photoConnection: Array<(
+      { __typename?: 'Photo' }
+      & Pick<Photo, 'id' | 'caption' | 'file'>
+    )> }
+  )> }
+);
+
+export type CreateRoomMutationVariables = {
+  options: RoomInput
+};
+
+
+export type CreateRoomMutation = (
+  { __typename?: 'Mutation' }
+  & { createRoom: (
+    { __typename?: 'Room' }
+    & Pick<Room, 'id' | 'houseType' | 'houseRadio' | 'convenience' | 'dates' | 'lat' | 'lng' | 'address' | 'post_code'>
+  ) }
 );
 
 export type LoginMutationVariables = {
@@ -332,6 +396,25 @@ export type RegisterMutation = (
   & Pick<Mutation, 'register'>
 );
 
+export type RequestAuthEmailMutationVariables = {
+  email: Scalars['String'],
+  message: Scalars['String']
+};
+
+
+export type RequestAuthEmailMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'requestAuthEmail'>
+);
+
+export type NewEmailSubscriptionVariables = {};
+
+
+export type NewEmailSubscription = (
+  { __typename?: 'Subscription' }
+  & Pick<Subscription, 'newEmail'>
+);
+
 export type UsersQueryVariables = {};
 
 
@@ -339,7 +422,15 @@ export type UsersQuery = (
   { __typename?: 'Query' }
   & { users: Array<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'email'>
+    & Pick<User, 'id' | 'name' | 'avatar' | 'email'>
+    & { roomConnection: Array<(
+      { __typename?: 'Room' }
+      & Pick<Room, 'id' | 'name' | 'description'>
+      & { photoConnection: Array<(
+        { __typename?: 'Photo' }
+        & Pick<Photo, 'id' | 'file' | 'caption'>
+      )> }
+    )> }
   )> }
 );
 
@@ -371,6 +462,57 @@ export const SelectRoomsDocument = gql`
       
 export type SelectRoomsQueryHookResult = ReturnType<typeof useSelectRoomsQuery>;
 export type SelectRoomsQueryResult = ApolloReactCommon.QueryResult<SelectRoomsQuery, SelectRoomsQueryVariables>;
+export const SelectAllRoomsDocument = gql`
+    query selectAllRooms {
+  selectAllRooms {
+    id
+    name
+    description
+    country
+    city
+    price
+    address
+    photoConnection {
+      id
+      caption
+      file
+    }
+  }
+}
+    `;
+
+    export function useSelectAllRoomsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SelectAllRoomsQuery, SelectAllRoomsQueryVariables>) {
+      return ApolloReactHooks.useQuery<SelectAllRoomsQuery, SelectAllRoomsQueryVariables>(SelectAllRoomsDocument, baseOptions);
+    }
+      export function useSelectAllRoomsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SelectAllRoomsQuery, SelectAllRoomsQueryVariables>) {
+        return ApolloReactHooks.useLazyQuery<SelectAllRoomsQuery, SelectAllRoomsQueryVariables>(SelectAllRoomsDocument, baseOptions);
+      }
+      
+export type SelectAllRoomsQueryHookResult = ReturnType<typeof useSelectAllRoomsQuery>;
+export type SelectAllRoomsQueryResult = ApolloReactCommon.QueryResult<SelectAllRoomsQuery, SelectAllRoomsQueryVariables>;
+export const CreateRoomDocument = gql`
+    mutation createRoom($options: RoomInput!) {
+  createRoom(options: $options) {
+    id
+    houseType
+    houseRadio
+    convenience
+    dates
+    lat
+    lng
+    address
+    post_code
+  }
+}
+    `;
+export type CreateRoomMutationFn = ApolloReactCommon.MutationFunction<CreateRoomMutation, CreateRoomMutationVariables>;
+
+    export function useCreateRoomMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateRoomMutation, CreateRoomMutationVariables>) {
+      return ApolloReactHooks.useMutation<CreateRoomMutation, CreateRoomMutationVariables>(CreateRoomDocument, baseOptions);
+    }
+export type CreateRoomMutationHookResult = ReturnType<typeof useCreateRoomMutation>;
+export type CreateRoomMutationResult = ApolloReactCommon.MutationResult<CreateRoomMutation>;
+export type CreateRoomMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateRoomMutation, CreateRoomMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
@@ -436,11 +578,47 @@ export type RegisterMutationFn = ApolloReactCommon.MutationFunction<RegisterMuta
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = ApolloReactCommon.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = ApolloReactCommon.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const RequestAuthEmailDocument = gql`
+    mutation RequestAuthEmail($email: String!, $message: String!) {
+  requestAuthEmail(email: $email, message: $message)
+}
+    `;
+export type RequestAuthEmailMutationFn = ApolloReactCommon.MutationFunction<RequestAuthEmailMutation, RequestAuthEmailMutationVariables>;
+
+    export function useRequestAuthEmailMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RequestAuthEmailMutation, RequestAuthEmailMutationVariables>) {
+      return ApolloReactHooks.useMutation<RequestAuthEmailMutation, RequestAuthEmailMutationVariables>(RequestAuthEmailDocument, baseOptions);
+    }
+export type RequestAuthEmailMutationHookResult = ReturnType<typeof useRequestAuthEmailMutation>;
+export type RequestAuthEmailMutationResult = ApolloReactCommon.MutationResult<RequestAuthEmailMutation>;
+export type RequestAuthEmailMutationOptions = ApolloReactCommon.BaseMutationOptions<RequestAuthEmailMutation, RequestAuthEmailMutationVariables>;
+export const NewEmailDocument = gql`
+    subscription newEmail {
+  newEmail
+}
+    `;
+
+    export function useNewEmailSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<NewEmailSubscription, NewEmailSubscriptionVariables>) {
+      return ApolloReactHooks.useSubscription<NewEmailSubscription, NewEmailSubscriptionVariables>(NewEmailDocument, baseOptions);
+    }
+export type NewEmailSubscriptionHookResult = ReturnType<typeof useNewEmailSubscription>;
+export type NewEmailSubscriptionResult = ApolloReactCommon.SubscriptionResult<NewEmailSubscription>;
 export const UsersDocument = gql`
     query Users {
   users {
     id
+    name
+    avatar
     email
+    roomConnection {
+      id
+      name
+      description
+      photoConnection {
+        id
+        file
+        caption
+      }
+    }
   }
 }
     `;

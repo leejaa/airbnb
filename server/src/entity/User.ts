@@ -67,7 +67,7 @@ export class User extends BaseEntity {
   tokenVersion: string;
 
   @Field(() => [Room])
-  @OneToMany(() => Room, room => room.id)
+  @OneToMany(() => Room, room => room.user)
   roomConnection: Promise<Room[]>;
 
 }

@@ -1,3 +1,15 @@
+type RoomInput {
+  houseType: String
+  houseRadio: String
+  convenience: [String]
+  dates: [String]
+  lat: Float
+  lng: Float
+  address: String
+  post_code: String
+  imageUrl: String
+}
+
 query selectRooms($skip: Float!, $take: Float!){
   selectRooms(skip: $skip, take: $take){
     id
@@ -28,5 +40,23 @@ query selectAllRooms{
       caption
       file
     }
+  }
+}
+
+mutation createRoom(
+  $options: RoomInput!
+){
+  createRoom(
+    options: $options
+  ){
+    id
+    houseType
+    houseRadio
+    convenience
+    dates
+    lat
+    lng
+    address
+    post_code
   }
 }

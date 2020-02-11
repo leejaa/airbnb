@@ -1,6 +1,18 @@
 query Users {
   users {
     id
+    name
+    avatar
     email
+    roomConnection{
+      id
+      name
+      description
+      photoConnection{
+        id
+        file
+        caption
+      }
+    }
   }
 }

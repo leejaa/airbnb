@@ -1,0 +1,7 @@
+mutation RequestAuthEmail($email: String!, $message: String!){
+  requestAuthEmail(email: $email, message: $message)
+}
+
+subscription newEmail{
+  newEmail
+}

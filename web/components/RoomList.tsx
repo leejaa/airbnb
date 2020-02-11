@@ -51,7 +51,7 @@ const RoomList: React.FunctionComponent<Props> = ({
                 <div className="flex flex-wrap mx-5 my-16 mb-10 mt-24">
                     {
                         data.selectRooms.map((room, i) => (
-                            <RoomCard room={room as any} key={ room.id }/>
+                            <RoomCard room={room as any} key={ i }/>
                         ))
                     }
                 </div>

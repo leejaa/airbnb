@@ -7,7 +7,7 @@ import { fire } from "../firebase";
 class MyApp extends App<any> {
   constructor(props: any) {
     super(props);
-    // fire();
+    fire();
   }
   render() {
     const { Component, pageProps, apolloClient }: any = this.props;
