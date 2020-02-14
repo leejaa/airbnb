@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
+import { CircleSpinner } from "react-spinners-kit";
 import RoomCard from "./RoomCard";
 import RoomSlide from "./RoomSlide";
 import { useSelectRoomsQuery, useSelectTopRoomsQuery } from "../generated/graphql";
@@ -23,8 +24,8 @@ const RoomList: React.FunctionComponent<Props> = ({
         if (window.scrollY + document.documentElement?.clientHeight > document.documentElement?.scrollHeight - 10) {
             fetchMore({
                 variables: {
-                    skip: data.selectRooms.length,
-                    take: data.selectRooms.length + 4
+                    skip: 0,
+                    take: data?.selectRooms.length + 8
                 },
                 updateQuery: (pv, { fetchMoreResult }) => {
                     if (!fetchMoreResult) {
@@ -33,7 +34,6 @@ const RoomList: React.FunctionComponent<Props> = ({
                     return {
                         // __typename: "Room",
                         selectRooms: [
-                            ...pv.selectRooms,
                             ...fetchMoreResult.selectRooms
                         ]
                     };
@@ -58,6 +58,11 @@ const RoomList: React.FunctionComponent<Props> = ({
                                 <RoomCard room={room as any} key={ i } width={"1/4"}/>
                             ))
                         }
+                        <div style={ { width: '100%', textAlign: 'center' } }>
+                            <div style={ { display: 'inline-block' } }>
+                                <CircleSpinner size={30} color="#686769" loading={loading} />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

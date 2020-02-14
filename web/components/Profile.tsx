@@ -47,7 +47,7 @@ const Profile: React.FunctionComponent<any> = ({
                 room && (
                     <div className="container mx-auto pb-10 ">
                         <div className="flex flex-wrap -mx-40 mb-10">
-                            <RoomCard room={room} />
+                            <RoomCard room={room} width={"1/4"} />
                         </div>
                     </div>
                 )

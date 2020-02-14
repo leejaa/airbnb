@@ -77,7 +77,6 @@ export function withApollo(PageComponent: any, { ssr = true } = {}) {
 
         const cookies: any = cookie.parse(`${req.headers.cookie}`);
         if (cookies.jid) {
-          console.log('cookies.jid', cookies.jid);
           const response = await fetch(IS_PRODUCTION ? `${API_PRODUCTION}/refresh_token` : `${API_DEVELOPMENT}/refresh_token`, {
             method: "POST",
             credentials: "include",

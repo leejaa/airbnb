@@ -120,7 +120,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "IS_PRODUCTION", function() { return IS_PRODUCTION; });
 const API_PRODUCTION = "https://jahunbnb-api.herokuapp.com";
 const API_DEVELOPMENT = "http://localhost:4000";
-const IS_PRODUCTION = false;
+const IS_PRODUCTION = true;
 
 /***/ }),
 
@@ -338,7 +338,6 @@ function withApollo(PageComponent, {
         const cookies = cookie__WEBPACK_IMPORTED_MODULE_22___default.a.parse(`${req.headers.cookie}`);
 
         if (cookies.jid) {
-          console.log('cookies.jid', cookies.jid);
           const response = await isomorphic_unfetch__WEBPACK_IMPORTED_MODULE_16___default()(_env__WEBPACK_IMPORTED_MODULE_23__["IS_PRODUCTION"] ? `${_env__WEBPACK_IMPORTED_MODULE_23__["API_PRODUCTION"]}/refresh_token` : `${_env__WEBPACK_IMPORTED_MODULE_23__["API_DEVELOPMENT"]}/refresh_token`, {
             method: "POST",
             credentials: "include",
@@ -376,7 +375,7 @@ function withApollo(PageComponent, {
               apolloClient: apolloClient,
               __source: {
                 fileName: _jsxFileName,
-                lineNumber: 117
+                lineNumber: 116
               },
               __self: this
             }));

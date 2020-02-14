@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -653,11 +653,14 @@ const RoomCard = ({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _RoomCard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RoomCard */ "./components/RoomCard.tsx");
-/* harmony import */ var _RoomSlide__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RoomSlide */ "./components/RoomSlide.tsx");
-/* harmony import */ var _generated_graphql__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../generated/graphql */ "./generated/graphql.tsx");
+/* harmony import */ var react_spinners_kit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-spinners-kit */ "react-spinners-kit");
+/* harmony import */ var react_spinners_kit__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_spinners_kit__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _RoomCard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RoomCard */ "./components/RoomCard.tsx");
+/* harmony import */ var _RoomSlide__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./RoomSlide */ "./components/RoomSlide.tsx");
+/* harmony import */ var _generated_graphql__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../generated/graphql */ "./generated/graphql.tsx");
 var _jsxFileName = "/Users/leejahun/practice/airbnb/web/components/RoomList.tsx";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+
 
 
 
@@ -670,7 +673,7 @@ const RoomList = ({}) => {
     fetchMore,
     networkStatus,
     refetch
-  } = Object(_generated_graphql__WEBPACK_IMPORTED_MODULE_3__["useSelectRoomsQuery"])({
+  } = Object(_generated_graphql__WEBPACK_IMPORTED_MODULE_4__["useSelectRoomsQuery"])({
     variables: {
       skip: 0,
       take: 12
@@ -679,13 +682,13 @@ const RoomList = ({}) => {
   });
   const {
     data: data2
-  } = Object(_generated_graphql__WEBPACK_IMPORTED_MODULE_3__["useSelectTopRoomsQuery"])();
+  } = Object(_generated_graphql__WEBPACK_IMPORTED_MODULE_4__["useSelectTopRoomsQuery"])();
 
   if (!data || !data2) {
     return __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 19
+        lineNumber: 20
       },
       __self: undefined
     }, "\uB85C\uB529\uC911...");
@@ -697,8 +700,8 @@ const RoomList = ({}) => {
     if (window.scrollY + ((_document$documentEle = document.documentElement) === null || _document$documentEle === void 0 ? void 0 : _document$documentEle.clientHeight) > ((_document$documentEle2 = document.documentElement) === null || _document$documentEle2 === void 0 ? void 0 : _document$documentEle2.scrollHeight) - 10) {
       fetchMore({
         variables: {
-          skip: data.selectRooms.length,
-          take: data.selectRooms.length + 4
+          skip: 0,
+          take: (data === null || data === void 0 ? void 0 : data.selectRooms.length) + 8
         },
         updateQuery: (pv, {
           fetchMoreResult
@@ -709,7 +712,7 @@ const RoomList = ({}) => {
 
           return {
             // __typename: "Room",
-            selectRooms: [...pv.selectRooms, ...fetchMoreResult.selectRooms]
+            selectRooms: [...fetchMoreResult.selectRooms]
           };
         }
       });
@@ -742,7 +745,7 @@ const RoomList = ({}) => {
       lineNumber: 53
     },
     __self: undefined
-  }, __jsx(_RoomSlide__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  }, __jsx(_RoomSlide__WEBPACK_IMPORTED_MODULE_3__["default"], {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 54
@@ -755,7 +758,7 @@ const RoomList = ({}) => {
       lineNumber: 55
     },
     __self: undefined
-  }, data.selectRooms.map((room, i) => __jsx(_RoomCard__WEBPACK_IMPORTED_MODULE_1__["default"], {
+  }, data.selectRooms.map((room, i) => __jsx(_RoomCard__WEBPACK_IMPORTED_MODULE_2__["default"], {
     room: room,
     key: i,
     width: "1/4",
@@ -764,7 +767,35 @@ const RoomList = ({}) => {
       lineNumber: 58
     },
     __self: undefined
-  }))))));
+  })), __jsx("div", {
+    style: {
+      width: '100%',
+      textAlign: 'center'
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 61
+    },
+    __self: undefined
+  }, __jsx("div", {
+    style: {
+      display: 'inline-block'
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 62
+    },
+    __self: undefined
+  }, __jsx(react_spinners_kit__WEBPACK_IMPORTED_MODULE_1__["CircleSpinner"], {
+    size: 30,
+    color: "#686769",
+    loading: loading,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 63
+    },
+    __self: undefined
+  })))))));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (RoomList);
@@ -6877,13 +6908,13 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
   return __jsx(_components_Layout__WEBPACK_IMPORTED_MODULE_3__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 21
+      lineNumber: 20
     },
     __self: undefined
   }, __jsx(_components_RoomList__WEBPACK_IMPORTED_MODULE_5__["default"], {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 22
+      lineNumber: 21
     },
     __self: undefined
   }));
@@ -6902,7 +6933,7 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 /***/ }),
 
-/***/ 3:
+/***/ 4:
 /*!*******************************!*\
   !*** multi ./pages/index.tsx ***!
   \*******************************/
@@ -7021,6 +7052,17 @@ module.exports = require("react");
 /***/ (function(module, exports) {
 
 module.exports = require("react-multi-carousel");
+
+/***/ }),
+
+/***/ "react-spinners-kit":
+/*!*************************************!*\
+  !*** external "react-spinners-kit" ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("react-spinners-kit");
 
 /***/ }),
 

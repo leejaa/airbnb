@@ -4,7 +4,6 @@ import Cookie from "js-cookie";
 import Layout from "../components/Layout";
 import '../static/css/styles.css';
 import RoomList from "../components/RoomList";
-import RoomSlide from "../components/RoomSlide";
 
 export default () => {
   const router = useRouter();
