@@ -30,6 +30,10 @@ export class Room extends BaseEntity {
   @Column({ type: 'integer', nullable: true })
   price: Number;
 
+  @Field(() => Int)
+  @Column({ type: 'integer', nullable: true })
+  score: Number;
+
   @Field(() => String)
   @Column({ type: 'text', nullable: true })
   address: String;

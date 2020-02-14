@@ -26,6 +26,23 @@ query selectRooms($skip: Float!, $take: Float!){
   }
 }
 
+query selectTopRooms{
+  selectTopRooms{
+    id
+    name
+    city
+    address
+    description
+    price
+    score
+  	photoConnection{
+      id
+      caption
+      file
+    }
+  }
+}
+
 query selectAllRooms{
   selectAllRooms{
     id

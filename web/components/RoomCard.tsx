@@ -2,13 +2,15 @@ import React, { useState, useRef, useCallback } from "react"
 import { Room } from "../generated/graphql";
 import 'antd/dist/antd.css';
 import { Carousel, Icon } from 'antd';
-import '../assets/scss/room.scss'
+import '../assets/scss/room.scss';
 type Props = {
-    room: Room
+    room: Room,
+    width: string
 };
 
 const RoomCard: React.FunctionComponent<Props> = ({
-    room
+    room,
+    width
 }) => {
     const [isShowArrow, setIsShowArrow] = useState(false);
     const [isHoverArrowLeft, setIsHoverArrowLeft] = useState(false);
@@ -27,7 +29,7 @@ const RoomCard: React.FunctionComponent<Props> = ({
         }
     }, []);
     return (
-        <div className="w-1/4 mb-10 px-2 overflow-hidden" style={{ position: 'relative' }} onMouseOver={() => setIsShowArrow(true)} onMouseLeave={() => setIsShowArrow(false)}>
+        <div className={`w-${width} mb-10 px-2 overflow-hidden`} style={{ position: 'relative' }} onMouseOver={() => setIsShowArrow(true)} onMouseLeave={() => setIsShowArrow(false)}>
             <Carousel
                 ref={carouselRef}
                 autoplay={true}

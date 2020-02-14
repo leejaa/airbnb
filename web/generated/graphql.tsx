@@ -92,7 +92,10 @@ export type Mutation = {
   createPhoto: Photo,
   createFakePhoto: Photo,
   updateRoom: Room,
+  updateAllRooms: Scalars['Boolean'],
+  deleteAllRooms: Scalars['Boolean'],
   deleteRoom: Scalars['Boolean'],
+  deleteAllPhotos: Scalars['Boolean'],
   deletePhoto: Scalars['Boolean'],
   addNewComment: Scalars['Boolean'],
   requestAuthEmail: Scalars['Boolean'],
@@ -140,6 +143,16 @@ export type MutationUpdateRoomArgs = {
 };
 
 
+export type MutationDeleteRoomArgs = {
+  id: Scalars['Float']
+};
+
+
+export type MutationDeletePhotoArgs = {
+  id: Scalars['Float']
+};
+
+
 export type MutationAddNewCommentArgs = {
   comment: CommentInput
 };
@@ -180,6 +193,7 @@ export type Query = {
   selectAllPhotos: Array<Photo>,
   selectAllRooms: Array<Room>,
   selectRooms: Array<Room>,
+  selectTopRooms: Array<Room>,
   recipe?: Maybe<Recipe>,
 };
 
@@ -240,6 +254,7 @@ export type Room = {
   country: Scalars['String'],
   city: Scalars['String'],
   price: Scalars['Int'],
+  score: Scalars['Int'],
   address: Scalars['String'],
   guests: Scalars['Int'],
   beds: Scalars['Int'],
@@ -254,8 +269,8 @@ export type Room = {
   dates: Array<Scalars['String']>,
   room_type: Scalars['String'],
   post_code: Scalars['String'],
-  lat: Scalars['Int'],
-  lng: Scalars['Int'],
+  lat: Scalars['Float'],
+  lng: Scalars['Float'],
   photoConnection: Array<Photo>,
   user: User,
 };
@@ -265,8 +280,8 @@ export type RoomInput = {
   houseRadio: Scalars['String'],
   convenience: Array<Scalars['String']>,
   dates: Array<Scalars['String']>,
-  lat: Scalars['Int'],
-  lng: Scalars['Int'],
+  lat: Scalars['Float'],
+  lng: Scalars['Float'],
   address: Scalars['String'],
   post_code: Scalars['String'],
   imageUrl: Scalars['String'],
@@ -312,6 +327,21 @@ export type SelectRoomsQuery = (
   & { selectRooms: Array<(
     { __typename?: 'Room' }
     & Pick<Room, 'id' | 'name' | 'city' | 'address' | 'description' | 'price'>
+    & { photoConnection: Array<(
+      { __typename?: 'Photo' }
+      & Pick<Photo, 'id' | 'caption' | 'file'>
+    )> }
+  )> }
+);
+
+export type SelectTopRoomsQueryVariables = {};
+
+
+export type SelectTopRoomsQuery = (
+  { __typename?: 'Query' }
+  & { selectTopRooms: Array<(
+    { __typename?: 'Room' }
+    & Pick<Room, 'id' | 'name' | 'city' | 'address' | 'description' | 'price' | 'score'>
     & { photoConnection: Array<(
       { __typename?: 'Photo' }
       & Pick<Photo, 'id' | 'caption' | 'file'>
@@ -462,6 +492,34 @@ export const SelectRoomsDocument = gql`
       
 export type SelectRoomsQueryHookResult = ReturnType<typeof useSelectRoomsQuery>;
 export type SelectRoomsQueryResult = ApolloReactCommon.QueryResult<SelectRoomsQuery, SelectRoomsQueryVariables>;
+export const SelectTopRoomsDocument = gql`
+    query selectTopRooms {
+  selectTopRooms {
+    id
+    name
+    city
+    address
+    description
+    price
+    score
+    photoConnection {
+      id
+      caption
+      file
+    }
+  }
+}
+    `;
+
+    export function useSelectTopRoomsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SelectTopRoomsQuery, SelectTopRoomsQueryVariables>) {
+      return ApolloReactHooks.useQuery<SelectTopRoomsQuery, SelectTopRoomsQueryVariables>(SelectTopRoomsDocument, baseOptions);
+    }
+      export function useSelectTopRoomsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SelectTopRoomsQuery, SelectTopRoomsQueryVariables>) {
+        return ApolloReactHooks.useLazyQuery<SelectTopRoomsQuery, SelectTopRoomsQueryVariables>(SelectTopRoomsDocument, baseOptions);
+      }
+      
+export type SelectTopRoomsQueryHookResult = ReturnType<typeof useSelectTopRoomsQuery>;
+export type SelectTopRoomsQueryResult = ApolloReactCommon.QueryResult<SelectTopRoomsQuery, SelectTopRoomsQueryVariables>;
 export const SelectAllRoomsDocument = gql`
     query selectAllRooms {
   selectAllRooms {

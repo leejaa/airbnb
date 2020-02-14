@@ -2737,6 +2737,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/react-alice-carousel@^1.15.3":
+  version "1.15.3"
+  resolved "https://registry.yarnpkg.com/@types/react-alice-carousel/-/react-alice-carousel-1.15.3.tgz#e581096b3867c025bbe842e4f2af5b239dc6df62"
+  integrity sha512-3tv5HALFTjS7ixUbBzkvEn7aDqPMxoYZkcISbkV58utCUNwJDznhKC/b+qqZv4SXMdRHGT1uU0U476OduKXwwg==
+  dependencies:
+    react-alice-carousel "*"
+
 "@types/react-dom@^16.9.1":
   version "16.9.4"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.9.4.tgz#0b58df09a60961dcb77f62d4f1832427513420df"
@@ -8787,6 +8794,11 @@ next-compose-plugins@^2.2.0:
   resolved "https://registry.yarnpkg.com/next-compose-plugins/-/next-compose-plugins-2.2.0.tgz#95cd8eb40ab0652070d76572fb648354191628b0"
   integrity sha512-ChUlpT9tWfJ7YxqGw/WQ2T1gf8EeX93n1XqeQw0lkvGa7seszahvF4eOZUJoq7Hetsbzg4UHVnPoCXfXTyQR3g==
 
+next-plugin-transpile-modules@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/next-plugin-transpile-modules/-/next-plugin-transpile-modules-2.0.0.tgz#8632683f0f04fbc776ce80c6cc62bb5c6694661d"
+  integrity sha512-9vI7/OvBlu6f/cwzNdBDKxmY2Zc4Jr8hRy59exkXWwF22LUIZrEa0D7qhqWahAhbMibMGMMsX9GeUuOXKcG9/Q==
+
 next-tick@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
@@ -10928,6 +10940,14 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-alice-carousel@*, react-alice-carousel@^1.17.3:
+  version "1.17.3"
+  resolved "https://registry.yarnpkg.com/react-alice-carousel/-/react-alice-carousel-1.17.3.tgz#c247c49d56434b138e21176ac52d58fc24505431"
+  integrity sha512-b+ODgT//GTUORlkN01H5NFj3jugR0unwbCBBOgOibg2bkhJglmuADyXzEoQlCBSkIRJjs4PqCNUbpwdzaHcG5w==
+  dependencies:
+    prop-types "^15.5.10"
+    vanilla-swipe "^1.0.0"
+
 react-chartjs-2@2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/react-chartjs-2/-/react-chartjs-2-2.8.0.tgz#1c24de91fb3755f8c4302675de7d66fdda339759"
@@ -11033,6 +11053,11 @@ react-modal@^3.8.1:
     prop-types "^15.5.10"
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
+
+react-multi-carousel@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/react-multi-carousel/-/react-multi-carousel-2.5.2.tgz#da6c0d68b9f264e56e63386cbbe66e174b13e4c4"
+  integrity sha512-dGDNAA1MmLZV+nvxvF8T2GlQnvv726jBdC/hLT7GD44PaL1ONE5nkKPrS/SeYvf5TLVxCUYzRyY7BMpUuQtXpw==
 
 react-numeric-input@2.2.3:
   version "2.2.3"
@@ -12891,6 +12916,11 @@ value-or-function@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/value-or-function/-/value-or-function-3.0.0.tgz#1c243a50b595c1be54a754bfece8563b9ff8d813"
   integrity sha1-HCQ6ULWVwb5Up1S/7OhWO5/42BM=
+
+vanilla-swipe@^1.0.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/vanilla-swipe/-/vanilla-swipe-1.1.1.tgz#8792b849f60a3ae98dfe8cc0313e52f8bad118bf"
+  integrity sha512-GQ8y6omllPD03KbVTlxa6cjdn+T69nXVitTLRG3PMCz3t8fPdMDFODwIDgj53IfRxcdw5bL6n6Q8MIPoctIA3w==
 
 vary@~1.1.2:
   version "1.1.2"

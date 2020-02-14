@@ -23,6 +23,7 @@ import { fakeAddress } from "../const/address";
 import { fakeCountries } from "../const/countries";
 import { verify } from "jsonwebtoken";
 import { defense } from "../utils/defense";
+import { getConnection, getRepository } from "typeorm";
 
 @InputType()
 class RoomInput {
@@ -205,6 +206,14 @@ export class RoomResolver {
     return rooms;
   }
 
+  @Query(() => [Room])
+  async selectTopRooms(
+  ) {
+    const rooms = await getRepository(Room).createQueryBuilder("room")
+                  .orderBy("room.score", "DESC").limit(3).getMany();
+    return rooms;
+  }
+
   @Mutation(() => Room)
   async updateRoom(
     @Arg("options", () => RoomInput) options: RoomInput,
@@ -212,6 +221,25 @@ export class RoomResolver {
   ) {
     const room = await Room.update(options, { id });
     return room;
+  }
+
+  @Mutation(() => Boolean)
+  async updateAllRooms(
+  ) {
+    try {
+      const rooms = await Room.find();
+      for ( const room of rooms ){
+        const result : any = await Room.findOne({
+          id: room.id
+        });
+        result.score = Math.floor( Math.random() * 101 );
+        await result.save();
+      }
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   }
 
   @Mutation(() => Boolean)
