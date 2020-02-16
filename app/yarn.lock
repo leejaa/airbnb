@@ -4872,6 +4872,13 @@ expo-constants@~7.0.0:
   dependencies:
     ua-parser-js "^0.7.19"
 
+expo-device@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/expo-device/-/expo-device-2.0.0.tgz#05c8c2cc0147e937783bf7496d6dea83a25bdebf"
+  integrity sha512-iF5U55AbARpuywByFlf4uFGigMaXXPTc34TcC36CLKiwkoUguW0TXuq1UCfEjZiLYEF9v+rKZ2rQb2CSvo+nQA==
+  dependencies:
+    ua-parser-js "^0.7.19"
+
 expo-file-system@~7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-7.0.0.tgz#ac98233b18774cce299fffd9451f08f21b116564"
@@ -10046,6 +10053,13 @@ react-native-view-shot@2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-2.6.0.tgz#3b23675826f67658366352c4b97b59a6aded2f43"
   integrity sha512-yO9vWi/11m2hEJl8FrW1SMeVzFfPtMKh20MUInGqlsL0H8Ya2JGGlFfrBzx1KiFR2hFb5OdsTLYNtcVZtJ6pLQ==
+
+react-native-web-swiper@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-web-swiper/-/react-native-web-swiper-2.1.0.tgz#5b321819ee17ff1f7bc4ffd89388acf24b7b7fb7"
+  integrity sha512-TzHJIoHLEps03XFZp+8CLpvBbKxjIzqymaQeVemsNdGCqpVSMyCV7VN+2Yq3PZOGL49w5F0iynp80yGrDa7REA==
+  dependencies:
+    prop-types "^15.6.2"
 
 react-native-web@^0.11.7:
   version "0.11.7"

@@ -18,6 +18,7 @@ import { homeReducer, initialState } from "./reducer/HomeReducer";
 import { SECURESTORAGE_JWT } from "./constants";
 import { AsyncStorage } from "react-native";
 import { useMutation } from "./utils/useMutation";
+import { RoomDetail } from "./screens/RoomDetail";
 
 const AppStack = createStackNavigator({
     Home: {
@@ -29,13 +30,19 @@ const AppStack = createStackNavigator({
             }
         }),
     },
-    Detail: {
-        screen: Detail,
+    // Detail: {
+    //     screen: Detail,
+    //     navigationOptions: () => ({
+    //         headerTitle: () => <Header />,
+    //         headerStyle: {
+    //             height: 100
+    //         }
+    //     }),
+    // }
+    RoomDetail: {
+        screen: RoomDetail,
         navigationOptions: () => ({
-            headerTitle: () => <Header />,
-            headerStyle: {
-                height: 100
-            }
+            header: null
         }),
     }
 });

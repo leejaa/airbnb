@@ -15,14 +15,15 @@ export const AuthLoading: React.FC<Props & NavigationSwitchScreenProps> = ({
 }) => {
   const [state, dispatch] = useContext(UserContext);
   const initialAction = async () => {
-    const token = await AsyncStorage.getItem('token');
-    const user = await SecureStore.getItemAsync(token);
-    dispatch({ type: 'setUser', value: JSON.parse(user) });
-    if ( _.isEmpty(user) ) {
-      navigation.navigate("Login");
-    } else {
-      navigation.navigate("Detail");
-    }
+    // const token = await AsyncStorage.getItem('token');
+    // const user = await SecureStore.getItemAsync(token);
+    // dispatch({ type: 'setUser', value: JSON.parse(user) });
+    // if ( _.isEmpty(user) ) {
+    //   navigation.navigate("Login");
+    // } else {
+    //   navigation.navigate("Home");
+    // }
+    navigation.navigate("RoomDetail")
   }
   useEffect(() => {
     initialAction();

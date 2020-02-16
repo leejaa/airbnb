@@ -2,14 +2,9 @@ import React, { useState, useContext } from "react";
 import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, Dimensions, Image, ScrollView, FlatList } from 'react-native';
 import { Button } from 'react-native-elements';
 import { NavigationStackScreenProps } from "react-navigation-stack";
-import SwiperFlatList from 'react-native-swiper-flatlist';
-import Modal from "react-native-modal";
 import { Ionicons } from '@expo/vector-icons';
 import _ from 'lodash';
 import Swiper from 'react-native-swiper';
-import Carousel from '../components/Carousel';
-import { Search } from '../components/Search';
-import { data } from "../constants";
 import { UserContext } from "../UserContext";
 import { useSelectRoomsQuery, useSelectAllRoomsQuery } from "../../generated/graphql";
 const { width } = Dimensions.get('window')
