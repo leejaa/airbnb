@@ -92,16 +92,11 @@ export const RoomDetail: React.FC<NavigationStackScreenProps> = ({ navigation })
           </View>
         </View>
       </ScrollView>
-      <Modal
-        transparent={true}
-        visible={true}
-      >
-        <View style={styles.modalContainer}>
-          <TouchableOpacity style={styles.modalContainer2}>
-            <Text style={ { color: 'white', fontWeight: 'bold' } }>날짜 입력</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
+      <View style={styles.modalContainer}>
+        <TouchableOpacity style={styles.modalContainer2}>
+          <Text style={ { color: 'white', fontWeight: 'bold' } }>날짜 입력</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

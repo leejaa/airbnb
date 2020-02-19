@@ -8,6 +8,9 @@ export const defense = (objects: any) => {
                     case 'city':
                         object[key] = '';
                         break;
+                    case 'review':
+                        object[key] = '';
+                        break;
                     default:
                         break;
                 }

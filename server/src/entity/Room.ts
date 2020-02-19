@@ -1,7 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, OneToMany, JoinColumn, ManyToOne, } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, OneToMany, JoinColumn, ManyToOne, ManyToMany, JoinTable, } from "typeorm";
 import { Field, Int, ObjectType, ID, Float } from "type-graphql";
 import { Photo } from "./Photo";
 import { User } from "./User";
+import { Like } from "./Like";
+import { Review } from "./Review";
 
 @ObjectType()
 @Entity()
@@ -108,5 +110,14 @@ export class Room extends BaseEntity {
   @Field(() => User)
   @ManyToOne(() => User,  user => user.roomConnection)
   @JoinColumn({ name: "userId" })
-    user: Promise<User>;
+  user: Promise<User>;
+
+  @Field(() => [Like])
+  @OneToMany(() => Like, like => like.room)
+  likeUsers: Promise<Like[]>;
+
+  @Field(() => [Review])
+  @OneToMany(() => Review, review => review.room)
+  reviews: Promise<Review[]>;
+
 }

@@ -4,10 +4,10 @@ import { Button } from 'react-native-elements';
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import { Ionicons } from '@expo/vector-icons';
 import _ from 'lodash';
-import Swiper from 'react-native-swiper';
+import Swiper from 'react-native-web-swiper';
 import { UserContext } from "../UserContext";
 import { useSelectRoomsQuery, useSelectAllRoomsQuery } from "../../generated/graphql";
-const { width } = Dimensions.get('window')
+const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -83,13 +83,7 @@ export const Detail: React.FC<NavigationStackScreenProps> = ({ navigation }) => 
         data?.selectAllRooms?.slice(0, 10).map(item => {
           return (
             <View style={styles.wrapper} key={item.id}>
-              <Swiper
-                onMomentumScrollEnd={(e, state, context) => console.log('index:', state.index)}
-                dot={<View style={{ backgroundColor: 'rgba(0,0,0,.2)', width: 5, height: 5, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 30, alignItems: 'center', justifyContent: 'center' }} />}
-                activeDot={<View style={{ backgroundColor: '#000', width: 8, height: 8, borderRadius: 4, marginLeft: 3, marginRight: 3, marginTop: 3, marginBottom: 30, alignItems: 'center', justifyContent: 'center' }} />}
-                paginationStyle={{
-                  bottom: -5, right: 20, position: 'absolute'
-                }} loop>
+              <Swiper>
                 <View style={styles.slide}>
                   <View style={{ position: 'absolute', right: 0, zIndex: 1, top: 0 }}>
                     <View style={{ position: 'absolute', right: 3, zIndex: 1, top: 3 }}>

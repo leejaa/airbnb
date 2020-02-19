@@ -16,9 +16,11 @@ import { UserContext, AuthPayload } from "./UserContext";
 import { client } from "./lib/apolloClient";
 import { homeReducer, initialState } from "./reducer/HomeReducer";
 import { SECURESTORAGE_JWT } from "./constants";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, View, Dimensions } from "react-native";
 import { useMutation } from "./utils/useMutation";
 import { RoomDetail } from "./screens/RoomDetail";
+import { Home2 } from "./screens/Home2";
+const { height: FULL_HEIGHT, width: FULL_WIDTH } = Dimensions.get('window');
 
 const AppStack = createStackNavigator({
     Home: {
@@ -30,15 +32,24 @@ const AppStack = createStackNavigator({
             }
         }),
     },
-    // Detail: {
-    //     screen: Detail,
-    //     navigationOptions: () => ({
-    //         headerTitle: () => <Header />,
-    //         headerStyle: {
-    //             height: 100
-    //         }
-    //     }),
-    // }
+    Home2: {
+        screen: Home2,
+        navigationOptions: () => ({
+            headerTitle: () => <View />,
+            headerStyle: {
+                height: FULL_HEIGHT / 10
+            }
+        }),
+    },
+    Detail: {
+        screen: Detail,
+        navigationOptions: () => ({
+            headerTitle: () => <Header />,
+            headerStyle: {
+                height: 100
+            }
+        }),
+    },
     RoomDetail: {
         screen: RoomDetail,
         navigationOptions: () => ({

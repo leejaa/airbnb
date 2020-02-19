@@ -23,7 +23,7 @@ export const AuthLoading: React.FC<Props & NavigationSwitchScreenProps> = ({
     // } else {
     //   navigation.navigate("Home");
     // }
-    navigation.navigate("RoomDetail")
+    navigation.navigate("Home2")
   }
   useEffect(() => {
     initialAction();

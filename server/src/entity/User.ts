@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, ManyToMany, JoinTable, JoinColumn } from "typeorm";
 import { Field, ObjectType, ID } from "type-graphql";
 import { Room } from "./Room";
+import { Like } from "./Like";
 
 export enum Gender {
   GENDER_MALE = "male",
@@ -69,5 +70,9 @@ export class User extends BaseEntity {
   @Field(() => [Room])
   @OneToMany(() => Room, room => room.user)
   roomConnection: Promise<Room[]>;
+
+  @Field(() => [Like])
+  @OneToMany(() => Like, like => like.user)
+  likeRooms: Promise<Like[]>;
 
 }

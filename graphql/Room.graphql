@@ -18,6 +18,7 @@ query selectRooms($skip: Float!, $take: Float!){
     address
     description
     price
+    score
   	photoConnection{
       id
       caption

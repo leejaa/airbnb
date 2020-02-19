@@ -328,7 +328,7 @@ export type SelectRoomsQuery = (
   { __typename?: 'Query' }
   & { selectRooms: Array<(
     { __typename?: 'Room' }
-    & Pick<Room, 'id' | 'name' | 'city' | 'address' | 'description' | 'price'>
+    & Pick<Room, 'id' | 'name' | 'city' | 'address' | 'description' | 'price' | 'score'>
     & { photoConnection: Array<(
       { __typename?: 'Photo' }
       & Pick<Photo, 'id' | 'caption' | 'file'>
@@ -476,6 +476,7 @@ export const SelectRoomsDocument = gql`
     address
     description
     price
+    score
     photoConnection {
       id
       caption

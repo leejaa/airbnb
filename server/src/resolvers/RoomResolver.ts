@@ -23,7 +23,10 @@ import { fakeAddress } from "../const/address";
 import { fakeCountries } from "../const/countries";
 import { verify } from "jsonwebtoken";
 import { defense } from "../utils/defense";
-import { getConnection, getRepository } from "typeorm";
+import { getConnection, getRepository, Repository } from "typeorm";
+import { Like } from "../entity/Like";
+import { Review } from "../entity/Review";
+import { fakeReviews } from "../const/review";
 
 @InputType()
 class RoomInput {
@@ -157,6 +160,62 @@ export class RoomResolver {
     return photo;
   }
 
+  @Mutation(() => Boolean)
+  async createLike(
+  ) {
+    try {
+      await Like.create({
+        userId: 1,
+        roomId: 220
+      }).save();
+      return true;
+    } catch (error) {
+      console.log('error', error);
+      return false;
+    }
+  }
+
+  @Mutation(() => Boolean)
+  async createReviews(
+  ) {
+    try {
+      const rooms = await Room.find();
+      for ( const room of rooms ) {
+        await Review.create({
+          review: fakeReviews[Math.floor(Math.random() * fakeReviews.length - 1)],
+          roomId: room.id
+        }).save();
+        await Review.create({
+          review: fakeReviews[Math.floor(Math.random() * fakeReviews.length - 1)],
+          roomId: room.id
+        }).save();
+        await Review.create({
+          review: fakeReviews[Math.floor(Math.random() * fakeReviews.length - 1)],
+          roomId: room.id
+        }).save();
+        await Review.create({
+          review: fakeReviews[Math.floor(Math.random() * fakeReviews.length - 1)],
+          roomId: room.id
+        }).save();
+        await Review.create({
+          review: fakeReviews[Math.floor(Math.random() * fakeReviews.length - 1)],
+          roomId: room.id
+        }).save();
+      }
+      return true;
+    } catch (error) {
+      console.log('error', error);
+      return false;
+    }
+  }
+
+  @Query(() => [Review])
+  async selectAllReviews() {
+    const reviews = await Review.find();
+    defense(reviews);
+    return reviews;
+  }
+
   @Query(() => [Photo])
   async selectAllPhotos() {
     const photos = await Photo.find({
@@ -170,24 +229,29 @@ export class RoomResolver {
   @Query(() => [Room])
   async selectAllRooms(
   ) {
-    let rooms = await Room.find({
-      relations: ["photoConnection"],
-      order: {
-        id: 'DESC'
-      }
-    });
+    // let rooms = await Room.find({
+    //   relations: ["photoConnection", "likeUsers"],
+    //   order: {
+    //     id: 'DESC'
+    //   }
+    // });
+    let rooms = await getRepository(Room).createQueryBuilder("room")
+                .leftJoinAndSelect("room.photoConnection", "photoConnection")
+                .leftJoinAndSelect("room.likeUsers", "likeUsers")
+                .leftJoinAndSelect("room.reviews", "reviews")
+                .getMany();
     rooms = defense( rooms );
     return rooms;
   }
 
   @Query(() => [Room])
-  @UseMiddleware(isAuth)
+  // @UseMiddleware(isAuth)
   async selectRooms(
     @Arg("skip") skip: number,
     @Arg("take") take: number,
-    @Ctx() { payload }: MyContext
+    // @Ctx() { payload }: MyContext
   ) {
-    const { userId = '' }: any = payload;
+    // const { userId = '' }: any = payload;
     let rooms : any = await Room.find({
       // where: { userId },
       join: {
@@ -206,12 +270,36 @@ export class RoomResolver {
     return rooms;
   }
 
+  @Query(() => Room)
+  // @UseMiddleware(isAuth)
+  async selectRoom(
+    @Arg("id") id: number,
+    // @Ctx() { payload }: MyContext
+  ) {
+    // const { userId = '' }: any = payload;
+    const room = await getRepository(Room).createQueryBuilder("room")
+                .leftJoinAndSelect("room.likeUsers", "likeUsers")
+                .where("room.id = :id", { id })
+                .getOne();
+    // rooms = defense( rooms );
+    return room;
+  }
+
   @Query(() => [Room])
   async selectTopRooms(
   ) {
     const rooms = await getRepository(Room).createQueryBuilder("room")
                   .orderBy("room.score", "DESC").limit(3).getMany();
     return rooms;
+  }
+
+  @Query(() => [Like])
+  async selectAllLikes(
+  ) {
+    const likes = await getRepository(Like).createQueryBuilder("like")
+                  .leftJoinAndSelect("like.user", "user")
+                  .getMany();
+    return likes;
   }
 
   @Mutation(() => Room)
@@ -301,6 +389,30 @@ export class RoomResolver {
   ) {
     try {
       await User.delete({});
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  @Mutation(() => Boolean)
+  async deleteAllLikes(
+  ) {
+    try {
+      await Like.delete({});
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  @Mutation(() => Boolean)
+  async deleteAllReviews(
+  ) {
+    try {
+      await Review.delete({});
       return true;
     } catch (error) {
       console.log(error);

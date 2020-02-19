@@ -1,5 +1,8 @@
+import { Dimensions } from "react-native";
 
 const uuidv1 = require('uuid/v1');
+
+export const { width : FULL_WIDTH, height : FULL_HEIGHT } = Dimensions.get('window');
 
 export const API = "https://conduit.productionready.io/api";
 export const SECURESTORAGE_JWT = "@conduit/ASYNCSTORAGE_JWT";

@@ -17,10 +17,12 @@ import { MyContext } from "../auth/MyContext";
 import { createRefreshToken, createAccessToken } from "../auth/auth";
 import { isAuth } from "../auth/isAuth";
 import { sendRefreshToken } from "../auth/sendRefreshToken";
-import { getConnection } from "typeorm";
+import { getConnection, getRepository } from "typeorm";
 import { verify } from "jsonwebtoken";
 import { sendEmail } from "../utils/sendEmail";
 import { fakeWords } from "../const/words";
+import { Room } from "../entity/Room";
+import { Like } from "../entity/Like";
 
 @InputType()
 class UserInput {
@@ -61,10 +63,14 @@ export class UserResolver {
   }
 
   @Query(() => User)
-  selectUser(
+  async selectUser(
     @Arg("id") id: number,
   ) {
-    return User.findOne({ id });
+    const user = await getRepository(User).createQueryBuilder("user")
+      .leftJoinAndSelect("user.likeRooms", "likeRooms")
+      .where("user.id = :id", { id })
+      .getOne();
+    return user;
   }
 
   @Query(() => User, { nullable: true })
@@ -159,8 +165,8 @@ export class UserResolver {
   async registerFake(
   ) {
     const hashedPassword = await hash('1234', 12);
-    const randomWord = fakeWords[ Math.floor(Math.random() * fakeWords.length) ];
-    for ( const word of fakeWords ) {
+    const randomWord = fakeWords[Math.floor(Math.random() * fakeWords.length)];
+    for (const word of fakeWords) {
       const email = `${word}@hanmail.net`;
       try {
         await User.insert({
@@ -186,6 +192,29 @@ export class UserResolver {
       const result = await User.update({ id }, input);
       if (result.affected === 0) {
         return false;
+      }
+      return true;
+    } catch (error) {
+      console.log('error', error);
+      return false;
+    }
+  }
+
+  @Mutation(() => Boolean)
+  async updateAllUser(
+  ) {
+    try {
+      const users = await User.find();
+      const rooms = await Room.find();
+      for ( const user of users ) {
+        for ( const room of rooms ) {
+          if ( Math.random() > 0.7 ) {
+            await Like.create({
+              userId: user.id,
+              roomId: room.id
+            }).save();
+          }
+        }
       }
       return true;
     } catch (error) {
