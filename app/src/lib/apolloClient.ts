@@ -7,7 +7,9 @@ import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import { ApolloLink, Observable } from "apollo-link";
 import { TokenRefreshLink } from "apollo-link-token-refresh";
+import { setContext } from "apollo-link-context";
 import jwtDecode from "jwt-decode";
+import * as Device from 'expo-device';
 import { IS_PRODUCTION, API_DEVELOPMENT, API_PRODUCTION } from "../../env";
 
 const cache = new InMemoryCache({});
@@ -35,6 +37,16 @@ const requestLink = new ApolloLink(
     })
 );
 
+const authLink = setContext((_request, { headers }) => {
+  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTU4MjE4MTE0OCwiZXhwIjoxNTgzOTA5MTQ4fQ.BP14nc4IbJmtPgIu39pnGSjtzgId2WqRhtZtKDX7b-E';
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `bearer ${token}` : "",
+    }
+  };
+});
+
 export const client = new ApolloClient({
   link: ApolloLink.from([
     new TokenRefreshLink({
@@ -59,6 +71,7 @@ export const client = new ApolloClient({
       console.log(graphQLErrors);
       console.log(networkError);
     }),
+    authLink,
     requestLink,
     new HttpLink({
       uri: `${IS_PRODUCTION ? API_PRODUCTION : API_DEVELOPMENT}/graphql`,

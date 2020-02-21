@@ -161,13 +161,49 @@ export class RoomResolver {
   }
 
   @Mutation(() => Boolean)
-  async createLike(
+  async createFakeLike(
   ) {
     try {
-      await Like.create({
-        userId: 1,
-        roomId: 220
-      }).save();
+      const user : any = await User.findOne({
+        id: 210
+      });
+      const rooms = await Room.find();
+      for ( const room of rooms ) {
+        if ( Math.random() > 0.7 ) {
+          await Like.create({
+            userId: user.id,
+            roomId: room.id
+          }).save();
+        }
+      }
+      return true;
+    } catch (error) {
+      console.log('error', error);
+      return false;
+    }
+  }
+
+  @Mutation(() => Boolean)
+  async createLike(
+    @Arg("userId") userId: number,
+    @Arg("roomId") roomId: number,
+  ) {
+    try {
+      const like = await Like.findOne({
+        userId: userId,
+        roomId: roomId
+      });
+      if ( like ) {
+        await Like.delete({
+          userId,
+          roomId
+        });
+      } else {
+        await Like.create({
+          userId,
+          roomId
+        }).save();
+      }
       return true;
     } catch (error) {
       console.log('error', error);
@@ -251,13 +287,12 @@ export class RoomResolver {
     @Arg("take") take: number,
     // @Ctx() { payload }: MyContext
   ) {
-    // const { userId = '' }: any = payload;
     let rooms : any = await Room.find({
-      // where: { userId },
       join: {
         alias: "Room",
         innerJoinAndSelect: {
-          photo: "Room.photoConnection"
+          photo: "Room.photoConnection",
+          // likeUsers: "Room.likeUsers"
         }
       },
       skip,
@@ -266,6 +301,14 @@ export class RoomResolver {
         id: 'DESC'
       }
     });
+    
+    // let rooms = await getRepository(Room).createQueryBuilder("room")
+    //             .leftJoinAndSelect("room.likeUsers", "likeUsers")
+    //             .leftJoinAndSelect("room.photoConnection", "photoConnection")
+    //             .limit(skip)
+    //             .offset(take)
+    //             .orderBy("room.id", "DESC")
+    //             .getMany();
     rooms = defense( rooms );
     return rooms;
   }
@@ -279,6 +322,7 @@ export class RoomResolver {
     // const { userId = '' }: any = payload;
     const room = await getRepository(Room).createQueryBuilder("room")
                 .leftJoinAndSelect("room.likeUsers", "likeUsers")
+                .leftJoinAndSelect("room.photoConnection", "photoConnection")
                 .where("room.id = :id", { id })
                 .getOne();
     // rooms = defense( rooms );

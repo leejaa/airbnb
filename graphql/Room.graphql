@@ -24,6 +24,14 @@ query selectRooms($skip: Float!, $take: Float!){
       caption
       file
     }
+    likeUsers{
+      id
+      user{
+        id
+        name
+        email
+      }
+    }
   }
 }
 
@@ -77,4 +85,8 @@ mutation createRoom(
     address
     post_code
   }
+}
+
+mutation createLike($userId: Float!, $roomId: Float!){
+  createLike(userId: $userId, roomId: $roomId)
 }

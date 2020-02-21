@@ -23,15 +23,15 @@ import { Home2 } from "./screens/Home2";
 const { height: FULL_HEIGHT, width: FULL_WIDTH } = Dimensions.get('window');
 
 const AppStack = createStackNavigator({
-    Home: {
-        screen: Home,
-        navigationOptions: () => ({
-            headerTitle: () => <Header />,
-            headerStyle: {
-                height: 100
-            }
-        }),
-    },
+    // Home: {
+    //     screen: Home,
+    //     navigationOptions: () => ({
+    //         headerTitle: () => <Header />,
+    //         headerStyle: {
+    //             height: 100
+    //         }
+    //     }),
+    // },
     Home2: {
         screen: Home2,
         navigationOptions: () => ({

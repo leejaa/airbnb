@@ -1,16 +1,18 @@
 import React, { useRef, useEffect, useCallback, useState, useContext, useMemo } from 'react'
-import { View, Dimensions, StyleSheet, TouchableOpacity, Text, Platform, FlatList, TouchableHighlight, Image } from 'react-native';
+import { View, Dimensions, StyleSheet, TouchableOpacity, Text, Platform, FlatList, TouchableHighlight, Image, Alert } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import axios from 'axios';
 import _ from 'lodash';
+import { useApolloClient } from "@apollo/react-hooks";
+import gql from 'graphql-tag';
 import Swiper from 'react-native-web-swiper';
 import { UserContext } from '../UserContext';
 import { FULL_WIDTH, FULL_HEIGHT } from '../constants';
-import { Room } from '../../generated/graphql';
+import { Room, useCreateLikeMutation, SelectRoomsDocument, useSelectRoomsQuery } from '../../generated/graphql';
 
 interface Props {
-    room : Room
+    room: Room,
 }
 
 const styles = StyleSheet.create({
@@ -87,25 +89,85 @@ const styles = StyleSheet.create({
     },
 });
 
-export const RoomCard : React.FC<Props> = ({
-    room
+export const RoomCard: React.FC<Props> = ({
+    room,
 }) => {
+    const [state, dispatch] = useContext(UserContext);
+    const [createLike] = useCreateLikeMutation({
+        // refetchQueries: SelectRoomsDocument
+    });
+    const { data, loading, fetchMore, networkStatus, refetch } = useSelectRoomsQuery({
+        variables: { skip: 0, take: 1 },
+        notifyOnNetworkStatusChange: true,
+    });
+    const client = useApolloClient();
+    const meData = client.readFragment({
+        id: '1',
+        fragment: gql`
+        fragment me on Todo {
+          id
+          text
+          me
+        }
+      `,
+    });
+    const initialIsLike = useMemo(() => {
+        let isLike = false;
+        const likeUsers = _.map(room?.likeUsers, likeUser => likeUser.user);
+        if (_.some(likeUsers, { id: meData?.me?.id }) && _.some(likeUsers, { id: `${meData?.me?.id}` })) {
+            isLike = true;
+        }
+        return isLike;
+    }, [room]);
+    // const [like, setLike] = useState<boolean>(initialIsLike);
     const DotComponent = useMemo(() => {
         return (
-            <View style={ styles.DotComponent } />
+            <View style={styles.DotComponent} />
         );
     }, []);
     const ActiveDotComponent = useMemo(() => {
         return (
-            <View style={ styles.ActiveDotComponent } />
+            <View style={styles.ActiveDotComponent} />
         );
     }, []);
+    const onPressLike = useCallback(async () => {
+        createLike({
+            variables: {
+                roomId: parseInt(room?.id),
+                userId: parseInt(meData?.me?.id)
+            },
+            update(cache) {
+                const newRoom = _.clone(room);
+                const likeUsers : any = newRoom?.likeUsers;
+                if ( initialIsLike ) {
+                    _.remove(likeUsers as any, (likeUser : any) => {
+                        return likeUser?.user?.id == meData?.me?.id;
+                    });
+                } else {
+                    likeUsers.push({
+                        user: meData?.me
+                    });
+                }
+                newRoom.likeUsers = likeUsers;
+                let newSelectRooms = state.selectRooms;
+                const index = _.findIndex(newSelectRooms, (item : any) => item.id === room.id);
+                newSelectRooms[index] = newRoom;
+                dispatch({ type: 'setSelectRooms', value: newSelectRooms });
+            },
+        });
+    }, [room]);
     return (
-        <View style={ styles.container }>
-            <View style={ styles.LikeContainer }>
-                <Ionicons name="md-heart-empty" size={20} color="black" />
-            </View>
-            <View style={ styles.container2 }>
+        <View style={styles.container}>
+            <TouchableOpacity style={styles.LikeContainer} onPress={onPressLike}>
+                {
+                    initialIsLike ? (
+                        <Ionicons name="md-heart" size={20} color="red" />
+                    ) : (
+                            <Ionicons name="md-heart-empty" size={20} color="black" />
+                        )
+                }
+            </TouchableOpacity>
+            <View style={styles.container2}>
                 <Swiper
                     controlsProps={{
                         prevTitle: '',
@@ -118,22 +180,22 @@ export const RoomCard : React.FC<Props> = ({
                     }
                 </Swiper>
             </View>
-            <View style={ styles.container4 }>
-                <View style={ styles.container5 }>
-                    <View style={ styles.container3 }>
-                        <Text style={ { fontSize: 10, fontWeight: 'bold' } }>슈퍼 호스트</Text>
+            <View style={styles.container4}>
+                <View style={styles.container5}>
+                    <View style={styles.container3}>
+                        <Text style={{ fontSize: 10, fontWeight: 'bold' }}>슈퍼 호스트</Text>
                     </View>
-                    <View style={ styles.container6 }>
-                        <Text style={ { fontSize: 14, color: 'gray', fontWeight: 'bold' } }>{ room?.name }</Text>
+                    <View style={styles.container6}>
+                        <Text style={{ fontSize: 14, color: 'gray', fontWeight: 'bold' }}>{room?.name}</Text>
                     </View>
-                    <View style={ styles.container7 }>
+                    <View style={styles.container7}>
                         <Ionicons name="md-star" size={10} color="red" />
-                        <Text style={ { fontSize: 10 } }>{ `${room?.score}` }</Text>
-                        <Text style={ { fontSize: 10, color: 'gray' } }>{ `(${Math.floor(room?.price / 10000)})` }</Text>
+                        <Text style={{ fontSize: 10 }}>{`${room?.score}`}</Text>
+                        <Text style={{ fontSize: 10, color: 'gray' }}>{`(${Math.floor(room?.price / 10000)})`}</Text>
                     </View>
                 </View>
-                <View style={ styles.container5 }>
-                    <Text style={ { fontSize: 15 } }>{ room?.description }</Text>
+                <View style={styles.container5}>
+                    <Text style={{ fontSize: 15 }}>{room?.description}</Text>
                 </View>
             </View>
         </View>
