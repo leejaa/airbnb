@@ -96,10 +96,6 @@ export const RoomCard: React.FC<Props> = ({
     const [createLike] = useCreateLikeMutation({
         // refetchQueries: SelectRoomsDocument
     });
-    const { data, loading, fetchMore, networkStatus, refetch } = useSelectRoomsQuery({
-        variables: { skip: 0, take: 1 },
-        notifyOnNetworkStatusChange: true,
-    });
     const client = useApolloClient();
     const meData = client.readFragment({
         id: '1',
@@ -114,12 +110,12 @@ export const RoomCard: React.FC<Props> = ({
     const initialIsLike = useMemo(() => {
         let isLike = false;
         const likeUsers = _.map(room?.likeUsers, likeUser => likeUser.user);
-        if (_.some(likeUsers, { id: meData?.me?.id }) && _.some(likeUsers, { id: `${meData?.me?.id}` })) {
+        if (_.some(likeUsers, { id: meData?.me?.id }) || _.some(likeUsers, { id: `${meData?.me?.id}` })) {
             isLike = true;
         }
         return isLike;
     }, [room]);
-    // const [like, setLike] = useState<boolean>(initialIsLike);
+    const [like, setLike] = useState<boolean>(false);
     const DotComponent = useMemo(() => {
         return (
             <View style={styles.DotComponent} />
@@ -131,6 +127,7 @@ export const RoomCard: React.FC<Props> = ({
         );
     }, []);
     const onPressLike = useCallback(async () => {
+        setLike(!like);
         createLike({
             variables: {
                 roomId: parseInt(room?.id),
@@ -155,12 +152,15 @@ export const RoomCard: React.FC<Props> = ({
                 dispatch({ type: 'setSelectRooms', value: newSelectRooms });
             },
         });
-    }, [room]);
+    }, [room, like]);
+    useEffect(() => {
+        setLike(initialIsLike);
+    }, [initialIsLike]);
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.LikeContainer} onPress={onPressLike}>
                 {
-                    initialIsLike ? (
+                    like ? (
                         <Ionicons name="md-heart" size={20} color="red" />
                     ) : (
                             <Ionicons name="md-heart-empty" size={20} color="black" />

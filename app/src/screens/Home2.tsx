@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 export const Home2: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
   const [state, dispatch] = useContext(UserContext);
   const { data, loading, fetchMore, networkStatus, refetch } = useSelectRoomsQuery({
-    variables: { skip: 0, take: 1 },
+    variables: { skip: 0, take: 12 },
     notifyOnNetworkStatusChange: true,
   });
   const selectRooms = useMemo(() => data?.selectRooms, [ data ]);
