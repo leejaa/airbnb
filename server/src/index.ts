@@ -27,7 +27,9 @@ import { SendResolver } from "./resolvers/SendResolver";
         `${process.env.FRONT_DEV_URL}`,
         `${process.env.FRONT_DEV_APP_URL}`,
         'http://192.168.0.9:19006',
-        'http://localhost:19006'
+        'http://localhost:19006',
+        'http://192.168.1.242:19006',
+        'http://192.168.0.186:19001',
       ],
       credentials: true
     })

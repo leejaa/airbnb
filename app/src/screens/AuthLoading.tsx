@@ -27,32 +27,32 @@ export const AuthLoading: React.FC<Props & NavigationSwitchScreenProps> = ({
     //     }
     //   }
     // });
-    client.writeFragment({
-      id: '1',
-      fragment: gql`
-        fragment me on Me {
-          me
-        }
-      `,
-      data: {
-        me: {
-          id: 1,
-          name: 'Groopster',
-          email: 'Groopster@hanmail.net'
-        },
-        __typename: 'me'
-      },
-    });
+    // client.writeFragment({
+    //   id: '1',
+    //   fragment: gql`
+    //     fragment me on Me {
+    //       me
+    //     }
+    //   `,
+    //   data: {
+    //     me: {
+    //       id: 1,
+    //       name: 'Groopster',
+    //       email: 'Groopster@hanmail.net'
+    //     },
+    //     __typename: 'me'
+    //   },
+    // });
     const token = await AsyncStorage.getItem('token');
     if ( _.isEmpty(token) ) {
-      navigation.navigate("Home2");
+      navigation.navigate("RoomDetail");
       return false;
     }
     const user = await SecureStore.getItemAsync(token);
     if ( _.isEmpty(user) ) {
       navigation.navigate("Login");
     } else {
-      navigation.navigate("Home2");
+      navigation.navigate("RoomDetail");
     }
   }
   useEffect(() => {

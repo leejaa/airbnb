@@ -20,6 +20,7 @@ import { AsyncStorage, View, Dimensions } from "react-native";
 import { useMutation } from "./utils/useMutation";
 import { RoomDetail } from "./screens/RoomDetail";
 import { Home2 } from "./screens/Home2";
+import { test } from "./screens/test";
 const { height: FULL_HEIGHT, width: FULL_WIDTH } = Dimensions.get('window');
 
 const AppStack = createStackNavigator({
@@ -52,6 +53,12 @@ const AppStack = createStackNavigator({
     },
     RoomDetail: {
         screen: RoomDetail,
+        navigationOptions: () => ({
+            header: null
+        }),
+    },
+    test: {
+        screen: test,
         navigationOptions: () => ({
             header: null
         }),

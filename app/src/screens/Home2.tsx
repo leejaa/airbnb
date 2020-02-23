@@ -19,12 +19,12 @@ export const Home2: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
     variables: { skip: 0, take: 12 },
     notifyOnNetworkStatusChange: true,
   });
-  const selectRooms = useMemo(() => data?.selectRooms, [ data ]);
-  useEffect(() => {
-    if ( data?.selectRooms ) {
-      dispatch({ type: 'setSelectRooms', value: selectRooms });
-    }
-  }, [ data ]);
+  // const selectRooms = useMemo(() => data?.selectRooms, [ data ]);
+  // useEffect(() => {
+  //   if ( data?.selectRooms ) {
+  //     dispatch({ type: 'setSelectRooms', value: selectRooms });
+  //   }
+  // }, [ data ]);
   if ( loading ) {
     return (
       <View>
@@ -36,7 +36,7 @@ export const Home2: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
     <ScrollView>
       <View style={ styles.container }>
         {
-          state.selectRooms?.map( room => <RoomCard key={ room.id } room={ room as any } /> )
+          data.selectRooms?.map( room => <RoomCard key={ room.id } room={ room as any } /> )
         }
       </View>
     </ScrollView>

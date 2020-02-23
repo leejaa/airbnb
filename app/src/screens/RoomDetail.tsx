@@ -5,6 +5,7 @@ import _ from 'lodash';
 import * as Device from 'expo-device';
 import { Ionicons } from "@expo/vector-icons";
 import Swiper from "react-native-web-swiper";
+import { Avatar } from "react-native-elements";
 const { height: FULL_HEIGHT, width: FULL_WIDTH } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -36,8 +37,8 @@ const styles = StyleSheet.create({
     top: 0
   },
   modalContainer: {
-    borderWidth: 1,
-    borderColor: 'black',
+    borderTopWidth: 0.1,
+    borderTopColor: 'gray',
     height: FULL_HEIGHT / 10,
     width: FULL_WIDTH,
     position: 'absolute',
@@ -55,6 +56,35 @@ const styles = StyleSheet.create({
     right: 3,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  container5: {
+    borderWidth: 1,
+    borderColor: 'black',
+    marginLeft: 15,
+    marginRight: 15,
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  container6: {
+    width: '85%',
+    height: 40,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  container7: {
+    width: '90%',
+    height: 70,
+    position: 'relative',
+    justifyContent: 'center'
+  },
+  avatarContainer: {
+    position: 'absolute',
+    right: 2,
+    borderRadius: 40,
+    height: '75%',
+    width: '15%',
+
   }
 });
 
@@ -91,10 +121,26 @@ export const RoomDetail: React.FC<NavigationStackScreenProps> = ({ navigation })
             </Swiper>
           </View>
         </View>
+        <View style={styles.container5}>
+          <View style={styles.container6}>
+            <Text style={{ fontWeight: 'bold', fontSize: 30 }}>방 이름</Text>
+          </View>
+          <View style={styles.container7}>
+            <Text style={{ color: 'gray', fontSize: 15 }}>설명설명</Text>
+            <Avatar
+              rounded
+              source={{
+                uri:
+                  'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+              }}
+              containerStyle={ styles.avatarContainer }
+            />
+          </View>
+        </View>
       </ScrollView>
       <View style={styles.modalContainer}>
         <TouchableOpacity style={styles.modalContainer2}>
-          <Text style={ { color: 'white', fontWeight: 'bold' } }>날짜 입력</Text>
+          <Text style={{ color: 'white', fontWeight: 'bold' }}>날짜 입력</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -96,6 +96,12 @@ export const RoomCard: React.FC<Props> = ({
     const [createLike] = useCreateLikeMutation({
         // refetchQueries: SelectRoomsDocument
     });
+    const { data } = useSelectRoomsQuery({
+        variables: {
+            skip: 0,
+            take: 12
+        }
+    });
     const client = useApolloClient();
     const meData = client.readFragment({
         id: '1',
@@ -134,23 +140,41 @@ export const RoomCard: React.FC<Props> = ({
                 userId: parseInt(meData?.me?.id)
             },
             update(cache) {
-                const newRoom = _.clone(room);
-                const likeUsers : any = newRoom?.likeUsers;
-                if ( initialIsLike ) {
-                    _.remove(likeUsers as any, (likeUser : any) => {
-                        return likeUser?.user?.id == meData?.me?.id;
-                    });
-                } else {
-                    likeUsers.push({
-                        user: meData?.me
-                    });
-                }
-                newRoom.likeUsers = likeUsers;
-                let newSelectRooms = state.selectRooms;
-                const index = _.findIndex(newSelectRooms, (item : any) => item.id === room.id);
-                newSelectRooms[index] = newRoom;
-                dispatch({ type: 'setSelectRooms', value: newSelectRooms });
+                // const newRoom = _.clone(room);
+                // const likeUsers : any = newRoom?.likeUsers;
+                // if ( initialIsLike ) {
+                //     _.remove(likeUsers as any, (likeUser : any) => {
+                //         return likeUser?.user?.id == meData?.me?.id;
+                //     });
+                // } else {
+                //     likeUsers.push({
+                //         user: meData?.me,
+                //         __typename: 'Room'
+                //     });
+                // }
+                // newRoom.likeUsers = likeUsers;
+                // let newSelectRooms = data?.selectRooms;
+                // const index = _.findIndex(newSelectRooms, (item : any) => item.id === room.id);
+                // newSelectRooms[index] = newRoom;
+                // cache.writeQuery({
+                //     query: SelectRoomsDocument,
+                //     data: {
+                //         selectRooms: [],
+                //         __typename: 'Query'
+                //     },
+                //     variables: {
+                //         skip: 0,
+                //         take: 12
+                //     }
+                // });
             },
+            refetchQueries: [{
+                query: SelectRoomsDocument,
+                variables: {
+                    skip: 0,
+                    take: 12
+                }
+            }]
         });
     }, [room, like]);
     useEffect(() => {
