@@ -248,6 +248,7 @@ export class RoomResolver {
   @Query(() => [Review])
   async selectAllReviews() {
     const reviews = await Review.find();
+    console.log('reviews', JSON.stringify(reviews));
     defense(reviews);
     return reviews;
   }
@@ -320,12 +321,15 @@ export class RoomResolver {
     // @Ctx() { payload }: MyContext
   ) {
     // const { userId = '' }: any = payload;
-    const room = await getRepository(Room).createQueryBuilder("room")
+    let room = await getRepository(Room).createQueryBuilder("room")
                 .leftJoinAndSelect("room.likeUsers", "likeUsers")
                 .leftJoinAndSelect("room.photoConnection", "photoConnection")
+                .leftJoinAndSelect("room.user", "user")
+                .leftJoinAndSelect("room.reviews", "reviews")
                 .where("room.id = :id", { id })
                 .getOne();
-    // rooms = defense( rooms );
+    console.log('room', JSON.stringify(room));
+    // room = defense( room );
     return room;
   }
 
@@ -366,6 +370,26 @@ export class RoomResolver {
         });
         result.score = Math.floor( Math.random() * 101 );
         await result.save();
+      }
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  @Mutation(() => Boolean)
+  async updateAllReviews(
+  ) {
+    try {
+      const users = await User.find();
+      const reviews = await Review.find();
+      for ( const review of reviews ) {
+        await Review.update({
+          userId: users[Math.floor(Math.random() * ( users.length - 1 ) )].id
+        }, {
+          id: review.id
+        });
       }
       return true;
     } catch (error) {

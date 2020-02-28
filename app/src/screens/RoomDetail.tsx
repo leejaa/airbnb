@@ -5,7 +5,9 @@ import _ from 'lodash';
 import * as Device from 'expo-device';
 import { Ionicons } from "@expo/vector-icons";
 import Swiper from "react-native-web-swiper";
-import { Avatar } from "react-native-elements";
+import { Avatar, Divider } from "react-native-elements";
+import { useSelectRoomQuery } from "../../generated/graphql";
+import moment from "moment";
 const { height: FULL_HEIGHT, width: FULL_WIDTH } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -45,7 +47,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'white'
   },
   modalContainer2: {
     borderRadius: 5,
@@ -58,8 +61,6 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   container5: {
-    borderWidth: 1,
-    borderColor: 'black',
     marginLeft: 15,
     marginRight: 15,
     marginTop: 20,
@@ -84,11 +85,72 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     height: '75%',
     width: '15%',
-
+  },
+  container8: {
+    height: 200,
+    width: '90%',
+    marginLeft: '10%',
+    marginRight: '5%'
+  },
+  container9: {
+    marginTop: 10,
+    width: '100%',
+    height: 25,
+    justifyContent: 'center',
+    paddingLeft: 10
+  },
+  container10: {
+    width: '100%',
+    height: 100,
+    marginTop: 30,
+    paddingLeft: 10,
+  },
+  container11: {
+    width: '90%',
+    height: 150,
+    marginTop: 30
+  },
+  container12: {
+    width: '100%',
+    height: '30%',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  avatarContainer2: {
+    borderRadius: 40,
+    height: '80%',
+    width: '15%',
+  },
+  container13: {
+    width: '50%',
+    height: '100%',
+    flexDirection: 'column',
+    marginLeft: 10
+  },
+  container14: {
+    width: '95%',
+    height: '60%'
+  },
+  container15: {
+    width: '100%',
+    height: '20%',
+    marginTop: 8
   }
 });
 
 export const RoomDetail: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
+  const { data, loading } = useSelectRoomQuery({
+    variables: {
+      id: parseInt(navigation.getParam('id'))
+    }
+  });
+  if ( loading ) {
+    return (
+      <View>
+        <Text>로딩중...</Text>
+      </View>
+    );
+  }
   return (
     <View>
       <ScrollView style={styles.container1}>
@@ -106,35 +168,66 @@ export const RoomDetail: React.FC<NavigationStackScreenProps> = ({ navigation })
               loop
               controlsProps={{ prevTitle: '', nextTitle: '' }}
             >
-              <Image
-                source={{ uri: 'https://i0.wp.com/www.valuehome.ca/wp-content/uploads/2017/05/house.jpg?resize=810%2C430&ssl=1' }}
-                style={{ width: '100%', height: '100%' }}
-              />
-              <Image
-                source={{ uri: 'https://i0.wp.com/www.valuehome.ca/wp-content/uploads/2017/05/house.jpg?resize=810%2C430&ssl=1' }}
-                style={{ width: '100%', height: '100%' }}
-              />
-              <Image
-                source={{ uri: 'https://i0.wp.com/www.valuehome.ca/wp-content/uploads/2017/05/house.jpg?resize=810%2C430&ssl=1' }}
-                style={{ width: '100%', height: '100%' }}
-              />
+              {
+                data?.selectRoom?.photoConnection?.map(photo => (
+                  <Image
+                    key={ photo.id }
+                    source={{ uri: photo.file }}
+                    style={{ width: '100%', height: '100%' }}
+                  />
+                ))
+              }
             </Swiper>
           </View>
         </View>
         <View style={styles.container5}>
           <View style={styles.container6}>
-            <Text style={{ fontWeight: 'bold', fontSize: 30 }}>방 이름</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: 30 }}>{ data?.selectRoom?.name }</Text>
           </View>
           <View style={styles.container7}>
-            <Text style={{ color: 'gray', fontSize: 15 }}>설명설명</Text>
+            <Text style={{ color: 'gray', fontSize: 15 }}>{ data?.selectRoom?.description }</Text>
             <Avatar
               rounded
               source={{
                 uri:
-                  'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+                  data?.selectRoom?.user?.avatar,
               }}
-              containerStyle={ styles.avatarContainer }
+              containerStyle={styles.avatarContainer}
             />
+          </View>
+          <View style={styles.container8}>
+            <Text>{ data?.selectRoom?.description }</Text>
+          </View>
+          <Divider style={{ borderColor: 'gray', width: '90%', borderWidth: 0.6 }} />
+          <View style={styles.container9}>
+            <Text style={{ color: '#0F7652', fontWeight: 'bold' }}>번역</Text>
+          </View>
+          <View style={styles.container10}>
+            <Text>번역 번역 번역 번역 번역 번역</Text>
+          </View>
+          <Divider style={{ borderColor: 'gray', width: '90%', borderWidth: 0.6 }} />
+          <View style={styles.container11}>
+            <View style={styles.container12}>
+              <Avatar
+                rounded
+                source={{
+                  uri:
+                  data?.selectRoom?.reviews[0]?.user?.avatar,
+                }}
+                containerStyle={styles.avatarContainer2}
+              />
+              <View style={ styles.container13 }>
+                <Text style={ { fontWeight: 'bold' } }>{ data?.selectRoom?.reviews[0]?.user?.name }</Text>
+                <Text style={ { color: 'gray' } }>{ moment(_.replace(data?.selectRoom?.reviews[0]?.createdAt, /"/g, '')).format('YYYY년 MM월') }</Text>
+              </View>
+            </View>
+            <View style={ styles.container14 }>
+              <Text>{ data?.selectRoom?.reviews[0]?.review }</Text>
+            </View>
+            <TouchableOpacity style={ styles.container15 }>
+              <Text style={ { color: '#0F7652', fontWeight: 'bold' } }>후기 { data?.selectRoom?.reviews.length }개 모두 읽기</Text>
+            </TouchableOpacity>
+            <Divider style={{ borderColor: 'gray', width: '90%', borderWidth: 0.6, marginBottom: FULL_HEIGHT / 8, marginTop: 30 }} />
           </View>
         </View>
       </ScrollView>

@@ -46,4 +46,16 @@ export class Review extends BaseEntity {
   @ManyToOne(() => Room, room => room.reviews, { nullable: true })
   @JoinColumn({ name: "roomId" })
   room: Promise<Room>;
+
+  @Column({ nullable: true })
+  userId: number;
+
+  @Field()
+  @Column({ nullable: true, default: new Date() })
+  createdAt: string
+  
+  @Field(() => User)
+  @ManyToOne(() => User, user => user.reviews, { nullable: true })
+  @JoinColumn({ name: "roomId" })
+  user: Promise<User>;
 }

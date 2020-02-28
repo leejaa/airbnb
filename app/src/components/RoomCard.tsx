@@ -13,6 +13,7 @@ import { Room, useCreateLikeMutation, SelectRoomsDocument, useSelectRoomsQuery }
 
 interface Props {
     room: Room,
+    navigation: any
 }
 
 const styles = StyleSheet.create({
@@ -91,6 +92,7 @@ const styles = StyleSheet.create({
 
 export const RoomCard: React.FC<Props> = ({
     room,
+    navigation
 }) => {
     const [state, dispatch] = useContext(UserContext);
     const [createLike] = useCreateLikeMutation({
@@ -177,11 +179,14 @@ export const RoomCard: React.FC<Props> = ({
             }]
         });
     }, [room, like]);
+    const onPressDetail = useCallback((id) => {
+        navigation.navigate('RoomDetail', { id });
+    }, []);
     useEffect(() => {
         setLike(initialIsLike);
     }, [initialIsLike]);
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={ () => onPressDetail(room.id) }>
             <TouchableOpacity style={styles.LikeContainer} onPress={onPressLike}>
                 {
                     like ? (
@@ -222,6 +227,6 @@ export const RoomCard: React.FC<Props> = ({
                     <Text style={{ fontSize: 15 }}>{room?.description}</Text>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }

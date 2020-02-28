@@ -9,6 +9,7 @@ import { SECURESTORAGE_JWT } from "../constants";
 import { UserContext } from "../UserContext";
 import decode from "jwt-decode";
 import { useApolloClient } from "@apollo/react-hooks";
+import * as Device from 'expo-device';
 
 interface Props { }
 
@@ -27,32 +28,34 @@ export const AuthLoading: React.FC<Props & NavigationSwitchScreenProps> = ({
     //     }
     //   }
     // });
-    // client.writeFragment({
-    //   id: '1',
-    //   fragment: gql`
-    //     fragment me on Me {
-    //       me
-    //     }
-    //   `,
-    //   data: {
-    //     me: {
-    //       id: 1,
-    //       name: 'Groopster',
-    //       email: 'Groopster@hanmail.net'
-    //     },
-    //     __typename: 'me'
-    //   },
-    // });
+    if ( Device.osName !== 'Android' ) {
+      client.writeFragment({
+        id: '1',
+        fragment: gql`
+          fragment me on Me {
+            me
+          }
+        `,
+        data: {
+          me: {
+            id: 1,
+            name: 'Groopster',
+            email: 'Groopster@hanmail.net'
+          },
+          __typename: 'me'
+        },
+      });
+    }
     const token = await AsyncStorage.getItem('token');
     if ( _.isEmpty(token) ) {
-      navigation.navigate("RoomDetail");
+      navigation.navigate("Home2");
       return false;
     }
     const user = await SecureStore.getItemAsync(token);
     if ( _.isEmpty(user) ) {
       navigation.navigate("Login");
     } else {
-      navigation.navigate("RoomDetail");
+      navigation.navigate("Home2");
     }
   }
   useEffect(() => {
