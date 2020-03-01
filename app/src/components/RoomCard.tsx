@@ -10,6 +10,7 @@ import Swiper from 'react-native-web-swiper';
 import { UserContext } from '../UserContext';
 import { FULL_WIDTH, FULL_HEIGHT } from '../constants';
 import { Room, useCreateLikeMutation, SelectRoomsDocument, useSelectRoomsQuery } from '../../generated/graphql';
+import { AuthContext } from '../AuthProvider';
 
 interface Props {
     room: Room,
@@ -94,7 +95,7 @@ export const RoomCard: React.FC<Props> = ({
     room,
     navigation
 }) => {
-    const [state, dispatch] = useContext(UserContext);
+    const [state, dispatch] = useContext(AuthContext);
     const [createLike] = useCreateLikeMutation({
         // refetchQueries: SelectRoomsDocument
     });

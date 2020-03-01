@@ -8,6 +8,7 @@ import Swiper from "react-native-web-swiper";
 import { Avatar, Divider } from "react-native-elements";
 import { useSelectRoomQuery } from "../../generated/graphql";
 import moment from "moment";
+import { HomeStackNavProps } from "../HomeStack";
 const { height: FULL_HEIGHT, width: FULL_WIDTH } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -138,10 +139,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export const RoomDetail: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
+export function RoomDetail({ route, navigation }: HomeStackNavProps<"RoomDetail">) {
   const { data, loading } = useSelectRoomQuery({
     variables: {
-      id: parseInt(navigation.getParam('id'))
+      id: parseInt(route?.params?.id)
     }
   });
   if ( loading ) {

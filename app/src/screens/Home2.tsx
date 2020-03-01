@@ -1,125 +1,127 @@
-import React, { useState, useContext, useEffect, useMemo, useCallback } from "react";
-import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, Dimensions, Image, ScrollView, FlatList, Button, ActivityIndicator } from 'react-native';
+import React, { useState, useContext } from "react";
+import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, Dimensions, Image, ScrollView, FlatList, Button } from 'react-native';
 import { NavigationStackScreenProps } from "react-navigation-stack";
+import Modal from "react-native-modal";
+import { Ionicons } from '@expo/vector-icons';
 import _ from 'lodash';
-import * as Device from 'expo-device';
-import { useSelectRoomsQuery, Room } from "../../generated/graphql";
-import { RoomCard } from "../components/RoomCard";
+import Carousel from '../components/Carousel';
+import { Search } from '../components/Search';
+import { data } from "../constants";
 import { UserContext } from "../UserContext";
+import { useSelectRoomsQuery, useSelectAllRoomsQuery } from "../../generated/graphql";
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    paddingTop: 20
-  }
+  carousel: {
+    flex: 1,
+    backgroundColor: 'white'
+  },
+  item: {
+    borderWidth: 2,
+    backgroundColor: 'white',
+    flex: 1,
+    borderRadius: 5,
+    borderColor: 'white',
+    elevation: 3,
+  },
+  imageBackground: {
+    flex: 2,
+    backgroundColor: '#EBEBEB',
+    borderWidth: 5,
+    borderColor: 'white'
+  },
+  rightTextContainer: {
+    marginLeft: 'auto',
+    marginRight: -2,
+    backgroundColor: 'rgba(49, 49, 51,0.5)',
+    padding: 3,
+    marginTop: 3,
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5
+  },
+  rightText: { color: 'white' },
+  lowerContainer: {
+    flex: 1,
+    margin: 10
+  },
+  titleText: {
+    fontWeight: 'bold',
+    fontSize: 18
+  },
+  contentText: {
+    marginTop: 10,
+    fontSize: 12
+  },
+  CardContainer: {
+    elevation: 5,
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
+    width: '45%',
+    marginLeft: 15,
+  },
+  CardTitle: {
+    width: '100%',
+    fontWeight: 'bold',
+    fontSize: 20,
+    padding: 3
+  },
+  CardContent: {
+    width: '100%',
+    fontSize: 12,
+    padding: 3
+  },
 });
 
-export const Home2: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
+export const Home: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
+  // const [list, setList] = useState(data);
+  const [page, setPage] = useState(5);
   const [state, dispatch] = useContext(UserContext);
-  const { data, loading, fetchMore, networkStatus, refetch } = useSelectRoomsQuery({
-    variables: { skip: 0, take: 12 },
-    notifyOnNetworkStatusChange: true,
-  });
-
-  const onScroll = useCallback(() => {
-    if (Device.osName !== 'Android' && (window.scrollY + document.documentElement?.clientHeight > document.documentElement?.scrollHeight - 1)) {
-      if (data?.selectRooms) {
-        fetchMore({
-          variables: {
-            skip: 0,
-            take: data?.selectRooms.length + 4
-          },
-          updateQuery: (pv, { fetchMoreResult }) => {
-            if (!fetchMoreResult) {
-              return pv;
-            }
-            return {
-              __typename: "Room",
-              selectRooms: [
-                ...fetchMoreResult.selectRooms
-              ]
-            }
-          }
-        });
-      }
-    }
-  }, [data?.selectRooms]);
-
-  useEffect(() => {
-    if (Device.osName !== 'Android') {
-      window.addEventListener('scroll', onScroll);
-      return () => {
-        window.removeEventListener('scroll', onScroll);
-      };
-    }
-  }, [data?.selectRooms]);
-
-  // if (loading) {
-  //   return (
-  //     <View>
-  //       <ActivityIndicator size="large" color="#0000ff" />
-  //     </View>
-  //   );
-  // }
-  if (Device.osName === 'Android') {
-    return (
-      <View style={styles.container}>
-        {
-          loading && (
-            <View>
-              <ActivityIndicator size="large" color="#0000ff" />
-            </View>
-          )
-        }
+  const { data, loading, error } = useSelectAllRoomsQuery();
+  return (
+    <View>
+      <Modal
+        isVisible={state.isModalOpen}
+        backdropOpacity={1}
+        backdropColor="white"
+      >
+        <Search />
+      </Modal>
+      <Carousel />
+      <View>
         {
           <FlatList
             keyExtractor={item => item.id}
-            data={data?.selectRooms}
-            onEndReachedThreshold={1}
+            data={data?.selectAllRooms?.slice(0, page)}
+            onEndReachedThreshold={0.1}
             onEndReached={() => {
-              if (data?.selectRooms) {
-                fetchMore({
-                  variables: {
-                    skip: 0,
-                    take: data?.selectRooms.length + 4
-                  },
-                  updateQuery: (pv, { fetchMoreResult }) => {
-                    if (!fetchMoreResult) {
-                      return pv;
-                    }
-                    return {
-                      __typename: "Room",
-                      selectRooms: [
-                        ...fetchMoreResult.selectRooms
-                      ]
-                    }
-                  }
-                });
-              }
+              setPage(page + 5);
             }}
             renderItem={({ item }) => {
               return (
-                <RoomCard key={item.id} room={item as any} navigation={navigation} />
+                <View style={{ flex: 1, flexDirection: 'row', marginTop: 20 }}>
+                  <View style={styles.CardContainer}>
+                    <View style={{ position: 'absolute', right: 0, zIndex: 1 }}>
+                      <Ionicons name="md-heart-empty" size={16} color="red" />
+                    </View>
+                    <Image source={{ uri: item?.photoConnection[0]?.file }} style={{ width: "100%", height: 200, borderRadius: 4 }} />
+                    <Text style={styles.CardTitle}>{item?.name}</Text>
+                    <Text style={styles.CardContent}>{item?.description}</Text>
+                  </View>
+
+                  <View style={styles.CardContainer}>
+                    <View style={{ position: 'absolute', right: 0, zIndex: 1 }}>
+                      <Ionicons name="md-heart-empty" size={16} color="red" />
+                    </View>
+                    <Image source={{ uri: item?.photoConnection[0]?.file }} style={{ width: "100%", height: 200, borderRadius: 4 }} />
+                    <Text style={styles.CardTitle}>{item?.name}</Text>
+                    <Text style={styles.CardContent}>{item?.description}</Text>
+                  </View>
+                </View>
               );
             }}
           />
         }
       </View>
-    );
-  } else {
-    <ScrollView>
-      <View style={styles.container}>
-        {
-          data?.selectRooms?.map(room => <RoomCard key={room.id} room={room as any} navigation={navigation} />)
-        }
-        {
-          loading && (
-            <View>
-              <ActivityIndicator size="large" color="#0000ff" />
-            </View>
-          )
-        }
-      </View>
-    </ScrollView>
-  }
+    </View>
+  );
 };

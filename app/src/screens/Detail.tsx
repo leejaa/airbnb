@@ -7,6 +7,7 @@ import _ from 'lodash';
 import Swiper from 'react-native-web-swiper';
 import { UserContext } from "../UserContext";
 import { useSelectRoomsQuery, useSelectAllRoomsQuery } from "../../generated/graphql";
+import { HomeStackNavProps } from "../HomeStack";
 const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export const Detail: React.FC<NavigationStackScreenProps> = ({ navigation }) => {
+export function Detail({ route, navigation }: HomeStackNavProps<"Detail">) {
   // const [list, setList] = useState(data);
   const [page, setPage] = useState(5);
   const [state, dispatch] = useContext(UserContext);
