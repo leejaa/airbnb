@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, D
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import _ from 'lodash';
 import * as Device from 'expo-device';
+import { Ionicons, Entypo, AntDesign } from '@expo/vector-icons';
 import { useSelectRoomsQuery, Room } from "../../generated/graphql";
 import { RoomCard } from "../components/RoomCard";
 import { UserContext } from "../UserContext";
@@ -21,7 +22,7 @@ export function Home({ navigation }: HomeStackNavProps<"Home">) {
     variables: { skip: 0, take: 12 },
     notifyOnNetworkStatusChange: true,
   });
-  
+
   useEffect(() => {
     if (Device.osName !== 'Android') {
       window.addEventListener('scroll', onScroll);
@@ -31,8 +32,16 @@ export function Home({ navigation }: HomeStackNavProps<"Home">) {
     }
   }, [data?.selectRooms]);
 
+  // if ( loading ) {
+  //   return (
+  //     <View>
+  //       <Text>로딩중...</Text>
+  //     </View>
+  //   );
+  // }
   const onScroll = useCallback(() => {
-    if (Device.osName !== 'Android' && (window.scrollY + document.documentElement?.clientHeight > document.documentElement?.scrollHeight - 1)) {
+    // if (Device.osName !== 'Android' && (window.scrollY + document.documentElement?.clientHeight > document.documentElement?.scrollHeight - 1)) {
+    if (Device.osName !== 'Android') {
       if (data?.selectRooms) {
         fetchMore({
           variables: {
@@ -101,22 +110,25 @@ export function Home({ navigation }: HomeStackNavProps<"Home">) {
       </View>
     );
   } else {
-    return(
+    return (
       <ScrollView>
         <View style={styles.container}>
           {
             data?.selectRooms?.map(room => <RoomCard key={room.id} room={room as any} navigation={navigation} />)
           }
           {
-            loading && (
+            loading ? (
               <View>
                 <ActivityIndicator size="large" color="#0000ff" />
               </View>
+            ) : (
+              <TouchableOpacity onPress={ onScroll }>
+                <AntDesign name="downcircleo" size={25} />
+              </TouchableOpacity>
             )
           }
         </View>
       </ScrollView>
-
     )
   }
 };

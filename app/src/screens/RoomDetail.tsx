@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, Dimensions, Image, ScrollView, FlatList, Modal } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, Dimensions, Image, ScrollView, FlatList, Modal, ActivityIndicator } from 'react-native';
 import { NavigationStackScreenProps } from "react-navigation-stack";
 import _ from 'lodash';
 import * as Device from 'expo-device';
@@ -118,9 +118,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   avatarContainer2: {
-    borderRadius: 40,
-    height: '80%',
-    width: '15%',
+
   },
   container13: {
     width: '50%',
@@ -148,7 +146,7 @@ export function RoomDetail({ route, navigation }: HomeStackNavProps<"RoomDetail"
   if ( loading ) {
     return (
       <View>
-        <Text>로딩중...</Text>
+        <ActivityIndicator size="large" color="#0000ff" />
       </View>
     );
   }
@@ -225,11 +223,12 @@ export function RoomDetail({ route, navigation }: HomeStackNavProps<"RoomDetail"
             <View style={ styles.container14 }>
               <Text>{ data?.selectRoom?.reviews[0]?.review }</Text>
             </View>
-            <TouchableOpacity style={ styles.container15 }>
+            <TouchableOpacity style={ styles.container15 } onPress={ () => navigation.navigate("Reviews", { id: data?.selectRoom?.id } as any) }>
               <Text style={ { color: '#0F7652', fontWeight: 'bold' } }>후기 { data?.selectRoom?.reviews.length }개 모두 읽기</Text>
             </TouchableOpacity>
-            <Divider style={{ borderColor: 'gray', width: '90%', borderWidth: 0.6, marginBottom: FULL_HEIGHT / 8, marginTop: 30 }} />
+            <Divider style={{ borderColor: 'gray', width: '100%', borderWidth: 0.6, marginTop: 30 }} />
           </View>
+          <View style={ { height: 180 } } />
         </View>
       </ScrollView>
       <View style={styles.modalContainer}>

@@ -82,6 +82,7 @@
     "@types/react-native-calendars": "^1.20.7",
     "@types/react-native-modal": "^4.1.1",
     "@types/react-native-swiper": "^1.5.10",
+    "@types/react-navigation": "^3.4.0",
     "babel-preset-expo": "^7.0.0",
     "postcss-preset-env": "^6.7.0",
     "tailwindcss": "^1.1.3"

@@ -1,17 +1,21 @@
 import React, { useContext, useRef, useState, useEffect } from "react";
-import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack";
+import { createStackNavigator, StackNavigationProp, CardStyleInterpolators } from "@react-navigation/stack";
 import { Text, TouchableOpacity, FlatList, Button } from "react-native";
 import { AuthContext } from "./AuthProvider";
 import { addHomeRoutes } from "./addHomeRoutes";
 import { RouteProp } from "@react-navigation/native";
 import { Home } from "./screens/Home";
 
-interface HomeStackProps {}
+interface HomeStackProps {
+  navigation: StackNavigationProp<HomeParamList>;
+  route: any;
+}
 
 export type HomeParamList = {
   Home: undefined,
   Detail: undefined,
   RoomDetail: undefined,
+  Reviews: undefined
   routes: any
   
 };
@@ -23,18 +27,24 @@ export type HomeStackNavProps<T extends keyof HomeParamList> = {
 
 const Stack = createStackNavigator<HomeParamList>();
 
-export const HomeStack: React.FC<HomeStackProps> = ({}) => {
+export const HomeStack: React.FC<HomeStackProps> = ({navigation, route}) => {
+  if ( route.state && route.state.index > 0 ) {
+    navigation.setOptions({tabBarVisible: false} as any);
+  }
   return (
     <Stack.Navigator
       screenOptions={{
-        header: () => null
+        cardStyleInterpolator: CardStyleInterpolators.forRevealFromBottomAndroid
       }}
       initialRouteName="Home"
     >
-      {addHomeRoutes(Stack)}
+      {addHomeRoutes(Stack, navigation)}
       <Stack.Screen
         name="Home"
         component={Home}
+        options={{
+          // header: () => null
+        }}
       />
     </Stack.Navigator>
   );

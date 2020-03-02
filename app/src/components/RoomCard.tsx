@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useCallback, useState, useContext, useMemo } from 'react'
 import { View, Dimensions, StyleSheet, TouchableOpacity, Text, Platform, FlatList, TouchableHighlight, Image, Alert } from 'react-native';
 import { SearchBar } from 'react-native-elements';
-import { Ionicons, Entypo } from '@expo/vector-icons';
+import { Ionicons, Entypo, AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
 import _ from 'lodash';
 import { useApolloClient } from "@apollo/react-hooks";

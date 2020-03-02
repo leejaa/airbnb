@@ -215,27 +215,33 @@ export class RoomResolver {
   async createReviews(
   ) {
     try {
+      const users = await User.find();
       const rooms = await Room.find();
       for ( const room of rooms ) {
         await Review.create({
           review: fakeReviews[Math.floor(Math.random() * fakeReviews.length - 1)],
-          roomId: room.id
+          roomId: room.id,
+          userId: users[Math.floor(Math.random() * ( users.length - 1 ) )].id
         }).save();
         await Review.create({
           review: fakeReviews[Math.floor(Math.random() * fakeReviews.length - 1)],
-          roomId: room.id
+          roomId: room.id,
+          userId: users[Math.floor(Math.random() * ( users.length - 1 ) )].id
         }).save();
         await Review.create({
           review: fakeReviews[Math.floor(Math.random() * fakeReviews.length - 1)],
-          roomId: room.id
+          roomId: room.id,
+          userId: users[Math.floor(Math.random() * ( users.length - 1 ) )].id
         }).save();
         await Review.create({
           review: fakeReviews[Math.floor(Math.random() * fakeReviews.length - 1)],
-          roomId: room.id
+          roomId: room.id,
+          userId: users[Math.floor(Math.random() * ( users.length - 1 ) )].id
         }).save();
         await Review.create({
           review: fakeReviews[Math.floor(Math.random() * fakeReviews.length - 1)],
-          roomId: room.id
+          roomId: room.id,
+          userId: users[Math.floor(Math.random() * ( users.length - 1 ) )].id
         }).save();
       }
       return true;
