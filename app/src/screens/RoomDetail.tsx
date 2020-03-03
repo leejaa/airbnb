@@ -241,7 +241,7 @@ export function RoomDetail({ route, navigation }: HomeStackNavProps<"RoomDetail"
                     longitudeDelta: 0.0421,
                   }}
                 >
-                  <Marker 
+                  <Marker
                     coordinate={{
                       latitude: 37.78825,
                       longitude: -122.4324,

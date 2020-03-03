@@ -379,10 +379,14 @@ export class RoomResolver {
     try {
       const rooms = await Room.find();
       for ( const room of rooms ){
+        const plusMinus = [-1, 1];
+        const lat = ( ( Math.random() * 90 ) * plusMinus[Math.floor( Math.random() * 2 )] ).toFixed(1);
+        const lng = ( ( Math.random() * 180 ) * plusMinus[Math.floor( Math.random() * 2 )] ).toFixed(1);
         const result : any = await Room.findOne({
           id: room.id
         });
-        result.score = Math.floor( Math.random() * 101 );
+        result.lat = lat;
+        result.lng = lng;
         await result.save();
       }
       return true;

@@ -213,6 +213,7 @@ export type Query = {
   selectUser: User,
   me?: Maybe<User>,
   selectAllReviews: Array<Review>,
+  selectlReview: Review,
   selectAllPhotos: Array<Photo>,
   selectAllRooms: Array<Room>,
   selectRooms: Array<Room>,
@@ -224,6 +225,11 @@ export type Query = {
 
 
 export type QuerySelectUserArgs = {
+  id: Scalars['Float']
+};
+
+
+export type QuerySelectlReviewArgs = {
   id: Scalars['Float']
 };
 
@@ -361,7 +367,7 @@ export type SelectRoomsQuery = (
   { __typename?: 'Query' }
   & { selectRooms: Array<(
     { __typename?: 'Room' }
-    & Pick<Room, 'id' | 'name' | 'city' | 'address' | 'description' | 'price' | 'score'>
+    & Pick<Room, 'id' | 'name' | 'city' | 'address' | 'description' | 'price' | 'score' | 'lat' | 'lng'>
     & { photoConnection: Array<(
       { __typename?: 'Photo' }
       & Pick<Photo, 'id' | 'caption' | 'file'>
@@ -385,7 +391,7 @@ export type SelectRoomQuery = (
   { __typename?: 'Query' }
   & { selectRoom: (
     { __typename?: 'Room' }
-    & Pick<Room, 'id' | 'name' | 'city' | 'address' | 'description' | 'price' | 'score'>
+    & Pick<Room, 'id' | 'name' | 'city' | 'address' | 'description' | 'price' | 'score' | 'lat' | 'lng'>
     & { photoConnection: Array<(
       { __typename?: 'Photo' }
       & Pick<Photo, 'id' | 'caption' | 'file'>
@@ -562,6 +568,8 @@ export const SelectRoomsDocument = gql`
     description
     price
     score
+    lat
+    lng
     photoConnection {
       id
       caption
@@ -598,6 +606,8 @@ export const SelectRoomDocument = gql`
     description
     price
     score
+    lat
+    lng
     photoConnection {
       id
       caption

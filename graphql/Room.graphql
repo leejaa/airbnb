@@ -19,6 +19,8 @@ query selectRooms($skip: Float!, $take: Float!){
     description
     price
     score
+    lat
+    lng
   	photoConnection{
       id
       caption
@@ -44,6 +46,8 @@ query selectRoom($id: Float!){
     description
     price
     score
+    lat
+    lng
   	photoConnection{
       id
       caption
