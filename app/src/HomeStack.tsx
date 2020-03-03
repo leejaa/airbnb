@@ -15,7 +15,8 @@ export type HomeParamList = {
   Home: undefined,
   Detail: undefined,
   RoomDetail: undefined,
-  Reviews: undefined
+  Reviews: undefined,
+  FindReviews: undefined,
   routes: any
   
 };
@@ -38,7 +39,7 @@ export const HomeStack: React.FC<HomeStackProps> = ({navigation, route}) => {
       }}
       initialRouteName="Home"
     >
-      {addHomeRoutes(Stack, navigation)}
+      {addHomeRoutes(Stack, navigation, route)}
       <Stack.Screen
         name="Home"
         component={Home}

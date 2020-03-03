@@ -23,6 +23,12 @@ export function Home({ navigation }: HomeStackNavProps<"Home">) {
     notifyOnNetworkStatusChange: true,
   });
 
+  const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    const paddingToBottom = 20;
+    return layoutMeasurement.height + contentOffset.y >=
+      contentSize.height - paddingToBottom;
+  };
+
   useEffect(() => {
     if (Device.osName !== 'Android') {
       window.addEventListener('scroll', onScroll);
@@ -41,32 +47,38 @@ export function Home({ navigation }: HomeStackNavProps<"Home">) {
   // }
   const onScroll = useCallback(() => {
     // if (Device.osName !== 'Android' && (window.scrollY + document.documentElement?.clientHeight > document.documentElement?.scrollHeight - 1)) {
-    if (Device.osName !== 'Android') {
-      if (data?.selectRooms) {
-        fetchMore({
-          variables: {
-            skip: 0,
-            take: data?.selectRooms.length + 4
-          },
-          updateQuery: (pv, { fetchMoreResult }) => {
-            if (!fetchMoreResult) {
-              return pv;
-            }
-            return {
-              __typename: "Room",
-              selectRooms: [
-                ...fetchMoreResult.selectRooms
-              ]
-            }
-          }
-        });
+    fetchMore({
+      variables: {
+        skip: 0,
+        take: data?.selectRooms.length + 4
+      },
+      updateQuery: (pv, { fetchMoreResult }) => {
+        if (!fetchMoreResult) {
+          return pv;
+        }
+        return {
+          __typename: "Room",
+          selectRooms: [
+            ...fetchMoreResult.selectRooms
+          ]
+        }
       }
-    }
+    });
   }, [data?.selectRooms]);
 
-  if (Device.osName === 'Android') {
-    return (
+  return (
+    <ScrollView
+      onScroll={({ nativeEvent }) => {
+        if (isCloseToBottom(nativeEvent)) {
+          onScroll();
+        }
+      }}
+      scrollEventThrottle={100}
+    >
       <View style={styles.container}>
+        {
+          data?.selectRooms?.map(room => <RoomCard key={room.id} room={room as any} navigation={navigation} />)
+        }
         {
           loading && (
             <View>
@@ -74,61 +86,7 @@ export function Home({ navigation }: HomeStackNavProps<"Home">) {
             </View>
           )
         }
-        {
-          <FlatList
-            keyExtractor={item => item.id}
-            data={data?.selectRooms}
-            onEndReachedThreshold={1}
-            onEndReached={() => {
-              if (data?.selectRooms) {
-                fetchMore({
-                  variables: {
-                    skip: 0,
-                    take: data?.selectRooms.length + 4
-                  },
-                  updateQuery: (pv, { fetchMoreResult }) => {
-                    if (!fetchMoreResult) {
-                      return pv;
-                    }
-                    return {
-                      __typename: "Room",
-                      selectRooms: [
-                        ...fetchMoreResult.selectRooms
-                      ]
-                    }
-                  }
-                });
-              }
-            }}
-            renderItem={({ item }) => {
-              return (
-                <RoomCard key={item.id} room={item as any} navigation={navigation} />
-              );
-            }}
-          />
-        }
       </View>
-    );
-  } else {
-    return (
-      <ScrollView>
-        <View style={styles.container}>
-          {
-            data?.selectRooms?.map(room => <RoomCard key={room.id} room={room as any} navigation={navigation} />)
-          }
-          {
-            loading ? (
-              <View>
-                <ActivityIndicator size="large" color="#0000ff" />
-              </View>
-            ) : (
-              <TouchableOpacity onPress={ onScroll }>
-                <AntDesign name="downcircleo" size={25} />
-              </TouchableOpacity>
-            )
-          }
-        </View>
-      </ScrollView>
-    )
-  }
+    </ScrollView>
+  )
 };

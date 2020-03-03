@@ -259,6 +259,14 @@ export class RoomResolver {
     return reviews;
   }
 
+  @Query(() => Review)
+  async selectlReview(
+    @Arg("id") id: number,
+  ) {
+    const review = await Review.findOne({ id });
+    return review;
+  }
+
   @Query(() => [Photo])
   async selectAllPhotos() {
     const photos = await Photo.find({

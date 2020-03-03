@@ -56,6 +56,6 @@ export class Review extends BaseEntity {
   
   @Field(() => User)
   @ManyToOne(() => User, user => user.reviews, { nullable: true })
-  @JoinColumn({ name: "roomId" })
+  @JoinColumn({ name: "userId" })
   user: Promise<User>;
 }

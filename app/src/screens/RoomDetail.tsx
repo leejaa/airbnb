@@ -1,14 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View, ImageBackground, TextInput, TouchableOpacity, Dimensions, Image, ScrollView, FlatList, Modal, ActivityIndicator } from 'react-native';
 import { NavigationStackScreenProps } from "react-navigation-stack";
+import MapView, { Marker } from 'react-native-maps';
 import _ from 'lodash';
 import * as Device from 'expo-device';
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, Feather } from "@expo/vector-icons";
 import Swiper from "react-native-web-swiper";
 import { Avatar, Divider } from "react-native-elements";
 import { useSelectRoomQuery } from "../../generated/graphql";
 import moment from "moment";
 import { HomeStackNavProps } from "../HomeStack";
+import { AuthContext } from "../AuthProvider";
 const { height: FULL_HEIGHT, width: FULL_WIDTH } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -134,16 +136,35 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '20%',
     marginTop: 8
+  },
+  container16: {
+    width: '100%',
+    height: 200,
+    marginTop: 30,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  container17: {
+    borderRadius: 15,
+    backgroundColor: '#0F7652',
+    width: 30,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 
 export function RoomDetail({ route, navigation }: HomeStackNavProps<"RoomDetail">) {
+  const [state, dispatch] = useContext(AuthContext);
   const { data, loading } = useSelectRoomQuery({
     variables: {
       id: parseInt(route?.params?.id)
     }
   });
-  if ( loading ) {
+  useEffect(() => {
+    dispatch({ type: 'setRoomId', value: route?.params?.id });
+  }, []);
+  if (loading) {
     return (
       <View>
         <ActivityIndicator size="large" color="#0000ff" />
@@ -170,7 +191,7 @@ export function RoomDetail({ route, navigation }: HomeStackNavProps<"RoomDetail"
               {
                 data?.selectRoom?.photoConnection?.map(photo => (
                   <Image
-                    key={ photo.id }
+                    key={photo.id}
                     source={{ uri: photo.file }}
                     style={{ width: '100%', height: '100%' }}
                   />
@@ -181,10 +202,10 @@ export function RoomDetail({ route, navigation }: HomeStackNavProps<"RoomDetail"
         </View>
         <View style={styles.container5}>
           <View style={styles.container6}>
-            <Text style={{ fontWeight: 'bold', fontSize: 30 }}>{ data?.selectRoom?.name }</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: 30 }}>{data?.selectRoom?.name}</Text>
           </View>
           <View style={styles.container7}>
-            <Text style={{ color: 'gray', fontSize: 15 }}>{ data?.selectRoom?.description }</Text>
+            <Text style={{ color: 'gray', fontSize: 15 }}>{data?.selectRoom?.description}</Text>
             <Avatar
               rounded
               source={{
@@ -195,7 +216,7 @@ export function RoomDetail({ route, navigation }: HomeStackNavProps<"RoomDetail"
             />
           </View>
           <View style={styles.container8}>
-            <Text>{ data?.selectRoom?.description }</Text>
+            <Text>{data?.selectRoom?.description}</Text>
           </View>
           <Divider style={{ borderColor: 'gray', width: '90%', borderWidth: 0.6 }} />
           <View style={styles.container9}>
@@ -205,30 +226,60 @@ export function RoomDetail({ route, navigation }: HomeStackNavProps<"RoomDetail"
             <Text>번역 번역 번역 번역 번역 번역</Text>
           </View>
           <Divider style={{ borderColor: 'gray', width: '90%', borderWidth: 0.6 }} />
+          <View style={styles.container9}>
+            <Text style={{ color: '#0F7652', fontWeight: 'bold' }}>숙소위치</Text>
+          </View>
+          {
+            Device.osName === 'Android' && (
+              <View style={styles.container16}>
+                <MapView
+                  style={{ width: '100%', height: '100%' }}
+                  region={{
+                    latitude: 37.78825,
+                    longitude: -122.4324,
+                    latitudeDelta: 0.0022,
+                    longitudeDelta: 0.0421,
+                  }}
+                >
+                  <Marker 
+                    coordinate={{
+                      latitude: 37.78825,
+                      longitude: -122.4324,
+                    }}
+                  >
+                    <View style={ styles.container17 }>
+                      <Feather name="home" size={20} color="white" />
+                    </View>
+                  </Marker>
+                </MapView>
+              </View>
+            )
+          }
+          <Divider style={{ borderColor: 'gray', width: '90%', borderWidth: 0.6 }} />
           <View style={styles.container11}>
             <View style={styles.container12}>
               <Avatar
                 rounded
                 source={{
                   uri:
-                  data?.selectRoom?.reviews[0]?.user?.avatar,
+                    data?.selectRoom?.reviews[0]?.user?.avatar,
                 }}
                 containerStyle={styles.avatarContainer2}
               />
-              <View style={ styles.container13 }>
-                <Text style={ { fontWeight: 'bold' } }>{ data?.selectRoom?.reviews[0]?.user?.name }</Text>
-                <Text style={ { color: 'gray' } }>{ moment(_.replace(data?.selectRoom?.reviews[0]?.createdAt, /"/g, '')).format('YYYY년 MM월') }</Text>
+              <View style={styles.container13}>
+                <Text style={{ fontWeight: 'bold' }}>{data?.selectRoom?.reviews[0]?.user?.name}</Text>
+                <Text style={{ color: 'gray' }}>{moment(_.replace(data?.selectRoom?.reviews[0]?.createdAt, /"/g, '')).format('YYYY년 MM월')}</Text>
               </View>
             </View>
-            <View style={ styles.container14 }>
-              <Text>{ data?.selectRoom?.reviews[0]?.review }</Text>
+            <View style={styles.container14}>
+              <Text>{data?.selectRoom?.reviews[0]?.review}</Text>
             </View>
-            <TouchableOpacity style={ styles.container15 } onPress={ () => navigation.navigate("Reviews", { id: data?.selectRoom?.id } as any) }>
-              <Text style={ { color: '#0F7652', fontWeight: 'bold' } }>후기 { data?.selectRoom?.reviews.length }개 모두 읽기</Text>
+            <TouchableOpacity style={styles.container15} onPress={() => navigation.navigate("Reviews", { id: data?.selectRoom?.id } as any)}>
+              <Text style={{ color: '#0F7652', fontWeight: 'bold' }}>후기 {data?.selectRoom?.reviews.length}개 모두 읽기</Text>
             </TouchableOpacity>
             <Divider style={{ borderColor: 'gray', width: '100%', borderWidth: 0.6, marginTop: 30 }} />
           </View>
-          <View style={ { height: 180 } } />
+          <View style={{ height: 180 }} />
         </View>
       </ScrollView>
       <View style={styles.modalContainer}>

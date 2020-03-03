@@ -4,9 +4,11 @@ import _ from 'lodash';
 import { Ionicons, Entypo, AntDesign } from '@expo/vector-icons';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { HomeParamList } from '../HomeStack';
+import { RouteProp } from '@react-navigation/native';
 
 interface Props {
     navigation: StackNavigationProp<HomeParamList>;
+    route: any
 }
 
 const styles = StyleSheet.create({
@@ -14,17 +16,19 @@ const styles = StyleSheet.create({
 });
 
 export const HeaderRight: React.FC<Props> = ({
-    navigation
+    navigation,
+    route
 }) => {
     
     return (
-        <View style={ { marginRight: 10 } }>
+        <TouchableOpacity style={ { marginRight: 10 } } onPress={ () => navigation.navigate("FindReviews") }>
             <AntDesign name="search1" size={20}/>
-        </View>
+        </TouchableOpacity>
     );
 }
 export const HeaderLeft: React.FC<Props> = ({
-    navigation
+    navigation,
+    route
 }) => {
     const onPress = () => {
         try {

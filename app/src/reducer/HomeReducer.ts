@@ -4,7 +4,8 @@ import _ from 'lodash';
 export const initialState = {
     isModalOpen: false,
     user: {},
-    selectRooms: []
+    selectRooms: [],
+    roomId: ''
 }
 
 export const homeReducer = (state, action) => {
@@ -17,6 +18,9 @@ export const homeReducer = (state, action) => {
     }
     case 'setSelectRooms': {
       return { ...state, selectRooms: action.value };
+    }
+    case 'setRoomId': {
+      return { ...state, roomId: action.value };
     }
     default: {
       throw new Error(`unexpected action.type: ${action.type}`)
