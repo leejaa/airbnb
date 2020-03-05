@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -419,8 +419,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/scss/room.scss */ "./assets/scss/room.scss");
 /* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! next/router */ "next/router");
+/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_4__);
 var _jsxFileName = "/Users/leejahun/practice/airbnb/web/components/RoomCard.tsx";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+
 
 
 
@@ -457,6 +460,14 @@ const RoomCard = ({
         break;
     }
   }, []);
+  const goDetail = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
+    next_router__WEBPACK_IMPORTED_MODULE_4___default.a.push({
+      pathname: '/roomDetail',
+      query: {
+        id: room === null || room === void 0 ? void 0 : room.id
+      }
+    });
+  }, []);
   return __jsx("div", {
     className: `w-${width} mb-10 px-2 overflow-hidden`,
     style: {
@@ -464,9 +475,10 @@ const RoomCard = ({
     },
     onMouseOver: () => setIsShowArrow(true),
     onMouseLeave: () => setIsShowArrow(false),
+    onClick: goDetail,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 32
+      lineNumber: 41
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_2__["Carousel"], {
@@ -474,14 +486,14 @@ const RoomCard = ({
     autoplay: true,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 33
+      lineNumber: 48
     },
     __self: undefined
   }, room === null || room === void 0 ? void 0 : room.photoConnection.map((photo, index) => __jsx("div", {
     key: index,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 39
+      lineNumber: 54
     },
     __self: undefined
   }, __jsx("div", {
@@ -491,7 +503,7 @@ const RoomCard = ({
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 40
+      lineNumber: 55
     },
     __self: undefined
   })))), __jsx("div", {
@@ -515,7 +527,7 @@ const RoomCard = ({
     onMouseLeave: () => setIsHoverArrowLeft(false),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 45
+      lineNumber: 60
     },
     __self: undefined
   }, __jsx("div", {
@@ -525,7 +537,7 @@ const RoomCard = ({
     onClick: () => fnNextPrev('left'),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 54
+      lineNumber: 69
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_2__["Icon"], {
@@ -537,7 +549,7 @@ const RoomCard = ({
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 54
+      lineNumber: 69
     },
     __self: undefined
   }))), __jsx("div", {
@@ -561,7 +573,7 @@ const RoomCard = ({
     onMouseLeave: () => setIsHoverArrowRight(false),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 56
+      lineNumber: 71
     },
     __self: undefined
   }, __jsx("div", {
@@ -571,7 +583,7 @@ const RoomCard = ({
     onClick: () => fnNextPrev('right'),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 66
+      lineNumber: 81
     },
     __self: undefined
   }, __jsx(antd__WEBPACK_IMPORTED_MODULE_2__["Icon"], {
@@ -583,56 +595,56 @@ const RoomCard = ({
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 66
+      lineNumber: 81
     },
     __self: undefined
   }))), __jsx("div", {
     className: "flex justify-between mb-2 truncate",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 68
+      lineNumber: 83
     },
     __self: undefined
   }, __jsx("div", {
     className: "w-4/5 overflow-hidden flex",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 69
+      lineNumber: 84
     },
     __self: undefined
   }, room.name, __jsx("span", {
     className: "mr-2 uppercase font-medium text-xs border border-black text-black rounded py-px px-1",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 71
+      lineNumber: 86
     },
     __self: undefined
   }, "\uC9D1\uC8FC\uC778"), __jsx("span", {
     className: "text-sm text-gray-600 block truncate",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 72
+      lineNumber: 87
     },
     __self: undefined
   }, `${room.city} ${room.address}`)), __jsx("span", {
     className: "text-sm flex items-center",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 74
+      lineNumber: 89
     },
     __self: undefined
   }, __jsx("i", {
     className: "fas fa-star text-red-500 text-xs mr-1",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 75
+      lineNumber: 90
     },
     __self: undefined
   }), " ", room.price)), __jsx("span", {
     className: "text-black w-11/12 block truncate",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 78
+      lineNumber: 93
     },
     __self: undefined
   }, room.description));
@@ -999,7 +1011,7 @@ const RoomSlide = ({}) => {
 /*!*******************************!*\
   !*** ./generated/graphql.tsx ***!
   \*******************************/
-/*! exports provided: SelectRoomsDocument, useSelectRoomsQuery, useSelectRoomsLazyQuery, SelectTopRoomsDocument, useSelectTopRoomsQuery, useSelectTopRoomsLazyQuery, SelectAllRoomsDocument, useSelectAllRoomsQuery, useSelectAllRoomsLazyQuery, CreateRoomDocument, useCreateRoomMutation, LoginDocument, useLoginMutation, LogoutDocument, useLogoutMutation, MeDocument, useMeQuery, useMeLazyQuery, RegisterDocument, useRegisterMutation, RequestAuthEmailDocument, useRequestAuthEmailMutation, NewEmailDocument, useNewEmailSubscription, UsersDocument, useUsersQuery, useUsersLazyQuery */
+/*! exports provided: SelectRoomsDocument, useSelectRoomsQuery, useSelectRoomsLazyQuery, SelectRoomDocument, useSelectRoomQuery, useSelectRoomLazyQuery, SelectTopRoomsDocument, useSelectTopRoomsQuery, useSelectTopRoomsLazyQuery, SelectAllRoomsDocument, useSelectAllRoomsQuery, useSelectAllRoomsLazyQuery, CreateRoomDocument, useCreateRoomMutation, CreateLikeDocument, useCreateLikeMutation, LoginDocument, useLoginMutation, LogoutDocument, useLogoutMutation, MeDocument, useMeQuery, useMeLazyQuery, RegisterDocument, useRegisterMutation, RequestAuthEmailDocument, useRequestAuthEmailMutation, NewEmailDocument, useNewEmailSubscription, UsersDocument, useUsersQuery, useUsersLazyQuery */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1007,6 +1019,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectRoomsDocument", function() { return SelectRoomsDocument; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useSelectRoomsQuery", function() { return useSelectRoomsQuery; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useSelectRoomsLazyQuery", function() { return useSelectRoomsLazyQuery; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectRoomDocument", function() { return SelectRoomDocument; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useSelectRoomQuery", function() { return useSelectRoomQuery; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useSelectRoomLazyQuery", function() { return useSelectRoomLazyQuery; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectTopRoomsDocument", function() { return SelectTopRoomsDocument; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useSelectTopRoomsQuery", function() { return useSelectTopRoomsQuery; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useSelectTopRoomsLazyQuery", function() { return useSelectTopRoomsLazyQuery; });
@@ -1015,6 +1030,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useSelectAllRoomsLazyQuery", function() { return useSelectAllRoomsLazyQuery; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CreateRoomDocument", function() { return CreateRoomDocument; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useCreateRoomMutation", function() { return useCreateRoomMutation; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CreateLikeDocument", function() { return CreateLikeDocument; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useCreateLikeMutation", function() { return useCreateLikeMutation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginDocument", function() { return LoginDocument; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useLoginMutation", function() { return useLoginMutation; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LogoutDocument", function() { return LogoutDocument; });
@@ -1046,10 +1063,21 @@ const SelectRoomsDocument = graphql_tag__WEBPACK_IMPORTED_MODULE_0___default.a`
     address
     description
     price
+    score
+    lat
+    lng
     photoConnection {
       id
       caption
       file
+    }
+    likeUsers {
+      id
+      user {
+        id
+        name
+        email
+      }
     }
   }
 }
@@ -1059,6 +1087,55 @@ function useSelectRoomsQuery(baseOptions) {
 }
 function useSelectRoomsLazyQuery(baseOptions) {
   return _apollo_react_hooks__WEBPACK_IMPORTED_MODULE_1__["useLazyQuery"](SelectRoomsDocument, baseOptions);
+}
+const SelectRoomDocument = graphql_tag__WEBPACK_IMPORTED_MODULE_0___default.a`
+    query selectRoom($id: Float!) {
+  selectRoom(id: $id) {
+    id
+    name
+    city
+    address
+    description
+    price
+    score
+    lat
+    lng
+    photoConnection {
+      id
+      caption
+      file
+    }
+    likeUsers {
+      id
+      user {
+        id
+        name
+        email
+      }
+    }
+    user {
+      id
+      name
+      avatar
+    }
+    reviews {
+      id
+      review
+      createdAt
+      user {
+        id
+        name
+        avatar
+      }
+    }
+  }
+}
+    `;
+function useSelectRoomQuery(baseOptions) {
+  return _apollo_react_hooks__WEBPACK_IMPORTED_MODULE_1__["useQuery"](SelectRoomDocument, baseOptions);
+}
+function useSelectRoomLazyQuery(baseOptions) {
+  return _apollo_react_hooks__WEBPACK_IMPORTED_MODULE_1__["useLazyQuery"](SelectRoomDocument, baseOptions);
 }
 const SelectTopRoomsDocument = graphql_tag__WEBPACK_IMPORTED_MODULE_0___default.a`
     query selectTopRooms {
@@ -1125,6 +1202,14 @@ const CreateRoomDocument = graphql_tag__WEBPACK_IMPORTED_MODULE_0___default.a`
     `;
 function useCreateRoomMutation(baseOptions) {
   return _apollo_react_hooks__WEBPACK_IMPORTED_MODULE_1__["useMutation"](CreateRoomDocument, baseOptions);
+}
+const CreateLikeDocument = graphql_tag__WEBPACK_IMPORTED_MODULE_0___default.a`
+    mutation createLike($userId: Float!, $roomId: Float!) {
+  createLike(userId: $userId, roomId: $roomId)
+}
+    `;
+function useCreateLikeMutation(baseOptions) {
+  return _apollo_react_hooks__WEBPACK_IMPORTED_MODULE_1__["useMutation"](CreateLikeDocument, baseOptions);
 }
 const LoginDocument = graphql_tag__WEBPACK_IMPORTED_MODULE_0___default.a`
     mutation Login($email: String!, $password: String!) {
@@ -6933,7 +7018,7 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 /***/ }),
 
-/***/ 3:
+/***/ 5:
 /*!*******************************!*\
   !*** multi ./pages/index.tsx ***!
   \*******************************/

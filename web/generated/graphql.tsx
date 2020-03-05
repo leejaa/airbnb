@@ -47,6 +47,13 @@ export type EmailInput = {
 };
 
 
+export type Like = {
+   __typename?: 'Like',
+  id: Scalars['ID'],
+  user: User,
+  room: Room,
+};
+
 export type List = {
    __typename?: 'List',
   id: Scalars['Int'],
@@ -85,18 +92,25 @@ export type Mutation = {
   register: Scalars['Boolean'],
   registerFake: Scalars['Boolean'],
   updateUser: Scalars['Boolean'],
+  updateAllUser: Scalars['Boolean'],
   deleteUser: Scalars['Boolean'],
   push: Scalars['Boolean'],
   createRoom: Room,
   createFakeRoom: Room,
   createPhoto: Photo,
   createFakePhoto: Photo,
+  createFakeLike: Scalars['Boolean'],
+  createLike: Scalars['Boolean'],
+  createReviews: Scalars['Boolean'],
   updateRoom: Room,
   updateAllRooms: Scalars['Boolean'],
+  updateAllReviews: Scalars['Boolean'],
   deleteAllRooms: Scalars['Boolean'],
   deleteRoom: Scalars['Boolean'],
   deleteAllPhotos: Scalars['Boolean'],
   deletePhoto: Scalars['Boolean'],
+  deleteAllLikes: Scalars['Boolean'],
+  deleteAllReviews: Scalars['Boolean'],
   addNewComment: Scalars['Boolean'],
   requestAuthEmail: Scalars['Boolean'],
   sendAuthEmail: Scalars['Boolean'],
@@ -134,6 +148,12 @@ export type MutationCreateRoomArgs = {
 
 export type MutationCreatePhotoArgs = {
   options: PhotoInput
+};
+
+
+export type MutationCreateLikeArgs = {
+  roomId: Scalars['Float'],
+  userId: Scalars['Float']
 };
 
 
@@ -190,10 +210,14 @@ export type Query = {
   users: Array<User>,
   selectUser: User,
   me?: Maybe<User>,
+  selectAllReviews: Array<Review>,
+  selectlReview: Review,
   selectAllPhotos: Array<Photo>,
   selectAllRooms: Array<Room>,
   selectRooms: Array<Room>,
+  selectRoom: Room,
   selectTopRooms: Array<Room>,
+  selectAllLikes: Array<Like>,
   recipe?: Maybe<Recipe>,
 };
 
@@ -203,9 +227,19 @@ export type QuerySelectUserArgs = {
 };
 
 
+export type QuerySelectlReviewArgs = {
+  id: Scalars['Float']
+};
+
+
 export type QuerySelectRoomsArgs = {
   take: Scalars['Float'],
   skip: Scalars['Float']
+};
+
+
+export type QuerySelectRoomArgs = {
+  id: Scalars['Float']
 };
 
 
@@ -242,8 +276,9 @@ export type Review = {
   location: Scalars['Int'],
   check_in: Scalars['Int'],
   value: Scalars['Int'],
-  user: Scalars['JSON'],
-  room: Scalars['JSON'],
+  room: Room,
+  createdAt: Scalars['String'],
+  user: User,
 };
 
 export type Room = {
@@ -273,6 +308,8 @@ export type Room = {
   lng: Scalars['Float'],
   photoConnection: Array<Photo>,
   user: User,
+  likeUsers: Array<Like>,
+  reviews: Array<Review>,
 };
 
 export type RoomInput = {
@@ -310,6 +347,8 @@ export type User = {
   login_method: Scalars['String'],
   tokenVersion: Scalars['String'],
   roomConnection: Array<Room>,
+  likeRooms: Array<Like>,
+  reviews: Array<Review>,
 };
 
 export type UserInput = {
@@ -326,12 +365,53 @@ export type SelectRoomsQuery = (
   { __typename?: 'Query' }
   & { selectRooms: Array<(
     { __typename?: 'Room' }
-    & Pick<Room, 'id' | 'name' | 'city' | 'address' | 'description' | 'price'>
+    & Pick<Room, 'id' | 'name' | 'city' | 'address' | 'description' | 'price' | 'score' | 'lat' | 'lng'>
     & { photoConnection: Array<(
       { __typename?: 'Photo' }
       & Pick<Photo, 'id' | 'caption' | 'file'>
+    )>, likeUsers: Array<(
+      { __typename?: 'Like' }
+      & Pick<Like, 'id'>
+      & { user: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'name' | 'email'>
+      ) }
     )> }
   )> }
+);
+
+export type SelectRoomQueryVariables = {
+  id: Scalars['Float']
+};
+
+
+export type SelectRoomQuery = (
+  { __typename?: 'Query' }
+  & { selectRoom: (
+    { __typename?: 'Room' }
+    & Pick<Room, 'id' | 'name' | 'city' | 'address' | 'description' | 'price' | 'score' | 'lat' | 'lng'>
+    & { photoConnection: Array<(
+      { __typename?: 'Photo' }
+      & Pick<Photo, 'id' | 'caption' | 'file'>
+    )>, likeUsers: Array<(
+      { __typename?: 'Like' }
+      & Pick<Like, 'id'>
+      & { user: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'name' | 'email'>
+      ) }
+    )>, user: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name' | 'avatar'>
+    ), reviews: Array<(
+      { __typename?: 'Review' }
+      & Pick<Review, 'id' | 'review' | 'createdAt'>
+      & { user: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'name' | 'avatar'>
+      ) }
+    )> }
+  ) }
 );
 
 export type SelectTopRoomsQueryVariables = {};
@@ -375,6 +455,17 @@ export type CreateRoomMutation = (
     { __typename?: 'Room' }
     & Pick<Room, 'id' | 'houseType' | 'houseRadio' | 'convenience' | 'dates' | 'lat' | 'lng' | 'address' | 'post_code'>
   ) }
+);
+
+export type CreateLikeMutationVariables = {
+  userId: Scalars['Float'],
+  roomId: Scalars['Float']
+};
+
+
+export type CreateLikeMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'createLike'>
 );
 
 export type LoginMutationVariables = {
@@ -474,10 +565,21 @@ export const SelectRoomsDocument = gql`
     address
     description
     price
+    score
+    lat
+    lng
     photoConnection {
       id
       caption
       file
+    }
+    likeUsers {
+      id
+      user {
+        id
+        name
+        email
+      }
     }
   }
 }
@@ -492,6 +594,59 @@ export const SelectRoomsDocument = gql`
       
 export type SelectRoomsQueryHookResult = ReturnType<typeof useSelectRoomsQuery>;
 export type SelectRoomsQueryResult = ApolloReactCommon.QueryResult<SelectRoomsQuery, SelectRoomsQueryVariables>;
+export const SelectRoomDocument = gql`
+    query selectRoom($id: Float!) {
+  selectRoom(id: $id) {
+    id
+    name
+    city
+    address
+    description
+    price
+    score
+    lat
+    lng
+    photoConnection {
+      id
+      caption
+      file
+    }
+    likeUsers {
+      id
+      user {
+        id
+        name
+        email
+      }
+    }
+    user {
+      id
+      name
+      avatar
+    }
+    reviews {
+      id
+      review
+      createdAt
+      user {
+        id
+        name
+        avatar
+      }
+    }
+  }
+}
+    `;
+
+    export function useSelectRoomQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<SelectRoomQuery, SelectRoomQueryVariables>) {
+      return ApolloReactHooks.useQuery<SelectRoomQuery, SelectRoomQueryVariables>(SelectRoomDocument, baseOptions);
+    }
+      export function useSelectRoomLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<SelectRoomQuery, SelectRoomQueryVariables>) {
+        return ApolloReactHooks.useLazyQuery<SelectRoomQuery, SelectRoomQueryVariables>(SelectRoomDocument, baseOptions);
+      }
+      
+export type SelectRoomQueryHookResult = ReturnType<typeof useSelectRoomQuery>;
+export type SelectRoomQueryResult = ApolloReactCommon.QueryResult<SelectRoomQuery, SelectRoomQueryVariables>;
 export const SelectTopRoomsDocument = gql`
     query selectTopRooms {
   selectTopRooms {
@@ -571,6 +726,19 @@ export type CreateRoomMutationFn = ApolloReactCommon.MutationFunction<CreateRoom
 export type CreateRoomMutationHookResult = ReturnType<typeof useCreateRoomMutation>;
 export type CreateRoomMutationResult = ApolloReactCommon.MutationResult<CreateRoomMutation>;
 export type CreateRoomMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateRoomMutation, CreateRoomMutationVariables>;
+export const CreateLikeDocument = gql`
+    mutation createLike($userId: Float!, $roomId: Float!) {
+  createLike(userId: $userId, roomId: $roomId)
+}
+    `;
+export type CreateLikeMutationFn = ApolloReactCommon.MutationFunction<CreateLikeMutation, CreateLikeMutationVariables>;
+
+    export function useCreateLikeMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateLikeMutation, CreateLikeMutationVariables>) {
+      return ApolloReactHooks.useMutation<CreateLikeMutation, CreateLikeMutationVariables>(CreateLikeDocument, baseOptions);
+    }
+export type CreateLikeMutationHookResult = ReturnType<typeof useCreateLikeMutation>;
+export type CreateLikeMutationResult = ApolloReactCommon.MutationResult<CreateLikeMutation>;
+export type CreateLikeMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateLikeMutation, CreateLikeMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {

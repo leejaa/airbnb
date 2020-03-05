@@ -294,6 +294,10 @@ img,video{
   }
 }
 
+html body{
+  height:100%
+}
+
 .search-box{
   -webkit-transition:box-shadow .2s linear;
   transition:box-shadow .2s linear
@@ -90159,10 +90163,6 @@ div.ant-typography-edit-content {
     opacity: 0;
   }
 }
-.test {
-  font-weight: bold;
-}
-
 .ant-fullcalendar-fullscreen .ant-fullcalendar-month-panel-selected-cell .ant-fullcalendar-month, .ant-fullcalendar-fullscreen .ant-fullcalendar-selected-day .ant-fullcalendar-date {
   background-color: #dfdddd;
 }
@@ -90241,6 +90241,12 @@ div.ant-typography-edit-content {
   height: 5px;
   border-radius: 50% !important;
   margin-top: 1.5px;
+}
+
+.roomdetail-container1 {
+  width: 100%;
+  height: 50%;
+  background-color: black;
 }
 
 @font-face{

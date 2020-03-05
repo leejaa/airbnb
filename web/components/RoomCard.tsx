@@ -3,6 +3,7 @@ import { Room } from "../generated/graphql";
 import 'antd/dist/antd.css';
 import { Carousel, Icon } from 'antd';
 import '../assets/scss/room.scss';
+import Router from 'next/router'
 type Props = {
     room: Room,
     width: string
@@ -28,8 +29,22 @@ const RoomCard: React.FunctionComponent<Props> = ({
                 break;
         }
     }, []);
+    const goDetail = useCallback(() => {
+        Router.push({
+            pathname: '/roomDetail',
+            query: {
+                id: room?.id
+            }
+        });
+    }, []);
     return (
-        <div className={`w-${width} mb-10 px-2 overflow-hidden`} style={{ position: 'relative' }} onMouseOver={() => setIsShowArrow(true)} onMouseLeave={() => setIsShowArrow(false)}>
+        <div
+            className={`w-${width} mb-10 px-2 overflow-hidden`}
+            style={{ position: 'relative' }} 
+            onMouseOver={() => setIsShowArrow(true)} 
+            onMouseLeave={() => setIsShowArrow(false)}
+            onClick={goDetail}
+            >
             <Carousel
                 ref={carouselRef}
                 autoplay={true}
