@@ -4,11 +4,11 @@ import Cookie from "js-cookie";
 import Layout from "../components/Layout";
 import '../assets/scss/room.scss';
 import RoomList from "../components/RoomList";
+import RoomdetailPicture from "../components/RoomdetailPicture";
 import { useSelectRoomQuery } from "../generated/graphql";
 const isServer = () => typeof window === "undefined";
-
+const initialHeight = 800;
 export default () => {
-    const [ height, setHeight ] = useState(0);
     const router: any = useRouter();
     const { data, loading } = useSelectRoomQuery({
         variables: {
@@ -20,14 +20,13 @@ export default () => {
             <div>로딩중...</div>
         );
     }
-    if ( !isServer() && height === 0 ) {
-        setHeight(window.innerHeight);
-    }
-    console.log('height', height);
     return (
-        <div style={ { height: `${height}px` } }>
+        <div style={ { height: `${isServer() ? initialHeight : window.innerHeight}px` } }>
             <div className="roomdetail-container1">
 
+            </div>
+            <div className="roomdetail-container2">
+                <RoomdetailPicture room={data?.selectRoom as any}/>
             </div>
         </div>
     );

@@ -104,6 +104,109 @@ module.exports =
 
 /***/ }),
 
+/***/ "./components/RoomdetailPicture.tsx":
+/*!******************************************!*\
+  !*** ./components/RoomdetailPicture.tsx ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-bootstrap/Carousel */ "react-bootstrap/Carousel");
+/* harmony import */ var react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
+/* harmony import */ var bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/scss/room.scss */ "./assets/scss/room.scss");
+/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3__);
+var _jsxFileName = "/Users/leejahun/practice/airbnb/web/components/RoomdetailPicture.tsx";
+var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+
+
+
+
+
+const RoomdetailPicture = ({
+  room
+}) => {
+  const {
+    0: index,
+    1: setIndex
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(0);
+  const {
+    0: direction,
+    1: setDirection
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null);
+
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+    setDirection(e.direction);
+  };
+
+  return __jsx("div", {
+    className: "roomdetail-container4",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 21
+    },
+    __self: undefined
+  }, __jsx(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_1___default.a, {
+    activeIndex: index,
+    onSelect: handleSelect,
+    interval: null,
+    touch: true,
+    indicators: false,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 22
+    },
+    __self: undefined
+  }, room === null || room === void 0 ? void 0 : room.photoConnection.map(photo => __jsx(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_1___default.a.Item, {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 31
+    },
+    __self: undefined
+  }, __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 32
+    },
+    __self: undefined
+  }, __jsx("div", {
+    style: {
+      width: '100%',
+      height: '260px',
+      backgroundImage: `url("${photo.file}")`
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 33
+    },
+    __self: undefined
+  }))))), __jsx("div", {
+    className: "roomdetail-container5",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 39
+    },
+    __self: undefined
+  }, __jsx("span", {
+    className: "roomdetail-span1",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 40
+    },
+    __self: undefined
+  }, `${index}/${room === null || room === void 0 ? void 0 : room.photoConnection.length}`)));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (RoomdetailPicture);
+
+/***/ }),
+
 /***/ "./generated/graphql.tsx":
 /*!*******************************!*\
   !*** ./generated/graphql.tsx ***!
@@ -875,6 +978,17 @@ $export($export.G + $export.F * (parseInt != $parseInt), { parseInt: $parseInt }
 
 /***/ }),
 
+/***/ "./node_modules/bootstrap/dist/css/bootstrap.min.css":
+/*!***********************************************************!*\
+  !*** ./node_modules/bootstrap/dist/css/bootstrap.min.css ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
 /***/ "./pages/roomDetail.tsx":
 /*!******************************!*\
   !*** ./pages/roomDetail.tsx ***!
@@ -892,7 +1006,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/scss/room.scss */ "./assets/scss/room.scss");
 /* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _generated_graphql__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../generated/graphql */ "./generated/graphql.tsx");
+/* harmony import */ var _components_RoomdetailPicture__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/RoomdetailPicture */ "./components/RoomdetailPicture.tsx");
+/* harmony import */ var _generated_graphql__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../generated/graphql */ "./generated/graphql.tsx");
 
 var _jsxFileName = "/Users/leejahun/practice/airbnb/web/pages/roomDetail.tsx";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
@@ -901,20 +1016,18 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
 
 
 
+
 const isServer = () => true;
 
+const initialHeight = 800;
 /* harmony default export */ __webpack_exports__["default"] = (() => {
   var _router$query;
 
-  const {
-    0: height,
-    1: setHeight
-  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(0);
   const router = Object(next_router__WEBPACK_IMPORTED_MODULE_2__["useRouter"])();
   const {
     data,
     loading
-  } = Object(_generated_graphql__WEBPACK_IMPORTED_MODULE_4__["useSelectRoomQuery"])({
+  } = Object(_generated_graphql__WEBPACK_IMPORTED_MODULE_5__["useSelectRoomQuery"])({
     variables: {
       id: _babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_0___default()(router === null || router === void 0 ? void 0 : (_router$query = router.query) === null || _router$query === void 0 ? void 0 : _router$query.id)
     }
@@ -930,28 +1043,37 @@ const isServer = () => true;
     }, "\uB85C\uB529\uC911...");
   }
 
-  if (!isServer() && height === 0) {
-    setHeight(window.innerHeight);
-  }
-
-  console.log('height', height);
   return __jsx("div", {
     style: {
-      height: `${height}px`
+      height: `${isServer() ? initialHeight : window.innerHeight}px`
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 28
+      lineNumber: 24
     },
     __self: undefined
   }, __jsx("div", {
     className: "roomdetail-container1",
     __source: {
       fileName: _jsxFileName,
+      lineNumber: 25
+    },
+    __self: undefined
+  }), __jsx("div", {
+    className: "roomdetail-container2",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 28
+    },
+    __self: undefined
+  }, __jsx(_components_RoomdetailPicture__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    room: data === null || data === void 0 ? void 0 : data.selectRoom,
+    __source: {
+      fileName: _jsxFileName,
       lineNumber: 29
     },
     __self: undefined
-  }));
+  })));
 });
 
 /***/ }),
@@ -1009,6 +1131,17 @@ module.exports = require("next/router");
 /***/ (function(module, exports) {
 
 module.exports = require("react");
+
+/***/ }),
+
+/***/ "react-bootstrap/Carousel":
+/*!*******************************************!*\
+  !*** external "react-bootstrap/Carousel" ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("react-bootstrap/Carousel");
 
 /***/ })
 
