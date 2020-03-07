@@ -104,6 +104,66 @@ module.exports =
 
 /***/ }),
 
+/***/ "./components/Calendar.tsx":
+/*!*********************************!*\
+  !*** ./components/Calendar.tsx ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! antd */ "antd");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
+/* harmony import */ var bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/scss/room.scss */ "./assets/scss/room.scss");
+/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3__);
+var _jsxFileName = "/Users/leejahun/practice/airbnb/web/components/Calendar.tsx";
+var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+
+
+
+
+
+const Calendars = ({}) => {
+  const dateCellRender = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(date => {
+    return __jsx("div", {
+      className: "calendar-container2",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 14
+      },
+      __self: undefined
+    });
+  }, []);
+  const dateFullCellRender = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(date => {
+    return __jsx("div", {
+      className: "calendar-container1",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 21
+      },
+      __self: undefined
+    });
+  }, []);
+  return __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Calendar"], {
+    dateCellRender: dateCellRender,
+    dateFullCellRender: dateFullCellRender,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 27
+    },
+    __self: undefined
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Calendars);
+
+/***/ }),
+
 /***/ "./components/RoomdetailPicture.tsx":
 /*!******************************************!*\
   !*** ./components/RoomdetailPicture.tsx ***!
@@ -164,6 +224,7 @@ const RoomdetailPicture = ({
     },
     __self: undefined
   }, room === null || room === void 0 ? void 0 : room.photoConnection.map(photo => __jsx(react_bootstrap_Carousel__WEBPACK_IMPORTED_MODULE_1___default.a.Item, {
+    key: photo.id,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 31
@@ -978,6 +1039,17 @@ $export($export.G + $export.F * (parseInt != $parseInt), { parseInt: $parseInt }
 
 /***/ }),
 
+/***/ "./node_modules/antd/dist/antd.css":
+/*!*****************************************!*\
+  !*** ./node_modules/antd/dist/antd.css ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
 /***/ "./node_modules/bootstrap/dist/css/bootstrap.min.css":
 /*!***********************************************************!*\
   !*** ./node_modules/bootstrap/dist/css/bootstrap.min.css ***!
@@ -1004,13 +1076,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! next/router */ "next/router");
 /* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/scss/room.scss */ "./assets/scss/room.scss");
-/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _components_RoomdetailPicture__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/RoomdetailPicture */ "./components/RoomdetailPicture.tsx");
-/* harmony import */ var _generated_graphql__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../generated/graphql */ "./generated/graphql.tsx");
+/* harmony import */ var antd_dist_antd_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd/dist/antd.css */ "./node_modules/antd/dist/antd.css");
+/* harmony import */ var antd_dist_antd_css__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(antd_dist_antd_css__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../assets/scss/room.scss */ "./assets/scss/room.scss");
+/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _components_RoomdetailPicture__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/RoomdetailPicture */ "./components/RoomdetailPicture.tsx");
+/* harmony import */ var _generated_graphql__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../generated/graphql */ "./generated/graphql.tsx");
+/* harmony import */ var _components_Calendar__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/Calendar */ "./components/Calendar.tsx");
 
 var _jsxFileName = "/Users/leejahun/practice/airbnb/web/pages/roomDetail.tsx";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
+
+
 
 
 
@@ -1021,13 +1098,13 @@ const isServer = () => true;
 
 const initialHeight = 800;
 /* harmony default export */ __webpack_exports__["default"] = (() => {
-  var _router$query;
+  var _router$query, _data$selectRoom, _data$selectRoom2, _data$selectRoom3, _data$selectRoom3$use, _data$selectRoom4, _data$selectRoom5, _data$selectRoom6, _data$selectRoom7, _data$selectRoom8, _data$selectRoom9;
 
   const router = Object(next_router__WEBPACK_IMPORTED_MODULE_2__["useRouter"])();
   const {
     data,
     loading
-  } = Object(_generated_graphql__WEBPACK_IMPORTED_MODULE_5__["useSelectRoomQuery"])({
+  } = Object(_generated_graphql__WEBPACK_IMPORTED_MODULE_6__["useSelectRoomQuery"])({
     variables: {
       id: _babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_0___default()(router === null || router === void 0 ? void 0 : (_router$query = router.query) === null || _router$query === void 0 ? void 0 : _router$query.id)
     }
@@ -1037,7 +1114,7 @@ const initialHeight = 800;
     return __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 20
+        lineNumber: 23
       },
       __self: undefined
     }, "\uB85C\uB529\uC911...");
@@ -1049,31 +1126,235 @@ const initialHeight = 800;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 24
+      lineNumber: 27
     },
     __self: undefined
   }, __jsx("div", {
     className: "roomdetail-container1",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 25
+      lineNumber: 28
     },
     __self: undefined
   }), __jsx("div", {
     className: "roomdetail-container2",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 28
+      lineNumber: 31
     },
     __self: undefined
-  }, __jsx(_components_RoomdetailPicture__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, __jsx(_components_RoomdetailPicture__WEBPACK_IMPORTED_MODULE_5__["default"], {
     room: data === null || data === void 0 ? void 0 : data.selectRoom,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 29
+      lineNumber: 32
     },
     __self: undefined
-  })));
+  })), __jsx("div", {
+    className: "roomdetail-container7",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 34
+    },
+    __self: undefined
+  }, __jsx("span", {
+    className: "roomdetail-span2",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 35
+    },
+    __self: undefined
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom = data.selectRoom) === null || _data$selectRoom === void 0 ? void 0 : _data$selectRoom.name), __jsx("div", {
+    className: "roomdetail-container8",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 36
+    },
+    __self: undefined
+  }, __jsx("span", {
+    className: "roomdetail-span3",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 37
+    },
+    __self: undefined
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom2 = data.selectRoom) === null || _data$selectRoom2 === void 0 ? void 0 : _data$selectRoom2.city), __jsx("div", {
+    className: "roomdetail-container9",
+    style: {
+      backgroundImage: `url('${data === null || data === void 0 ? void 0 : (_data$selectRoom3 = data.selectRoom) === null || _data$selectRoom3 === void 0 ? void 0 : (_data$selectRoom3$use = _data$selectRoom3.user) === null || _data$selectRoom3$use === void 0 ? void 0 : _data$selectRoom3$use.avatar}')`
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 38
+    },
+    __self: undefined
+  })), __jsx("hr", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 41
+    },
+    __self: undefined
+  }), __jsx("div", {
+    className: "roomdetail-container10",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 42
+    },
+    __self: undefined
+  }, __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 43
+    },
+    __self: undefined
+  }, __jsx("span", {
+    style: {
+      fontWeight: 'bold'
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 44
+    },
+    __self: undefined
+  }, "\uC124\uBA85")), __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 46
+    },
+    __self: undefined
+  }, __jsx("span", {
+    style: {
+      fontWeight: "lighter"
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 47
+    },
+    __self: undefined
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom4 = data.selectRoom) === null || _data$selectRoom4 === void 0 ? void 0 : _data$selectRoom4.description)), __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 49
+    },
+    __self: undefined
+  }, __jsx("span", {
+    style: {
+      fontWeight: "lighter"
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 50
+    },
+    __self: undefined
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom5 = data.selectRoom) === null || _data$selectRoom5 === void 0 ? void 0 : _data$selectRoom5.description)), __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 52
+    },
+    __self: undefined
+  }, __jsx("span", {
+    style: {
+      fontWeight: "lighter"
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 53
+    },
+    __self: undefined
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom6 = data.selectRoom) === null || _data$selectRoom6 === void 0 ? void 0 : _data$selectRoom6.description))), __jsx("hr", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 56
+    },
+    __self: undefined
+  }), __jsx("div", {
+    className: "roomdetail-container12",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 57
+    },
+    __self: undefined
+  }, __jsx("div", {
+    className: "roomdetail-container11",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 58
+    },
+    __self: undefined
+  }, __jsx("span", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 59
+    },
+    __self: undefined
+  }, "\uC774 \uC124\uBA85\uC744 \uD55C\uAD6D\uC5B4\uB85C \uBC88\uC5ED\uD558\uAE30")), __jsx("div", {
+    style: {
+      marginTop: '5%'
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 61
+    },
+    __self: undefined
+  }, __jsx("span", {
+    style: {
+      fontWeight: "lighter"
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 62
+    },
+    __self: undefined
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom7 = data.selectRoom) === null || _data$selectRoom7 === void 0 ? void 0 : _data$selectRoom7.description)), __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 64
+    },
+    __self: undefined
+  }, __jsx("span", {
+    style: {
+      fontWeight: "lighter"
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 65
+    },
+    __self: undefined
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom8 = data.selectRoom) === null || _data$selectRoom8 === void 0 ? void 0 : _data$selectRoom8.description)), __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 67
+    },
+    __self: undefined
+  }, __jsx("span", {
+    style: {
+      fontWeight: "lighter"
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 68
+    },
+    __self: undefined
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom9 = data.selectRoom) === null || _data$selectRoom9 === void 0 ? void 0 : _data$selectRoom9.description))), __jsx("hr", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 71
+    },
+    __self: undefined
+  }), __jsx("div", {
+    className: "roomdetail-container13",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 72
+    },
+    __self: undefined
+  }, __jsx(_components_Calendar__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 73
+    },
+    __self: undefined
+  }))));
 });
 
 /***/ }),
@@ -1098,6 +1379,17 @@ module.exports = __webpack_require__(/*! /Users/leejahun/practice/airbnb/web/pag
 /***/ (function(module, exports) {
 
 module.exports = require("@apollo/react-hooks");
+
+/***/ }),
+
+/***/ "antd":
+/*!***********************!*\
+  !*** external "antd" ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("antd");
 
 /***/ }),
 

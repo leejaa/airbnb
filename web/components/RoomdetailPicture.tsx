@@ -28,7 +28,7 @@ const RoomdetailPicture: React.FunctionComponent<Props> = ({
             >
                 {
                     room?.photoConnection.map(photo => (
-                        <Carousel.Item>
+                        <Carousel.Item key={photo.id}>
                             <div>
                                 <div style={ { width: '100%', height: '260px' , backgroundImage: `url("${photo.file}")` } }></div>
                             </div>
