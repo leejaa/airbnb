@@ -70,7 +70,7 @@ export default () => {
                 </div>
                 <hr />
                 <div className="roomdetail-container13">
-                    <Calendars />
+                    <Calendars room={data?.selectRoom as any}/>
                 </div>
             </div>
         </div>

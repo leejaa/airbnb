@@ -113,51 +113,188 @@ module.exports =
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! antd */ "antd");
-/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
-/* harmony import */ var bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/scss/room.scss */ "./assets/scss/room.scss");
-/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime-corejs2/core-js/parse-int */ "./node_modules/@babel/runtime-corejs2/core-js/parse-int.js");
+/* harmony import */ var _babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ant-design/icons */ "@ant-design/icons");
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_ant_design_icons__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! antd */ "antd");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
+/* harmony import */ var bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../assets/scss/room.scss */ "./assets/scss/room.scss");
+/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! moment */ "moment");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var moment_range__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! moment-range */ "moment-range");
+/* harmony import */ var moment_range__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(moment_range__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_8__);
+
 var _jsxFileName = "/Users/leejahun/practice/airbnb/web/components/Calendar.tsx";
-var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
 
 
 
 
 
-const Calendars = ({}) => {
-  const dateCellRender = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(date => {
-    return __jsx("div", {
-      className: "calendar-container2",
-      __source: {
-        fileName: _jsxFileName,
-        lineNumber: 14
-      },
-      __self: undefined
-    });
-  }, []);
-  const dateFullCellRender = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(date => {
+
+
+
+let moment = Object(moment_range__WEBPACK_IMPORTED_MODULE_7__["extendMoment"])(moment__WEBPACK_IMPORTED_MODULE_6__);
+moment.locale('ko');
+
+const Calendars = ({
+  room
+}) => {
+  const {
+    0: today,
+    1: setToday
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(moment());
+  const {
+    0: date,
+    1: setDate
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(moment());
+  const {
+    0: dates,
+    1: setDates
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(moment.range(moment(), moment()));
+  const dateFullCellRender = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(dateParam => {
+    let classNameDiv = 'calendar-container2_1';
+    let classNameSpan = 'calendar-span1_1';
+
+    const check_in_list = lodash__WEBPACK_IMPORTED_MODULE_8___default.a.map(room === null || room === void 0 ? void 0 : room.reservation, reservation => reservation.check_in);
+
+    if (dates.contains(dateParam)) {
+      classNameDiv = 'calendar-container2_2';
+      classNameSpan = 'calendar-span1_2';
+    }
+
+    if (lodash__WEBPACK_IMPORTED_MODULE_8___default.a.includes(check_in_list, dateParam.format('YYYY-MM-DD')) || date.isAfter(dateParam)) {
+      classNameDiv = 'calendar-container2_3';
+      classNameSpan = 'calendar-span1_3';
+    }
+
     return __jsx("div", {
       className: "calendar-container1",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 21
+        lineNumber: 36
       },
       __self: undefined
-    });
-  }, []);
-  return __jsx(antd__WEBPACK_IMPORTED_MODULE_1__["Calendar"], {
-    dateCellRender: dateCellRender,
-    dateFullCellRender: dateFullCellRender,
+    }, __jsx("div", {
+      className: classNameDiv,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 37
+      },
+      __self: undefined
+    }, __jsx("span", {
+      className: classNameSpan,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 38
+      },
+      __self: undefined
+    }, _babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_0___default()(moment(dateParam).format('DD'), 10))));
+  }, [date, dates]);
+  const goLeft = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(() => {
+    let newDate = lodash__WEBPACK_IMPORTED_MODULE_8___default.a.clone(date);
+
+    newDate = newDate.add(-1, 'month');
+    setDate(newDate);
+  }, [date]);
+  const goRight = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(() => {
+    let newDate = lodash__WEBPACK_IMPORTED_MODULE_8___default.a.clone(date);
+
+    newDate = newDate.add(1, 'month');
+    setDate(newDate);
+  }, [date]);
+  const onSelect = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(dateParam => {
+    const check_in_list = lodash__WEBPACK_IMPORTED_MODULE_8___default.a.map(room === null || room === void 0 ? void 0 : room.reservation, reservation => reservation.check_in);
+
+    if (dates.center().format('YYYY-MM-DD') == moment().format('YYYY-MM-DD')) {
+      if (!lodash__WEBPACK_IMPORTED_MODULE_8___default.a.includes(check_in_list, dateParam.format('YYYY-MM-DD')) && !date.isAfter(dateParam)) {
+        const newDate = lodash__WEBPACK_IMPORTED_MODULE_8___default.a.clone(dateParam);
+
+        const newDates = moment.range(newDate, newDate);
+        setDate(newDate);
+        setDates(newDates);
+      }
+    } else {
+      const newDates = moment.range(date, dateParam);
+      setDates(newDates);
+    }
+  }, [date, dates]);
+  return __jsx("div", {
+    style: {
+      width: '100%',
+      height: '100%'
+    },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 27
+      lineNumber: 68
     },
     __self: undefined
-  });
+  }, __jsx("div", {
+    className: "calendar-container3",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 69
+    },
+    __self: undefined
+  }, __jsx("div", {
+    className: "calendar-container4",
+    onClick: goLeft,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 70
+    },
+    __self: undefined
+  }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_2__["LeftOutlined"], {
+    style: {
+      fontSize: '20px'
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 71
+    },
+    __self: undefined
+  })), __jsx("span", {
+    className: "calendar-span2",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 73
+    },
+    __self: undefined
+  }, `${date.format('YYYY')}년 ${_babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_0___default()(date.format('MM'), 10)}월`), __jsx("div", {
+    className: "calendar-container5",
+    onClick: goRight,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 74
+    },
+    __self: undefined
+  }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_2__["RightOutlined"], {
+    style: {
+      fontSize: '20px'
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 75
+    },
+    __self: undefined
+  }))), __jsx(antd__WEBPACK_IMPORTED_MODULE_3__["Calendar"], {
+    dateFullCellRender: dateFullCellRender,
+    value: date,
+    onSelect: onSelect,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 78
+    },
+    __self: undefined
+  }));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Calendars);
@@ -387,6 +524,16 @@ const SelectRoomDocument = graphql_tag__WEBPACK_IMPORTED_MODULE_0___default.a`
         id
         name
         avatar
+      }
+    }
+    reservation {
+      id
+      check_in
+      check_out
+      guest {
+        id
+        name
+        email
       }
     }
   }
@@ -1349,6 +1496,7 @@ const initialHeight = 800;
     },
     __self: undefined
   }, __jsx(_components_Calendar__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    room: data === null || data === void 0 ? void 0 : data.selectRoom,
     __source: {
       fileName: _jsxFileName,
       lineNumber: 73
@@ -1368,6 +1516,17 @@ const initialHeight = 800;
 
 module.exports = __webpack_require__(/*! /Users/leejahun/practice/airbnb/web/pages/roomDetail.tsx */"./pages/roomDetail.tsx");
 
+
+/***/ }),
+
+/***/ "@ant-design/icons":
+/*!************************************!*\
+  !*** external "@ant-design/icons" ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@ant-design/icons");
 
 /***/ }),
 
@@ -1401,6 +1560,39 @@ module.exports = require("antd");
 /***/ (function(module, exports) {
 
 module.exports = require("graphql-tag");
+
+/***/ }),
+
+/***/ "lodash":
+/*!*************************!*\
+  !*** external "lodash" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("lodash");
+
+/***/ }),
+
+/***/ "moment":
+/*!*************************!*\
+  !*** external "moment" ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("moment");
+
+/***/ }),
+
+/***/ "moment-range":
+/*!*******************************!*\
+  !*** external "moment-range" ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("moment-range");
 
 /***/ }),
 

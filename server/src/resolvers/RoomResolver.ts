@@ -11,6 +11,8 @@ import {
   Float,
 } from "type-graphql";
 import _ from "lodash";
+import moment from "moment";
+const momentRandom = require('moment-random');
 import { Room } from "../entity/Room";
 import { Photo } from "../entity/Photo";
 import { User } from "../entity/User";
@@ -27,6 +29,7 @@ import { getConnection, getRepository, Repository } from "typeorm";
 import { Like } from "../entity/Like";
 import { Review } from "../entity/Review";
 import { fakeReviews } from "../const/review";
+import { Reservation } from "../entity/Reservation";
 
 @InputType()
 class RoomInput {
@@ -251,12 +254,46 @@ export class RoomResolver {
     }
   }
 
+  @Mutation(() => Boolean)
+  async createReservations(
+  ) {
+    try {
+      // const test = momentRandom(moment('2020-03-31'), moment('2020-03-01')).format('YYYY-MM-DD');
+      const users = await User.find();
+      const rooms = await Room.find();
+      for ( const room of rooms ) {
+        const date = momentRandom(moment('2020-03-31'), moment('2020-03-01'));
+        await Reservation.create({
+          roomId: room.id,
+          guestId: users[Math.floor(Math.random() * ( users.length - 1 ) )].id,
+          check_in: date,
+          check_out: date,
+        }).save();
+      }
+      // await Reservation.create({
+      //   guestId,
+      //   roomId,
+      //   check_in: moment(),
+      //   check_out: moment()
+      // }).save();;
+      return true;
+    } catch (error) {
+      console.log('error', error);
+      return false;
+    }
+  }
+
   @Query(() => [Review])
   async selectAllReviews() {
     const reviews = await Review.find();
-    console.log('reviews', JSON.stringify(reviews));
     defense(reviews);
     return reviews;
+  }
+
+  @Query(() => [Reservation])
+  async selectAllReservation() {
+    const reservations = await Reservation.find();
+    return reservations;
   }
 
   @Query(() => Review)
@@ -499,6 +536,18 @@ export class RoomResolver {
   ) {
     try {
       await Review.delete({});
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  @Mutation(() => Boolean)
+  async deleteAllReservations(
+  ) {
+    try {
+      await Reservation.delete({});
       return true;
     } catch (error) {
       console.log(error);

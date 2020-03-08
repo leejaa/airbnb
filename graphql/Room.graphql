@@ -76,6 +76,16 @@ query selectRoom($id: Float!){
         avatar
       }
     }
+    reservation{
+      id
+      check_in
+      check_out
+      guest{
+        id
+        name
+        email
+      }
+    }
   }
 }
 

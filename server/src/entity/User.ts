@@ -3,6 +3,7 @@ import { Field, ObjectType, ID } from "type-graphql";
 import { Room } from "./Room";
 import { Like } from "./Like";
 import { Review } from "./Review";
+import { Reservation } from "./Reservation";
 
 export enum Gender {
   GENDER_MALE = "male",
@@ -79,5 +80,9 @@ export class User extends BaseEntity {
   @Field(() => [Review])
   @OneToMany(() => Review, review => review.room)
   reviews: Promise<Review[]>;
+
+  @Field(() => [Reservation])
+  @OneToMany(() => Reservation, reservation => reservation.guest)
+  reservation: Promise<Reservation[]>;
 
 }

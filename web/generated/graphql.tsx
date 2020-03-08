@@ -102,6 +102,7 @@ export type Mutation = {
   createFakeLike: Scalars['Boolean'],
   createLike: Scalars['Boolean'],
   createReviews: Scalars['Boolean'],
+  createReservations: Scalars['Boolean'],
   updateRoom: Room,
   updateAllRooms: Scalars['Boolean'],
   updateAllReviews: Scalars['Boolean'],
@@ -111,6 +112,7 @@ export type Mutation = {
   deletePhoto: Scalars['Boolean'],
   deleteAllLikes: Scalars['Boolean'],
   deleteAllReviews: Scalars['Boolean'],
+  deleteAllReservations: Scalars['Boolean'],
   addNewComment: Scalars['Boolean'],
   requestAuthEmail: Scalars['Boolean'],
   sendAuthEmail: Scalars['Boolean'],
@@ -211,6 +213,7 @@ export type Query = {
   selectUser: User,
   me?: Maybe<User>,
   selectAllReviews: Array<Review>,
+  selectAllReservation: Array<Reservation>,
   selectlReview: Review,
   selectAllPhotos: Array<Photo>,
   selectAllRooms: Array<Room>,
@@ -258,10 +261,10 @@ export type Recipe = {
 export type Reservation = {
    __typename?: 'Reservation',
   id: Scalars['Int'],
-  check_in: Scalars['Int'],
-  check_out: Scalars['Int'],
-  guest: Scalars['JSON'],
-  room: Scalars['JSON'],
+  check_in: Scalars['DateTime'],
+  check_out: Scalars['DateTime'],
+  guest: User,
+  room: Room,
   in_progress: Scalars['Boolean'],
   is_finished: Scalars['Boolean'],
 };
@@ -310,6 +313,7 @@ export type Room = {
   user: User,
   likeUsers: Array<Like>,
   reviews: Array<Review>,
+  reservation: Array<Reservation>,
 };
 
 export type RoomInput = {
@@ -349,6 +353,7 @@ export type User = {
   roomConnection: Array<Room>,
   likeRooms: Array<Like>,
   reviews: Array<Review>,
+  reservation: Array<Reservation>,
 };
 
 export type UserInput = {
@@ -409,6 +414,13 @@ export type SelectRoomQuery = (
       & { user: (
         { __typename?: 'User' }
         & Pick<User, 'id' | 'name' | 'avatar'>
+      ) }
+    )>, reservation: Array<(
+      { __typename?: 'Reservation' }
+      & Pick<Reservation, 'id' | 'check_in' | 'check_out'>
+      & { guest: (
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'name' | 'email'>
       ) }
     )> }
   ) }
@@ -632,6 +644,16 @@ export const SelectRoomDocument = gql`
         id
         name
         avatar
+      }
+    }
+    reservation {
+      id
+      check_in
+      check_out
+      guest {
+        id
+        name
+        email
       }
     }
   }

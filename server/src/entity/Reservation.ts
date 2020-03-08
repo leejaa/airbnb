@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, OneToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, BaseEntity, Column, OneToOne, JoinColumn, ManyToOne } from "typeorm";
 import { Field, Int, ObjectType } from "type-graphql";
 import GraphQLJSON from "graphql-type-json";
 import { User } from "./User";
@@ -11,29 +11,35 @@ export class Reservation extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field(() => Int)
-  @Column({ type: 'timestamp' })
-  check_in: Number;
+  @Field(() => String)
+  @Column({ type: 'date', nullable: true })
+  check_in: Date;
 
-  @Field(() => Int)
-  @Column({ type: 'timestamp' })
-  check_out: Number;
+  @Field(() => String)
+  @Column({ type: 'date', nullable: true })
+  check_out: Date;
 
-  @Field( () => GraphQLJSON )
-  @OneToOne(() => User, { cascade: true })
-    @JoinColumn()
-    guest: User;
+  @Column()
+  guestId: number;
 
-  @Field( () => GraphQLJSON )
-  @OneToOne(() => Room, { cascade: true })
-  @JoinColumn()
-  room: Room;
+  @Column()
+  roomId: number;
+
+  @Field(() => User)
+  @ManyToOne(() => User, user => user.likeRooms, { nullable: true })
+  @JoinColumn({ name: "guestId" })
+  guest: Promise<User>;
+
+  @Field(() => Room)
+  @ManyToOne(() => Room, room => room.reservation, { nullable: true })
+  @JoinColumn({ name: "roomId" })
+  room: Promise<Room>;
 
   @Field(() => Boolean)
-  @Column({ type: 'boolean' })
+  @Column({ type: 'boolean', nullable: true })
   in_progress: Boolean;
 
   @Field(() => Boolean)
-  @Column({ type: 'boolean' })
+  @Column({ type: 'boolean', nullable: true })
   is_finished: Boolean;
 }
