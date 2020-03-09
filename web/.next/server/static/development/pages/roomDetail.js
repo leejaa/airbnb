@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -171,7 +171,7 @@ const Calendars = ({
       classNameSpan = 'calendar-span1_2';
     }
 
-    if (lodash__WEBPACK_IMPORTED_MODULE_8___default.a.includes(check_in_list, dateParam.format('YYYY-MM-DD')) || date.isAfter(dateParam)) {
+    if (lodash__WEBPACK_IMPORTED_MODULE_8___default.a.includes(check_in_list, dateParam.format('YYYY-MM-DD')) || today.isAfter(dateParam)) {
       classNameDiv = 'calendar-container2_3';
       classNameSpan = 'calendar-span1_3';
     }
@@ -227,6 +227,10 @@ const Calendars = ({
       setDates(newDates);
     }
   }, [date, dates]);
+  const clearDate = Object(react__WEBPACK_IMPORTED_MODULE_1__["useCallback"])(() => {
+    setDate(moment());
+    setDates(moment.range(moment(), moment()));
+  }, [date, dates]);
   return __jsx("div", {
     style: {
       width: '100%',
@@ -234,14 +238,14 @@ const Calendars = ({
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 68
+      lineNumber: 72
     },
     __self: undefined
   }, __jsx("div", {
     className: "calendar-container3",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 69
+      lineNumber: 73
     },
     __self: undefined
   }, __jsx("div", {
@@ -249,7 +253,7 @@ const Calendars = ({
     onClick: goLeft,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 70
+      lineNumber: 74
     },
     __self: undefined
   }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_2__["LeftOutlined"], {
@@ -258,14 +262,14 @@ const Calendars = ({
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 71
+      lineNumber: 75
     },
     __self: undefined
   })), __jsx("span", {
     className: "calendar-span2",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 73
+      lineNumber: 77
     },
     __self: undefined
   }, `${date.format('YYYY')}년 ${_babel_runtime_corejs2_core_js_parse_int__WEBPACK_IMPORTED_MODULE_0___default()(date.format('MM'), 10)}월`), __jsx("div", {
@@ -273,7 +277,7 @@ const Calendars = ({
     onClick: goRight,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 74
+      lineNumber: 78
     },
     __self: undefined
   }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_2__["RightOutlined"], {
@@ -282,7 +286,7 @@ const Calendars = ({
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 75
+      lineNumber: 79
     },
     __self: undefined
   }))), __jsx(antd__WEBPACK_IMPORTED_MODULE_3__["Calendar"], {
@@ -291,13 +295,149 @@ const Calendars = ({
     onSelect: onSelect,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 78
+      lineNumber: 82
+    },
+    __self: undefined
+  }), dates.center().format('YYYY-MM-DD') != moment().format('YYYY-MM-DD') && __jsx("span", {
+    style: {
+      color: 'rgb(0, 132, 137)',
+      marginLeft: '4%'
+    },
+    onClick: clearDate,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 89
+    },
+    __self: undefined
+  }, "\uB0A0\uC9DC \uC9C0\uC6B0\uAE30"), __jsx("hr", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 92
     },
     __self: undefined
   }));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Calendars);
+
+/***/ }),
+
+/***/ "./components/Review.tsx":
+/*!*******************************!*\
+  !*** ./components/Review.tsx ***!
+  \*******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
+/* harmony import */ var bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../assets/scss/room.scss */ "./assets/scss/room.scss");
+/* harmony import */ var _assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_assets_scss_room_scss__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! moment */ "moment");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var moment_range__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! moment-range */ "moment-range");
+/* harmony import */ var moment_range__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment_range__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_5__);
+var _jsxFileName = "/Users/leejahun/practice/airbnb/web/components/Review.tsx";
+var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
+
+
+
+
+
+
+let moment = Object(moment_range__WEBPACK_IMPORTED_MODULE_4__["extendMoment"])(moment__WEBPACK_IMPORTED_MODULE_3__);
+moment.locale('ko');
+
+const Review = ({
+  review
+}) => {
+  var _review$user, _review$user2;
+
+  return __jsx("div", {
+    style: {
+      width: '100%',
+      height: '20%',
+      borderBottom: '1px solid #f5f5f5',
+      marginTop: '5%'
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 20
+    },
+    __self: undefined
+  }, __jsx("div", {
+    className: "review-container2",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 21
+    },
+    __self: undefined
+  }, __jsx("div", {
+    className: "review-container1",
+    style: {
+      backgroundImage: `url('${review === null || review === void 0 ? void 0 : (_review$user = review.user) === null || _review$user === void 0 ? void 0 : _review$user.avatar}')`
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 22
+    },
+    __self: undefined
+  }), __jsx("div", {
+    className: "review-container3",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 23
+    },
+    __self: undefined
+  }, __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 24
+    },
+    __self: undefined
+  }, __jsx("span", {
+    style: {
+      fontWeight: 'bold',
+      fontSize: 12
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 24
+    },
+    __self: undefined
+  }, review === null || review === void 0 ? void 0 : (_review$user2 = review.user) === null || _review$user2 === void 0 ? void 0 : _review$user2.name)), __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 25
+    },
+    __self: undefined
+  }, __jsx("span", {
+    style: {
+      color: 'gray',
+      fontSize: 12
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 25
+    },
+    __self: undefined
+  }, moment(lodash__WEBPACK_IMPORTED_MODULE_5___default.a.replace(review === null || review === void 0 ? void 0 : review.createdAt, /"/g, '')).format('YYYY년 MM월'))))), __jsx("div", {
+    className: "review-container4",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 28
+    },
+    __self: undefined
+  }, review === null || review === void 0 ? void 0 : review.review));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Review);
 
 /***/ }),
 
@@ -1230,9 +1370,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_RoomdetailPicture__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/RoomdetailPicture */ "./components/RoomdetailPicture.tsx");
 /* harmony import */ var _generated_graphql__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../generated/graphql */ "./generated/graphql.tsx");
 /* harmony import */ var _components_Calendar__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../components/Calendar */ "./components/Calendar.tsx");
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ant-design/icons */ "@ant-design/icons");
+/* harmony import */ var _ant_design_icons__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_ant_design_icons__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _components_Review__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../components/Review */ "./components/Review.tsx");
 
 var _jsxFileName = "/Users/leejahun/practice/airbnb/web/pages/roomDetail.tsx";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement;
+
+
 
 
 
@@ -1245,8 +1390,16 @@ const isServer = () => true;
 
 const initialHeight = 800;
 /* harmony default export */ __webpack_exports__["default"] = (() => {
-  var _router$query, _data$selectRoom, _data$selectRoom2, _data$selectRoom3, _data$selectRoom3$use, _data$selectRoom4, _data$selectRoom5, _data$selectRoom6, _data$selectRoom7, _data$selectRoom8, _data$selectRoom9;
+  var _router$query, _data$selectRoom, _data$selectRoom2, _data$selectRoom3, _data$selectRoom3$use, _data$selectRoom4, _data$selectRoom5, _data$selectRoom6, _data$selectRoom7, _data$selectRoom8, _data$selectRoom9, _data$selectRoom10;
 
+  const {
+    0: startPage,
+    1: setStartPge
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(0);
+  const {
+    0: endPage,
+    1: setEndPage
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(4);
   const router = Object(next_router__WEBPACK_IMPORTED_MODULE_2__["useRouter"])();
   const {
     data,
@@ -1261,7 +1414,7 @@ const initialHeight = 800;
     return __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 23
+        lineNumber: 27
       },
       __self: undefined
     }, "\uB85C\uB529\uC911...");
@@ -1273,56 +1426,56 @@ const initialHeight = 800;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 27
+      lineNumber: 31
     },
     __self: undefined
   }, __jsx("div", {
     className: "roomdetail-container1",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 28
+      lineNumber: 32
     },
     __self: undefined
   }), __jsx("div", {
     className: "roomdetail-container2",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 31
+      lineNumber: 35
     },
     __self: undefined
   }, __jsx(_components_RoomdetailPicture__WEBPACK_IMPORTED_MODULE_5__["default"], {
     room: data === null || data === void 0 ? void 0 : data.selectRoom,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 32
+      lineNumber: 36
     },
     __self: undefined
   })), __jsx("div", {
     className: "roomdetail-container7",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 34
+      lineNumber: 38
     },
     __self: undefined
   }, __jsx("span", {
     className: "roomdetail-span2",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 35
+      lineNumber: 39
     },
     __self: undefined
   }, data === null || data === void 0 ? void 0 : (_data$selectRoom = data.selectRoom) === null || _data$selectRoom === void 0 ? void 0 : _data$selectRoom.name), __jsx("div", {
     className: "roomdetail-container8",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 36
+      lineNumber: 40
     },
     __self: undefined
   }, __jsx("span", {
     className: "roomdetail-span3",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 37
+      lineNumber: 41
     },
     __self: undefined
   }, data === null || data === void 0 ? void 0 : (_data$selectRoom2 = data.selectRoom) === null || _data$selectRoom2 === void 0 ? void 0 : _data$selectRoom2.city), __jsx("div", {
@@ -1332,26 +1485,26 @@ const initialHeight = 800;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 38
+      lineNumber: 42
     },
     __self: undefined
   })), __jsx("hr", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 41
+      lineNumber: 45
     },
     __self: undefined
   }), __jsx("div", {
     className: "roomdetail-container10",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 42
+      lineNumber: 46
     },
     __self: undefined
   }, __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 43
+      lineNumber: 47
     },
     __self: undefined
   }, __jsx("span", {
@@ -1360,13 +1513,13 @@ const initialHeight = 800;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 44
+      lineNumber: 48
     },
     __self: undefined
   }, "\uC124\uBA85")), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 46
+      lineNumber: 50
     },
     __self: undefined
   }, __jsx("span", {
@@ -1375,13 +1528,13 @@ const initialHeight = 800;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 47
+      lineNumber: 51
     },
     __self: undefined
   }, data === null || data === void 0 ? void 0 : (_data$selectRoom4 = data.selectRoom) === null || _data$selectRoom4 === void 0 ? void 0 : _data$selectRoom4.description)), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 49
+      lineNumber: 53
     },
     __self: undefined
   }, __jsx("span", {
@@ -1390,13 +1543,13 @@ const initialHeight = 800;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 50
+      lineNumber: 54
     },
     __self: undefined
   }, data === null || data === void 0 ? void 0 : (_data$selectRoom5 = data.selectRoom) === null || _data$selectRoom5 === void 0 ? void 0 : _data$selectRoom5.description)), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 52
+      lineNumber: 56
     },
     __self: undefined
   }, __jsx("span", {
@@ -1405,33 +1558,33 @@ const initialHeight = 800;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 53
+      lineNumber: 57
     },
     __self: undefined
   }, data === null || data === void 0 ? void 0 : (_data$selectRoom6 = data.selectRoom) === null || _data$selectRoom6 === void 0 ? void 0 : _data$selectRoom6.description))), __jsx("hr", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 56
+      lineNumber: 60
     },
     __self: undefined
   }), __jsx("div", {
     className: "roomdetail-container12",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 57
+      lineNumber: 61
     },
     __self: undefined
   }, __jsx("div", {
     className: "roomdetail-container11",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 58
+      lineNumber: 62
     },
     __self: undefined
   }, __jsx("span", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 59
+      lineNumber: 63
     },
     __self: undefined
   }, "\uC774 \uC124\uBA85\uC744 \uD55C\uAD6D\uC5B4\uB85C \uBC88\uC5ED\uD558\uAE30")), __jsx("div", {
@@ -1440,7 +1593,7 @@ const initialHeight = 800;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 61
+      lineNumber: 65
     },
     __self: undefined
   }, __jsx("span", {
@@ -1449,13 +1602,13 @@ const initialHeight = 800;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 62
+      lineNumber: 66
     },
     __self: undefined
   }, data === null || data === void 0 ? void 0 : (_data$selectRoom7 = data.selectRoom) === null || _data$selectRoom7 === void 0 ? void 0 : _data$selectRoom7.description)), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 64
+      lineNumber: 68
     },
     __self: undefined
   }, __jsx("span", {
@@ -1464,13 +1617,13 @@ const initialHeight = 800;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 65
+      lineNumber: 69
     },
     __self: undefined
   }, data === null || data === void 0 ? void 0 : (_data$selectRoom8 = data.selectRoom) === null || _data$selectRoom8 === void 0 ? void 0 : _data$selectRoom8.description)), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 67
+      lineNumber: 71
     },
     __self: undefined
   }, __jsx("span", {
@@ -1479,35 +1632,172 @@ const initialHeight = 800;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 68
+      lineNumber: 72
     },
     __self: undefined
   }, data === null || data === void 0 ? void 0 : (_data$selectRoom9 = data.selectRoom) === null || _data$selectRoom9 === void 0 ? void 0 : _data$selectRoom9.description))), __jsx("hr", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 71
+      lineNumber: 75
     },
     __self: undefined
   }), __jsx("div", {
     className: "roomdetail-container13",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 72
+      lineNumber: 76
     },
     __self: undefined
   }, __jsx(_components_Calendar__WEBPACK_IMPORTED_MODULE_7__["default"], {
     room: data === null || data === void 0 ? void 0 : data.selectRoom,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 73
+      lineNumber: 77
     },
     __self: undefined
-  }))));
+  })), __jsx("div", {
+    className: "roomdetail-container14",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 79
+    },
+    __self: undefined
+  }, __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 80
+    },
+    __self: undefined
+  }, __jsx("span", {
+    className: "roomdetail-span4",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 81
+    },
+    __self: undefined
+  }, "\uD6C4\uAE30")), __jsx("div", {
+    className: "roomdetail-container15",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 83
+    },
+    __self: undefined
+  }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_8__["StarFilled"], {
+    style: {
+      fontSize: '15px',
+      color: '#008489',
+      marginTop: '2%'
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 84
+    },
+    __self: undefined
+  }), __jsx("span", {
+    style: {
+      fontWeight: 'bold',
+      color: '#008489'
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 85
+    },
+    __self: undefined
+  }, "4.85"), __jsx("span", {
+    style: {
+      color: 'gray'
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 86
+    },
+    __self: undefined
+  }, "|"), __jsx("span", {
+    style: {
+      fontWeight: 'bold'
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 87
+    },
+    __self: undefined
+  }, "545 \uD6C4\uAE30")), __jsx("div", {
+    className: "roomdetail-container16",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 89
+    },
+    __self: undefined
+  }, __jsx("input", {
+    type: "text",
+    className: "roomdetail-input",
+    placeholder: "후기 검색",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 90
+    },
+    __self: undefined
+  }), __jsx("div", {
+    className: "roomdetail-container18",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 91
+    },
+    __self: undefined
+  }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_8__["CloseOutlined"], {
+    style: {
+      fontSize: '20px',
+      color: '#ebebeb'
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 92
+    },
+    __self: undefined
+  })), __jsx("div", {
+    className: "roomdetail-container17",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 94
+    },
+    __self: undefined
+  }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_8__["SearchOutlined"], {
+    style: {
+      fontSize: '20px',
+      color: 'gray'
+    },
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 95
+    },
+    __self: undefined
+  }))), __jsx("div", {
+    className: "roomdetail-container19",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 98
+    },
+    __self: undefined
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom10 = data.selectRoom) === null || _data$selectRoom10 === void 0 ? void 0 : _data$selectRoom10.reviews.slice(startPage, endPage).map(review => __jsx(_components_Review__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    review: review,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 101
+    },
+    __self: undefined
+  })), __jsx("div", {
+    className: "roomdetail-container20",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 104
+    },
+    __self: undefined
+  })))));
 });
 
 /***/ }),
 
-/***/ 4:
+/***/ 3:
 /*!************************************!*\
   !*** multi ./pages/roomDetail.tsx ***!
   \************************************/

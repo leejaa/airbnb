@@ -29264,7 +29264,7 @@ div.ant-typography-edit-content {
 
 .roomdetail-container13 {
   width: 100%;
-  height: 80%;
+  height: 65%;
 }
 
 @media screen and (min-width: 769px) {
@@ -29397,6 +29397,121 @@ div.ant-typography-edit-content {
 .calendar-span2 {
   font-weight: bold;
   font-size: large;
+}
+
+.roomdetail-container14 {
+  width: 100%;
+  height: 200%;
+  margin-top: 30%;
+}
+
+.roomdetail-span4 {
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.roomdetail-container15 {
+  width: 45%;
+  height: 5%;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  -webkit-box-align: center;
+          align-items: center;
+  justify-content: space-around;
+}
+
+.roomdetail-container16 {
+  border: 1px solid #ebebeb;
+  width: 100%;
+  height: 5%;
+  display: -webkit-box;
+  display: flex;
+  position: relative;
+  -webkit-box-align: center;
+          align-items: center;
+  border-radius: 5px;
+}
+
+.roomdetail-input {
+  width: 100%;
+  height: 100%;
+  font-size: large;
+  box-shadow: none;
+  border: 0px;
+  border-radius: 5px;
+}
+
+.roomdetail-input:focus {
+  outline: none;
+  border: 1px solid #008489 !important;
+}
+
+.roomdetail-container17 {
+  width: 10%;
+  height: 100%;
+  right: 0%;
+  position: absolute;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+}
+
+.roomdetail-container18 {
+  width: 10%;
+  height: 100%;
+  right: 9%;
+  position: absolute;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+          align-items: center;
+}
+
+.roomdetail-container19 {
+  border: 1px solid black;
+  width: 100%;
+  height: 100%;
+  margin-top: 10%;
+}
+
+.review-container1 {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+}
+
+.review-container2 {
+  width: 100%;
+  height: 25%;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  -webkit-box-align: center;
+          align-items: center;
+}
+
+.review-container3 {
+  width: 30%;
+  height: 100%;
+  padding-left: 4%;
+}
+
+.review-container4 {
+  width: 100%;
+  height: 70%;
+  color: gray;
+}
+
+.roomdetail-container20 {
+  border: 1px solid black;
+  width: 100%;
+  height: 5%;
 }
 
 /*!

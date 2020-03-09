@@ -27,7 +27,7 @@ const Calendars: React.FunctionComponent<Props> = ({
             classNameDiv = 'calendar-container2_2';
             classNameSpan = 'calendar-span1_2';
         }
-        if ( _.includes( check_in_list, dateParam.format('YYYY-MM-DD') ) || date.isAfter(dateParam) ) {
+        if ( _.includes( check_in_list, dateParam.format('YYYY-MM-DD') ) || today.isAfter(dateParam) ) {
             classNameDiv = 'calendar-container2_3';
             classNameSpan = 'calendar-span1_3';
         }
@@ -64,6 +64,10 @@ const Calendars: React.FunctionComponent<Props> = ({
             setDates(newDates);
         }
     }, [date, dates]);
+    const clearDate = useCallback(() => {
+        setDate(moment());
+        setDates(moment.range(moment(), moment()));
+    }, [date, dates]);
     return (
         <div style={ { width: '100%', height: '100%' } }>
             <div className="calendar-container3">
@@ -80,6 +84,12 @@ const Calendars: React.FunctionComponent<Props> = ({
                 value={date}
                 onSelect={onSelect}
             />
+            {
+                dates.center().format('YYYY-MM-DD') != moment().format('YYYY-MM-DD') && (
+                    <span style={ { color: 'rgb(0, 132, 137)', marginLeft: '4%' } } onClick={clearDate}>날짜 지우기</span>
+                )
+            }
+            <hr />
         </div>
     );
 }
