@@ -4978,22 +4978,30 @@ class MyDocument extends next_document__WEBPACK_IMPORTED_MODULE_1___default.a {
         lineNumber: 11
       },
       __self: this
-    })), __jsx("body", {
+    }), __jsx("script", {
+      type: "text/javascript",
+      src: "//dapi.kakao.com/v2/maps/sdk.js?appkey=7d07fe0dd0a81062e923c24f6eeed2dd",
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 13
+        lineNumber: 12
       },
       __self: this
-    }, __jsx(next_document__WEBPACK_IMPORTED_MODULE_1__["Main"], {
+    })), __jsx("body", {
       __source: {
         fileName: _jsxFileName,
         lineNumber: 14
       },
       __self: this
-    }), __jsx(next_document__WEBPACK_IMPORTED_MODULE_1__["NextScript"], {
+    }, __jsx(next_document__WEBPACK_IMPORTED_MODULE_1__["Main"], {
       __source: {
         fileName: _jsxFileName,
         lineNumber: 15
+      },
+      __self: this
+    }), __jsx(next_document__WEBPACK_IMPORTED_MODULE_1__["NextScript"], {
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 16
       },
       __self: this
     })));
