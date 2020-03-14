@@ -22,6 +22,9 @@ export default () => {
     const [startPage, setStartPge] = useState(0);
     const [endPage, setEndPage] = useState(4);
     const [searchword, setSearchword] = useState('');
+    const [checkin, setCheckin] = useState('체크인');
+    const [checkout, setCheckout] = useState('체크아웃');
+    const [isShowCalendar, setIsShowCalendar] = useState(false);
     const router: any = useRouter();
     const { data, loading } = useSelectRoomQuery({
         variables: {
@@ -211,14 +214,14 @@ export default () => {
                         <span style={ { fontSize: '12px' } }>날짜</span>
                     </div>
                     <div className="roomdetail-container31">
-                        <div>
-                            <span style={ { color: 'gray' } }>체크인</span>
+                        <div onClick={() => setIsShowCalendar(!isShowCalendar)}>
+                            <span style={ { color: 'gray' } }>{checkin}</span>
                         </div>
                         <div style={ { alignItems: 'center', display: 'flex' } }>
                             <ArrowRightOutlined style={{ fontSize: '16px' }}/>
                         </div>
-                        <div>
-                            <span style={ { color: 'gray' } }>체크아웃</span>
+                        <div onClick={() => setIsShowCalendar(!isShowCalendar)}>
+                            <span style={ { color: 'gray' } }>{checkout}</span>
                         </div>
                     </div>
                     <div className="roomdetail-container30">
@@ -238,9 +241,13 @@ export default () => {
                         </span>
                     </div>
                 </div>
-                <div className="roomdetail-container34">
-                    <Calendars2 room={data?.selectRoom as any} />
-                </div>
+                {
+                    isShowCalendar && (
+                        <div className="roomdetail-container34">
+                            <Calendars2 room={data?.selectRoom as any} setCheckin={setCheckin} setCheckout={setCheckout} />
+                        </div>
+                    )
+                }
             </div>
         </div>
     );

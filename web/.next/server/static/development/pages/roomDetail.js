@@ -88,7 +88,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -343,6 +343,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var moment_range__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment-range */ "moment-range");
 /* harmony import */ var moment_range__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment_range__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _utils_utils__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/utils */ "./utils/utils.ts");
 var _jsxFileName = "/Users/leejahun/practice/airbnb/web/components/Calendar2.tsx";
 var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
@@ -351,48 +354,287 @@ var __jsx = react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement;
 
 
 
+
+
 let moment = Object(moment_range__WEBPACK_IMPORTED_MODULE_5__["extendMoment"])(moment__WEBPACK_IMPORTED_MODULE_4__);
 moment.locale('ko');
+const DAY_LIST = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
 
 const Calendars2 = ({
-  room
+  room,
+  setCheckin,
+  setCheckout
 }) => {
+  const {
+    0: date,
+    1: setDate
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(moment());
+  const {
+    0: selectedDate,
+    1: setSelectedDate
+  } = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
+  const disableDate = Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(() => {
+    let disableDate = Object(_utils_utils__WEBPACK_IMPORTED_MODULE_7__["getDates"])({
+      startDate: moment().startOf('month').format('YYYY-MM-DD'),
+      endDate: moment().add(-1, 'day')
+    });
+    disableDate.push(room === null || room === void 0 ? void 0 : room.reservation.map(item => item.check_in));
+    disableDate = lodash__WEBPACK_IMPORTED_MODULE_6___default.a.uniq(lodash__WEBPACK_IMPORTED_MODULE_6___default.a.flatten(disableDate));
+    return disableDate;
+  }, []);
+  const dates = Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(() => {
+    const dates = Object(_utils_utils__WEBPACK_IMPORTED_MODULE_7__["getDates"])({
+      startDate: date.startOf('month').format('YYYY-MM-DD'),
+      endDate: date.endOf('month')
+    });
+    return dates;
+  }, [date]);
+  const onClickDate = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(date => {
+    let startDate = '';
+    let endDate = '';
+
+    if (lodash__WEBPACK_IMPORTED_MODULE_6___default.a.isEmpty(selectedDate) || lodash__WEBPACK_IMPORTED_MODULE_6___default.a.includes(selectedDate, date)) {
+      startDate = date;
+      endDate = date;
+    } else {
+      startDate = lodash__WEBPACK_IMPORTED_MODULE_6___default.a.minBy(selectedDate);
+      endDate = lodash__WEBPACK_IMPORTED_MODULE_6___default.a.maxBy(selectedDate);
+
+      if (startDate > date) {
+        endDate = lodash__WEBPACK_IMPORTED_MODULE_6___default.a.clone(startDate);
+        startDate = date;
+      }
+
+      if (endDate < date) {
+        startDate = lodash__WEBPACK_IMPORTED_MODULE_6___default.a.clone(endDate);
+        endDate = date;
+      }
+    }
+
+    const newSelectedDate = Object(_utils_utils__WEBPACK_IMPORTED_MODULE_7__["getDates"])({
+      startDate,
+      endDate
+    });
+    setSelectedDate(newSelectedDate);
+    setCheckin(startDate);
+    setCheckout(endDate);
+  }, [selectedDate]);
+  const renderCell = Object(react__WEBPACK_IMPORTED_MODULE_0__["useMemo"])(() => {
+    let cnt = 0;
+    return __jsx("div", {
+      className: "calendar2-container6",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 62
+      },
+      __self: undefined
+    }, __jsx("div", {
+      className: "calendar2-container8",
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 63
+      },
+      __self: undefined
+    }, lodash__WEBPACK_IMPORTED_MODULE_6___default.a.range(0, 7).map(index => {
+      const currentDate = moment(dates[cnt]).format('YYYY-MM-DD');
+
+      if (index < lodash__WEBPACK_IMPORTED_MODULE_6___default.a.indexOf(DAY_LIST, moment(dates[0]).format('dddd'))) {
+        return __jsx("div", {
+          className: "calendar2-container9",
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 69
+          },
+          __self: undefined
+        });
+      } else if (lodash__WEBPACK_IMPORTED_MODULE_6___default.a.includes(disableDate, moment(dates[cnt]).format('YYYY-MM-DD'))) {
+        return __jsx("div", {
+          className: "calendar2-container7",
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 73
+          },
+          __self: undefined
+        }, __jsx("span", {
+          className: "calendar2-span2",
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 74
+          },
+          __self: undefined
+        }, __jsx("del", {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 75
+          },
+          __self: undefined
+        }, moment(dates[cnt++]).format('D'))));
+      } else if (lodash__WEBPACK_IMPORTED_MODULE_6___default.a.includes(selectedDate, moment(dates[cnt]).format('YYYY-MM-DD'))) {
+        return __jsx("div", {
+          className: "calendar2-container10",
+          onClick: () => onClickDate(currentDate),
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 81
+          },
+          __self: undefined
+        }, __jsx("span", {
+          className: "calendar2-span3",
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 82
+          },
+          __self: undefined
+        }, moment(dates[cnt++]).format('D')));
+      } else {
+        return __jsx("div", {
+          className: "calendar2-container7",
+          onClick: () => onClickDate(currentDate),
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 89
+          },
+          __self: undefined
+        }, __jsx("span", {
+          className: "calendar2-span1",
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 90
+          },
+          __self: undefined
+        }, moment(dates[cnt++]).format('D')));
+      }
+    })), lodash__WEBPACK_IMPORTED_MODULE_6___default.a.range(1, 6).map(index => {
+      if (cnt < dates.length) {
+        return __jsx("div", {
+          className: "calendar2-container8",
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 103
+          },
+          __self: undefined
+        }, lodash__WEBPACK_IMPORTED_MODULE_6___default.a.range(0, 7).map(index => {
+          const currentDate = moment(dates[cnt]).format('YYYY-MM-DD');
+
+          if (cnt >= dates.length) {
+            return __jsx("div", {
+              className: "calendar2-container9",
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 109
+              },
+              __self: undefined
+            });
+          } else if (lodash__WEBPACK_IMPORTED_MODULE_6___default.a.includes(disableDate, moment(dates[cnt]).format('YYYY-MM-DD'))) {
+            return __jsx("div", {
+              className: "calendar2-container7",
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 113
+              },
+              __self: undefined
+            }, __jsx("span", {
+              className: "calendar2-span2",
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 114
+              },
+              __self: undefined
+            }, __jsx("del", {
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 115
+              },
+              __self: undefined
+            }, moment(dates[cnt++]).format('D'))));
+          } else if (lodash__WEBPACK_IMPORTED_MODULE_6___default.a.includes(selectedDate, moment(dates[cnt]).format('YYYY-MM-DD'))) {
+            return __jsx("div", {
+              className: "calendar2-container10",
+              onClick: () => onClickDate(currentDate),
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 121
+              },
+              __self: undefined
+            }, __jsx("span", {
+              className: "calendar2-span3",
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 122
+              },
+              __self: undefined
+            }, moment(dates[cnt++]).format('D')));
+          } else {
+            return __jsx("div", {
+              className: "calendar2-container7",
+              onClick: () => onClickDate(currentDate),
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 129
+              },
+              __self: undefined
+            }, __jsx("span", {
+              className: "calendar2-span1",
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 130
+              },
+              __self: undefined
+            }, moment(dates[cnt++]).format('D')));
+          }
+        }));
+      } else {
+        return null;
+      }
+    }));
+  }, [date, selectedDate, disableDate]);
+  const goLeft = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
+    const newDate = lodash__WEBPACK_IMPORTED_MODULE_6___default.a.clone(date).add(-1, 'day');
+
+    setDate(newDate);
+  }, [date]);
+  const goRight = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(() => {
+    const newDate = lodash__WEBPACK_IMPORTED_MODULE_6___default.a.clone(date).add(1, 'day');
+
+    setDate(newDate);
+  }, [date]);
   return __jsx("div", {
     className: "calendar2-container1",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 21
+      lineNumber: 157
     },
     __self: undefined
   }, __jsx("div", {
     className: "calendar2-container2",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 22
+      lineNumber: 158
     },
     __self: undefined
   }, __jsx("div", {
     className: "calendar2-container3",
+    onClick: goLeft,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 23
+      lineNumber: 159
     },
     __self: undefined
   }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_1__["ArrowLeftOutlined"], {
     style: {
-      fontSize: '20px',
+      fontSize: '18px',
       color: '#9ca1a2'
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 24
+      lineNumber: 160
     },
     __self: undefined
   })), __jsx("div", {
     className: "calendar2-container4",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 26
+      lineNumber: 162
     },
     __self: undefined
   }, __jsx("span", {
@@ -402,33 +644,77 @@ const Calendars2 = ({
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 27
+      lineNumber: 163
     },
     __self: undefined
-  }, "2020\uB144 3\uC6D4")), __jsx("div", {
+  }, `${date.format('YYYY')}년 ${date.format('M')}월`)), __jsx("div", {
     className: "calendar2-container3",
+    onClick: goRight,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 29
+      lineNumber: 165
     },
     __self: undefined
   }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_1__["ArrowRightOutlined"], {
     style: {
-      fontSize: '20px',
+      fontSize: '18px',
       color: '#9ca1a2'
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 30
+      lineNumber: 166
     },
     __self: undefined
   }))), __jsx("div", {
+    className: "calendar2-container5",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 33
+      lineNumber: 169
     },
     __self: undefined
-  }));
+  }, __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 170
+    },
+    __self: undefined
+  }, "\uC77C"), __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 171
+    },
+    __self: undefined
+  }, "\uC6D4"), __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 172
+    },
+    __self: undefined
+  }, "\uD654"), __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 173
+    },
+    __self: undefined
+  }, "\uC218"), __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 174
+    },
+    __self: undefined
+  }, "\uBAA9"), __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 175
+    },
+    __self: undefined
+  }, "\uAE08"), __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 176
+    },
+    __self: undefined
+  }, "\uD1A0")), renderCell);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Calendars2);
@@ -1524,6 +1810,18 @@ let marker;
     0: searchword,
     1: setSearchword
   } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])('');
+  const {
+    0: checkin,
+    1: setCheckin
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])('체크인');
+  const {
+    0: checkout,
+    1: setCheckout
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])('체크아웃');
+  const {
+    0: isShowCalendar,
+    1: setIsShowCalendar
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false);
   const router = Object(next_router__WEBPACK_IMPORTED_MODULE_2__["useRouter"])();
   const {
     data,
@@ -1605,7 +1903,7 @@ let marker;
     return __jsx("div", {
       __source: {
         fileName: _jsxFileName,
-        lineNumber: 89
+        lineNumber: 92
       },
       __self: undefined
     }, "\uB85C\uB529\uC911...");
@@ -1617,63 +1915,63 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 93
+      lineNumber: 96
     },
     __self: undefined
   }, __jsx("div", {
     className: "roomdetail-container1",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 94
+      lineNumber: 97
     },
     __self: undefined
   }), __jsx("div", {
     className: "roomdetail-container2",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 97
+      lineNumber: 100
     },
     __self: undefined
   }, __jsx(_components_RoomdetailPicture__WEBPACK_IMPORTED_MODULE_5__["default"], {
     room: data === null || data === void 0 ? void 0 : data.selectRoom,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 98
+      lineNumber: 101
     },
     __self: undefined
   })), __jsx("div", {
     className: "roomdetail-container25",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 100
+      lineNumber: 103
     },
     __self: undefined
   }, __jsx("div", {
     className: "roomdetail-container7",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 101
+      lineNumber: 104
     },
     __self: undefined
   }, __jsx("span", {
     className: "roomdetail-span2",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 102
+      lineNumber: 105
     },
     __self: undefined
   }, data === null || data === void 0 ? void 0 : (_data$selectRoom4 = data.selectRoom) === null || _data$selectRoom4 === void 0 ? void 0 : _data$selectRoom4.name), __jsx("div", {
     className: "roomdetail-container8",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 103
+      lineNumber: 106
     },
     __self: undefined
   }, __jsx("span", {
     className: "roomdetail-span3",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 104
+      lineNumber: 107
     },
     __self: undefined
   }, data === null || data === void 0 ? void 0 : (_data$selectRoom5 = data.selectRoom) === null || _data$selectRoom5 === void 0 ? void 0 : _data$selectRoom5.city), __jsx("div", {
@@ -1683,26 +1981,26 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 105
+      lineNumber: 108
     },
     __self: undefined
   })), __jsx("hr", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 108
+      lineNumber: 111
     },
     __self: undefined
   }), __jsx("div", {
     className: "roomdetail-container10",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 109
+      lineNumber: 112
     },
     __self: undefined
   }, __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 110
+      lineNumber: 113
     },
     __self: undefined
   }, __jsx("span", {
@@ -1711,25 +2009,10 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 111
-    },
-    __self: undefined
-  }, "\uC124\uBA85")), __jsx("div", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 113
-    },
-    __self: undefined
-  }, __jsx("span", {
-    style: {
-      fontWeight: "lighter"
-    },
-    __source: {
-      fileName: _jsxFileName,
       lineNumber: 114
     },
     __self: undefined
-  }, data === null || data === void 0 ? void 0 : (_data$selectRoom7 = data.selectRoom) === null || _data$selectRoom7 === void 0 ? void 0 : _data$selectRoom7.description)), __jsx("div", {
+  }, "\uC124\uBA85")), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 116
@@ -1744,7 +2027,7 @@ let marker;
       lineNumber: 117
     },
     __self: undefined
-  }, data === null || data === void 0 ? void 0 : (_data$selectRoom8 = data.selectRoom) === null || _data$selectRoom8 === void 0 ? void 0 : _data$selectRoom8.description)), __jsx("div", {
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom7 = data.selectRoom) === null || _data$selectRoom7 === void 0 ? void 0 : _data$selectRoom7.description)), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 119
@@ -1759,39 +2042,10 @@ let marker;
       lineNumber: 120
     },
     __self: undefined
-  }, data === null || data === void 0 ? void 0 : (_data$selectRoom9 = data.selectRoom) === null || _data$selectRoom9 === void 0 ? void 0 : _data$selectRoom9.description))), __jsx("hr", {
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom8 = data.selectRoom) === null || _data$selectRoom8 === void 0 ? void 0 : _data$selectRoom8.description)), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 123
-    },
-    __self: undefined
-  }), __jsx("div", {
-    className: "roomdetail-container12",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 124
-    },
-    __self: undefined
-  }, __jsx("div", {
-    className: "roomdetail-container11",
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 125
-    },
-    __self: undefined
-  }, __jsx("span", {
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 126
-    },
-    __self: undefined
-  }, "\uC774 \uC124\uBA85\uC744 \uD55C\uAD6D\uC5B4\uB85C \uBC88\uC5ED\uD558\uAE30")), __jsx("div", {
-    style: {
-      marginTop: '5%'
-    },
-    __source: {
-      fileName: _jsxFileName,
-      lineNumber: 128
+      lineNumber: 122
     },
     __self: undefined
   }, __jsx("span", {
@@ -1800,10 +2054,39 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
+      lineNumber: 123
+    },
+    __self: undefined
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom9 = data.selectRoom) === null || _data$selectRoom9 === void 0 ? void 0 : _data$selectRoom9.description))), __jsx("hr", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 126
+    },
+    __self: undefined
+  }), __jsx("div", {
+    className: "roomdetail-container12",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 127
+    },
+    __self: undefined
+  }, __jsx("div", {
+    className: "roomdetail-container11",
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 128
+    },
+    __self: undefined
+  }, __jsx("span", {
+    __source: {
+      fileName: _jsxFileName,
       lineNumber: 129
     },
     __self: undefined
-  }, data === null || data === void 0 ? void 0 : (_data$selectRoom10 = data.selectRoom) === null || _data$selectRoom10 === void 0 ? void 0 : _data$selectRoom10.description)), __jsx("div", {
+  }, "\uC774 \uC124\uBA85\uC744 \uD55C\uAD6D\uC5B4\uB85C \uBC88\uC5ED\uD558\uAE30")), __jsx("div", {
+    style: {
+      marginTop: '5%'
+    },
     __source: {
       fileName: _jsxFileName,
       lineNumber: 131
@@ -1818,7 +2101,7 @@ let marker;
       lineNumber: 132
     },
     __self: undefined
-  }, data === null || data === void 0 ? void 0 : (_data$selectRoom11 = data.selectRoom) === null || _data$selectRoom11 === void 0 ? void 0 : _data$selectRoom11.description)), __jsx("div", {
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom10 = data.selectRoom) === null || _data$selectRoom10 === void 0 ? void 0 : _data$selectRoom10.description)), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
       lineNumber: 134
@@ -1833,51 +2116,66 @@ let marker;
       lineNumber: 135
     },
     __self: undefined
-  }, data === null || data === void 0 ? void 0 : (_data$selectRoom12 = data.selectRoom) === null || _data$selectRoom12 === void 0 ? void 0 : _data$selectRoom12.description))), __jsx("hr", {
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom11 = data.selectRoom) === null || _data$selectRoom11 === void 0 ? void 0 : _data$selectRoom11.description)), __jsx("div", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 137
+    },
+    __self: undefined
+  }, __jsx("span", {
+    style: {
+      fontWeight: "lighter"
+    },
     __source: {
       fileName: _jsxFileName,
       lineNumber: 138
+    },
+    __self: undefined
+  }, data === null || data === void 0 ? void 0 : (_data$selectRoom12 = data.selectRoom) === null || _data$selectRoom12 === void 0 ? void 0 : _data$selectRoom12.description))), __jsx("hr", {
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 141
     },
     __self: undefined
   }), __jsx("div", {
     className: "roomdetail-container13",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 139
+      lineNumber: 142
     },
     __self: undefined
   }, __jsx(_components_Calendar__WEBPACK_IMPORTED_MODULE_7__["default"], {
     room: data === null || data === void 0 ? void 0 : data.selectRoom,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 140
+      lineNumber: 143
     },
     __self: undefined
   })), __jsx("div", {
     className: "roomdetail-container14",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 142
+      lineNumber: 145
     },
     __self: undefined
   }, __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 143
+      lineNumber: 146
     },
     __self: undefined
   }, __jsx("span", {
     className: "roomdetail-span4",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 144
+      lineNumber: 147
     },
     __self: undefined
   }, "\uD6C4\uAE30")), __jsx("div", {
     className: "roomdetail-container15",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 146
+      lineNumber: 149
     },
     __self: undefined
   }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_9__["StarFilled"], {
@@ -1888,7 +2186,7 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 147
+      lineNumber: 150
     },
     __self: undefined
   }), __jsx("span", {
@@ -1898,7 +2196,7 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 148
+      lineNumber: 151
     },
     __self: undefined
   }, "4.85"), __jsx("span", {
@@ -1907,7 +2205,7 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 149
+      lineNumber: 152
     },
     __self: undefined
   }, "|"), __jsx("span", {
@@ -1916,14 +2214,14 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 150
+      lineNumber: 153
     },
     __self: undefined
   }, "545 \uD6C4\uAE30")), __jsx("div", {
     className: "roomdetail-container16",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 152
+      lineNumber: 155
     },
     __self: undefined
   }, __jsx("input", {
@@ -1934,14 +2232,14 @@ let marker;
     onKeyPress: onKeyPress,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 153
+      lineNumber: 156
     },
     __self: undefined
   }), __jsx("div", {
     className: "roomdetail-container18",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 154
+      lineNumber: 157
     },
     __self: undefined
   }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_9__["CloseOutlined"], {
@@ -1951,14 +2249,14 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 155
+      lineNumber: 158
     },
     __self: undefined
   })), __jsx("div", {
     className: "roomdetail-container17",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 157
+      lineNumber: 160
     },
     __self: undefined
   }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_9__["SearchOutlined"], {
@@ -1968,14 +2266,14 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 158
+      lineNumber: 161
     },
     __self: undefined
   }))), __jsx("div", {
     className: "roomdetail-container19",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 161
+      lineNumber: 164
     },
     __self: undefined
   }, reviews.slice(startPage, endPage).map(review => __jsx(_components_Review__WEBPACK_IMPORTED_MODULE_10__["default"], {
@@ -1983,14 +2281,14 @@ let marker;
     review: review,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 164
+      lineNumber: 167
     },
     __self: undefined
   })), __jsx("div", {
     className: "roomdetail-container20",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 167
+      lineNumber: 170
     },
     __self: undefined
   }, startPage !== 0 && __jsx("div", {
@@ -1998,7 +2296,7 @@ let marker;
     onClick: pageLeft,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 170
+      lineNumber: 173
     },
     __self: undefined
   }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_9__["LeftOutlined"], {
@@ -2008,7 +2306,7 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 171
+      lineNumber: 174
     },
     __self: undefined
   })), ((data === null || data === void 0 ? void 0 : (_data$selectRoom13 = data.selectRoom) === null || _data$selectRoom13 === void 0 ? void 0 : _data$selectRoom13.reviews.length) || 0) >= endPage && __jsx("div", {
@@ -2016,7 +2314,7 @@ let marker;
     onClick: pageRight,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 177
+      lineNumber: 180
     },
     __self: undefined
   }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_9__["RightOutlined"], {
@@ -2026,27 +2324,27 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 178
+      lineNumber: 181
     },
     __self: undefined
   }))))), __jsx("div", {
     className: "roomdetail-container22",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 185
+      lineNumber: 188
     },
     __self: undefined
   }, __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 186
+      lineNumber: 189
     },
     __self: undefined
   }, __jsx("span", {
     className: "roomdetail-span4",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 187
+      lineNumber: 190
     },
     __self: undefined
   }, "\uC9C0\uC5ED\uC815\uBCF4")), __jsx("div", {
@@ -2054,48 +2352,48 @@ let marker;
     className: "roomdetail-container23",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 189
+      lineNumber: 192
     },
     __self: undefined
   }, __jsx("div", {
     className: "roomdetail-container24",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 190
+      lineNumber: 193
     },
     __self: undefined
   })))), __jsx("div", {
     className: "roomdetail-container26",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 196
+      lineNumber: 199
     },
     __self: undefined
   }, __jsx("div", {
     className: "roomdetail-container27",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 197
+      lineNumber: 200
     },
     __self: undefined
   }, __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 198
+      lineNumber: 201
     },
     __self: undefined
   }, __jsx("span", {
     className: "roomdetail-span5",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 199
+      lineNumber: 202
     },
     __self: undefined
   }, "\uC694\uAE08\uC744 \uD655\uC778\uD558\uB824\uBA74 \uB0A0\uC9DC\uB97C \uC785\uB825\uD558\uC138\uC694.")), __jsx("div", {
     className: "roomdetail-container28",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 203
+      lineNumber: 206
     },
     __self: undefined
   }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_9__["StarFilled"], {
@@ -2105,7 +2403,7 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 204
+      lineNumber: 207
     },
     __self: undefined
   }), __jsx("span", {
@@ -2114,7 +2412,7 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 205
+      lineNumber: 208
     },
     __self: undefined
   }, "4.85"), __jsx("span", {
@@ -2124,21 +2422,21 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 206
+      lineNumber: 209
     },
     __self: undefined
   }, "(\uD6C4\uAE30 231\uAC1C)"))), __jsx("div", {
     className: "roomdetail-container29",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 209
+      lineNumber: 212
     },
     __self: undefined
   }), __jsx("div", {
     className: "roomdetail-container30",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 210
+      lineNumber: 213
     },
     __self: undefined
   }, __jsx("span", {
@@ -2147,20 +2445,21 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 211
+      lineNumber: 214
     },
     __self: undefined
   }, "\uB0A0\uC9DC")), __jsx("div", {
     className: "roomdetail-container31",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 213
+      lineNumber: 216
     },
     __self: undefined
   }, __jsx("div", {
+    onClick: () => setIsShowCalendar(!isShowCalendar),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 214
+      lineNumber: 217
     },
     __self: undefined
   }, __jsx("span", {
@@ -2169,17 +2468,17 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 215
+      lineNumber: 218
     },
     __self: undefined
-  }, "\uCCB4\uD06C\uC778")), __jsx("div", {
+  }, checkin)), __jsx("div", {
     style: {
       alignItems: 'center',
       display: 'flex'
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 217
+      lineNumber: 220
     },
     __self: undefined
   }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_9__["ArrowRightOutlined"], {
@@ -2188,13 +2487,14 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 218
+      lineNumber: 221
     },
     __self: undefined
   })), __jsx("div", {
+    onClick: () => setIsShowCalendar(!isShowCalendar),
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 220
+      lineNumber: 223
     },
     __self: undefined
   }, __jsx("span", {
@@ -2203,14 +2503,14 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 221
+      lineNumber: 224
     },
     __self: undefined
-  }, "\uCCB4\uD06C\uC544\uC6C3"))), __jsx("div", {
+  }, checkout))), __jsx("div", {
     className: "roomdetail-container30",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 224
+      lineNumber: 227
     },
     __self: undefined
   }, __jsx("span", {
@@ -2219,32 +2519,32 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 225
+      lineNumber: 228
     },
     __self: undefined
   }, "\uC778\uC6D0")), __jsx("div", {
     className: "roomdetail-container32",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 227
+      lineNumber: 230
     },
     __self: undefined
   }, __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 228
+      lineNumber: 231
     },
     __self: undefined
   }, __jsx("span", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 229
+      lineNumber: 232
     },
     __self: undefined
   }, "\uAC8C\uC2A4\uD2B8 1\uBA85")), __jsx("div", {
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 231
+      lineNumber: 234
     },
     __self: undefined
   }, __jsx(_ant_design_icons__WEBPACK_IMPORTED_MODULE_9__["DownOutlined"], {
@@ -2253,14 +2553,14 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 232
+      lineNumber: 235
     },
     __self: undefined
   }))), __jsx("div", {
     className: "roomdetail-container33",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 235
+      lineNumber: 238
     },
     __self: undefined
   }, __jsx("span", {
@@ -2270,21 +2570,23 @@ let marker;
     },
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 236
+      lineNumber: 239
     },
     __self: undefined
-  }, "\uB0A0\uC9DC \uC785\uB825"))), __jsx("div", {
+  }, "\uB0A0\uC9DC \uC785\uB825"))), isShowCalendar && __jsx("div", {
     className: "roomdetail-container34",
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 241
+      lineNumber: 246
     },
     __self: undefined
   }, __jsx(_components_Calendar2__WEBPACK_IMPORTED_MODULE_8__["default"], {
     room: data === null || data === void 0 ? void 0 : data.selectRoom,
+    setCheckin: setCheckin,
+    setCheckout: setCheckout,
     __source: {
       fileName: _jsxFileName,
-      lineNumber: 242
+      lineNumber: 247
     },
     __self: undefined
   }))));
@@ -2292,7 +2594,42 @@ let marker;
 
 /***/ }),
 
-/***/ 3:
+/***/ "./utils/utils.ts":
+/*!************************!*\
+  !*** ./utils/utils.ts ***!
+  \************************/
+/*! exports provided: getDates */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDates", function() { return getDates; });
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "moment");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment_range__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment-range */ "moment-range");
+/* harmony import */ var moment_range__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment_range__WEBPACK_IMPORTED_MODULE_1__);
+
+
+let moment = Object(moment_range__WEBPACK_IMPORTED_MODULE_1__["extendMoment"])(moment__WEBPACK_IMPORTED_MODULE_0__);
+moment.locale('ko');
+const getDates = ({
+  startDate,
+  endDate
+}) => {
+  const dateArray = [];
+  let currentDate = moment(startDate);
+
+  while (currentDate <= moment(endDate)) {
+    dateArray.push(moment(currentDate).format('YYYY-MM-DD'));
+    currentDate = moment(currentDate).add(1, 'days');
+  }
+
+  return dateArray;
+};
+
+/***/ }),
+
+/***/ 5:
 /*!************************************!*\
   !*** multi ./pages/roomDetail.tsx ***!
   \************************************/

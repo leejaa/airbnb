@@ -524,18 +524,72 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 .calendar2-container4 {
-    width: 30%;
+    width: 35%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.calendar2-container4 {
+.calendar2-container5 {
+    width: 97%;
+    height: 6%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 5%;
+}
+.calendar2-container6 {
     width: 100%;
+    height: 70%;
+}
+.calendar2-container7 {
+    border: 1px solid #ebebeb;
+    width: 14%;
     height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+    cursor: pointer;
+    &:hover {
+        background-color: rgb(212, 211, 211) !important;
+    }
+}
+.calendar2-container8 {
+    width: 100%;
+    height: 18%;
+    display: flex;
+    flex-direction: row;
+}
+.calendar2-container9 {
+    width: 14%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.calendar2-span1 {
+    font-size: small;
+    font-weight: bold;
+}
+.calendar2-span2 {
+    font-size: small;
+    font-weight: bold;
+    color: rgb(217, 217, 217);
+}
+.calendar2-container10 {
+    width: 14%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: rgb(0, 166, 153);
+    cursor: pointer;
+}
+.calendar2-span3 {
+    font-size: small;
+    font-weight: bold;
+    color: white;
 }

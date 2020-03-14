@@ -90835,10 +90835,11 @@ div.ant-typography-edit-content {
           justify-content: center;
   -webkit-box-align: center;
           align-items: center;
+  cursor: pointer;
 }
 
 .calendar2-container4 {
-  width: 30%;
+  width: 35%;
   height: 100%;
   display: -webkit-box;
   display: flex;
@@ -90848,17 +90849,226 @@ div.ant-typography-edit-content {
           align-items: center;
 }
 
-.calendar2-container4 {
+.calendar2-container5 {
+  width: 97%;
+  height: 6%;
+  display: -webkit-box;
+  display: flex;
+  justify-content: space-around;
+  -webkit-box-align: center;
+          align-items: center;
+  margin-top: 5%;
+}
+
+.calendar2-container6 {
   width: 100%;
+  height: 70%;
+}
+
+.calendar2-container7 {
+  border: 1px solid #ebebeb;
+  width: 14%;
   height: 100%;
   display: -webkit-box;
   display: flex;
-  -webkit-box-pack: center;
-          justify-content: center;
+  justify-content: space-around;
+  -webkit-box-align: center;
+          align-items: center;
+  cursor: pointer;
+}
+
+.calendar2-container7:hover {
+  background-color: #d4d3d3 !important;
+}
+
+.calendar2-container8 {
+  width: 100%;
+  height: 18%;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+}
+
+.calendar2-container9 {
+  width: 14%;
+  height: 100%;
+  display: -webkit-box;
+  display: flex;
+  justify-content: space-around;
   -webkit-box-align: center;
           align-items: center;
 }
 
+.calendar2-span1 {
+  font-size: small;
+  font-weight: bold;
+}
+
+.calendar2-span2 {
+  font-size: small;
+  font-weight: bold;
+  color: #d9d9d9;
+}
+
+.calendar2-container10 {
+  width: 14%;
+  height: 100%;
+  display: -webkit-box;
+  display: flex;
+  justify-content: space-around;
+  -webkit-box-align: center;
+          align-items: center;
+  background-color: #00a699;
+  cursor: pointer;
+}
+
+.calendar2-span3 {
+  font-size: small;
+  font-weight: bold;
+  color: white;
+}
+
+@font-face{
+  font-family:"revicons";
+
+  fallback:fallback;
+
+  src:url("./revicons.woff") format('woff'),url("./revicons.ttf") format('ttf'),url("./revicons.eot") format('ttf')
+}
+
+.react-multi-carousel-list{
+  display:-webkit-box;
+  display:flex;
+  -webkit-box-align:center;
+          align-items:center;
+  overflow:hidden;
+  position:relative
+}
+
+.react-multi-carousel-track{
+  list-style:none;
+  padding:0;
+  margin:0;
+  display:-webkit-box;
+  display:flex;
+  -webkit-box-orient:horizontal;
+  -webkit-box-direction:normal;
+          flex-direction:row;
+  position:relative;
+  -webkit-transform-style:preserve-3d;
+          transform-style:preserve-3d;
+  -webkit-backface-visibility:hidden;
+          backface-visibility:hidden;
+  will-change:transform,transition
+}
+
+.react-multiple-carousel__arrow{
+  position:absolute;
+  outline:0;
+  -webkit-transition:all .5s;
+  transition:all .5s;
+  border-radius:35px;
+  z-index:1000;
+  border:0;
+  background:rgba(0,0,0,0.5);
+  min-width:43px;
+  min-height:43px;
+  opacity:1;
+  cursor:pointer
+}
+
+.react-multiple-carousel__arrow:hover{
+  background:rgba(0,0,0,0.8)
+}
+
+.react-multiple-carousel__arrow::before{
+  font-size:20px;
+  color:#fff;
+  display:block;
+  font-family:revicons;
+  text-align:center;
+  z-index:2;
+  position:relative
+}
+
+.react-multiple-carousel__arrow--left{
+  left:calc(4% + 1px)
+}
+
+.react-multiple-carousel__arrow--left::before{
+  content:"\E824"
+}
+
+.react-multiple-carousel__arrow--right{
+  right:calc(4% + 1px)
+}
+
+.react-multiple-carousel__arrow--right::before{
+  content:"\E825"
+}
+
+.react-multi-carousel-dot-list{
+  position:absolute;
+  bottom:0;
+  display:-webkit-box;
+  display:flex;
+  left:0;
+  right:0;
+  -webkit-box-pack:center;
+          justify-content:center;
+  margin:auto;
+  padding:0;
+  margin:0;
+  list-style:none;
+  text-align:center
+}
+
+.react-multi-carousel-dot button{
+  display:inline-block;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  opacity:1;
+  padding:5px 5px 5px 5px;
+  box-shadow:none;
+  -webkit-transition:background .5s;
+  transition:background .5s;
+  border-width:2px;
+  border-style:solid;
+  border-color:grey;
+  padding:0;
+  margin:0;
+  margin-right:6px;
+  outline:0;
+  cursor:pointer
+}
+
+.react-multi-carousel-dot button:hover:active{
+  background:#080808
+}
+
+.react-multi-carousel-dot--active button{
+  background:#080808
+}
+
+.react-multi-carousel-item{
+  -webkit-transform-style:preserve-3d;
+          transform-style:preserve-3d;
+  -webkit-backface-visibility:hidden;
+          backface-visibility:hidden
+}
+
+@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){
+  .react-multi-carousel-item{
+    flex-shrink:0 !important
+  }
+
+  .react-multi-carousel-track{
+    overflow:visible !important
+  }
+}
 /*!
  * Bootstrap v4.4.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
@@ -101197,145 +101407,6 @@ a.text-dark:focus,a.text-dark:hover{
   .table .thead-dark th{
     color:inherit;
     border-color:#dee2e6
-  }
-}
-@font-face{
-  font-family:"revicons";
-
-  fallback:fallback;
-
-  src:url("./revicons.woff") format('woff'),url("./revicons.ttf") format('ttf'),url("./revicons.eot") format('ttf')
-}
-
-.react-multi-carousel-list{
-  display:-webkit-box;
-  display:flex;
-  -webkit-box-align:center;
-          align-items:center;
-  overflow:hidden;
-  position:relative
-}
-
-.react-multi-carousel-track{
-  list-style:none;
-  padding:0;
-  margin:0;
-  display:-webkit-box;
-  display:flex;
-  -webkit-box-orient:horizontal;
-  -webkit-box-direction:normal;
-          flex-direction:row;
-  position:relative;
-  -webkit-transform-style:preserve-3d;
-          transform-style:preserve-3d;
-  -webkit-backface-visibility:hidden;
-          backface-visibility:hidden;
-  will-change:transform,transition
-}
-
-.react-multiple-carousel__arrow{
-  position:absolute;
-  outline:0;
-  -webkit-transition:all .5s;
-  transition:all .5s;
-  border-radius:35px;
-  z-index:1000;
-  border:0;
-  background:rgba(0,0,0,0.5);
-  min-width:43px;
-  min-height:43px;
-  opacity:1;
-  cursor:pointer
-}
-
-.react-multiple-carousel__arrow:hover{
-  background:rgba(0,0,0,0.8)
-}
-
-.react-multiple-carousel__arrow::before{
-  font-size:20px;
-  color:#fff;
-  display:block;
-  font-family:revicons;
-  text-align:center;
-  z-index:2;
-  position:relative
-}
-
-.react-multiple-carousel__arrow--left{
-  left:calc(4% + 1px)
-}
-
-.react-multiple-carousel__arrow--left::before{
-  content:"\E824"
-}
-
-.react-multiple-carousel__arrow--right{
-  right:calc(4% + 1px)
-}
-
-.react-multiple-carousel__arrow--right::before{
-  content:"\E825"
-}
-
-.react-multi-carousel-dot-list{
-  position:absolute;
-  bottom:0;
-  display:-webkit-box;
-  display:flex;
-  left:0;
-  right:0;
-  -webkit-box-pack:center;
-          justify-content:center;
-  margin:auto;
-  padding:0;
-  margin:0;
-  list-style:none;
-  text-align:center
-}
-
-.react-multi-carousel-dot button{
-  display:inline-block;
-  width:12px;
-  height:12px;
-  border-radius:50%;
-  opacity:1;
-  padding:5px 5px 5px 5px;
-  box-shadow:none;
-  -webkit-transition:background .5s;
-  transition:background .5s;
-  border-width:2px;
-  border-style:solid;
-  border-color:grey;
-  padding:0;
-  margin:0;
-  margin-right:6px;
-  outline:0;
-  cursor:pointer
-}
-
-.react-multi-carousel-dot button:hover:active{
-  background:#080808
-}
-
-.react-multi-carousel-dot--active button{
-  background:#080808
-}
-
-.react-multi-carousel-item{
-  -webkit-transform-style:preserve-3d;
-          transform-style:preserve-3d;
-  -webkit-backface-visibility:hidden;
-          backface-visibility:hidden
-}
-
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){
-  .react-multi-carousel-item{
-    flex-shrink:0 !important
-  }
-
-  .react-multi-carousel-track{
-    overflow:visible !important
   }
 }
 
