@@ -13,6 +13,7 @@ import Calendars2 from "../components/Calendar2";
 import { StarFilled, SearchOutlined, CloseOutlined, LeftOutlined, RightOutlined, HomeFilled, ArrowRightOutlined, DownOutlined } from "@ant-design/icons";
 import Review from "../components/Review";
 import _ from "lodash";
+import RoomImages from "../components/RoomImages";
 const isServer = () => typeof window === "undefined";
 const initialHeight = 800;
 declare var kakao: any
@@ -99,6 +100,9 @@ export default () => {
             </div>
             <div className="roomdetail-container2">
                 <RoomdetailPicture room={data?.selectRoom as any} />
+            </div>
+            <div className="roomdetail-container35">
+                <RoomImages room={data?.selectRoom as any} />
             </div>
             <div className="roomdetail-container25">
                 <div className="roomdetail-container7">

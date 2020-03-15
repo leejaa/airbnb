@@ -3,7 +3,7 @@ import { Room } from "../generated/graphql";
 import 'antd/dist/antd.css';
 import { Carousel, Icon } from 'antd';
 import '../assets/scss/room.scss';
-import Router from 'next/router'
+import Router from 'next/router';
 type Props = {
     room: Room,
     width: string
