@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { useRouter } from 'next/router';
+import axios from "axios";
 import Cookie from "js-cookie";
 import 'antd/dist/antd.css';
 import { Carousel, Icon } from 'antd';
@@ -10,7 +11,8 @@ import RoomdetailPicture from "../components/RoomdetailPicture";
 import { useSelectRoomQuery } from "../generated/graphql";
 import Calendars from "../components/Calendar";
 import Calendars2 from "../components/Calendar2";
-import { StarFilled, SearchOutlined, CloseOutlined, LeftOutlined, RightOutlined, HomeFilled, ArrowRightOutlined, DownOutlined } from "@ant-design/icons";
+import { Header } from "../components/Header";
+import { StarFilled, SearchOutlined, CloseOutlined, LeftOutlined, RightOutlined, HomeFilled, ArrowRightOutlined, DownOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import Review from "../components/Review";
 import _ from "lodash";
 import RoomImages from "../components/RoomImages";
@@ -26,6 +28,8 @@ export default () => {
     const [checkin, setCheckin] = useState('체크인');
     const [checkout, setCheckout] = useState('체크아웃');
     const [isShowCalendar, setIsShowCalendar] = useState(false);
+    const [isShowSearchList, setIsShowSearchList] = useState(false);
+    const [searchAddressList, setSearchAddressList] = useState<any>([]);
     const router: any = useRouter();
     const { data, loading } = useSelectRoomQuery({
         variables: {
@@ -74,6 +78,20 @@ export default () => {
         setStartPge(newStartPage);
         setEndPage(newEndPage);
     }, [startPage, endPage]);
+    const onChangeSearchAddress = useCallback(async(e) => {
+        try {
+            const result = await axios({
+              url: `https://dapi.kakao.com/v2/local/search/address.json?query=${e.target.value}`,
+              method: "get",
+              headers: {
+                'Authorization': 'KakaoAK 432b20fd7955265922435dfcd8f60ae9'
+              }
+            });
+            setSearchAddressList(result?.data?.documents);
+          } catch (error) {
+              console.log(error);
+          }
+    }, [searchAddressList]);
     useEffect(() => {
         const mapContainer = document.getElementById('map');
         const options = {
@@ -96,7 +114,7 @@ export default () => {
     return (
         <div style={{ height: `${isServer() ? initialHeight : window.innerHeight}px` }}>
             <div className="roomdetail-container1">
-
+                <Header onChangeSearchAddress={onChangeSearchAddress} setIsShowSearchList={setIsShowSearchList}/>
             </div>
             <div className="roomdetail-container2">
                 <RoomdetailPicture room={data?.selectRoom as any} />
@@ -209,38 +227,38 @@ export default () => {
                         </div>
                         <div className="roomdetail-container28">
                             <StarFilled style={{ fontSize: '10px', color: '#008489' }} />
-                            <span style={ { fontSize: '12px' } }>4.85</span>
-                            <span style={ { color: 'gray', fontSize: '12px' } }>(후기 231개)</span>
+                            <span style={{ fontSize: '12px' }}>4.85</span>
+                            <span style={{ color: 'gray', fontSize: '12px' }}>(후기 231개)</span>
                         </div>
                     </div>
-                    <div className="roomdetail-container29"/>
+                    <div className="roomdetail-container29" />
                     <div className="roomdetail-container30">
-                        <span style={ { fontSize: '12px' } }>날짜</span>
+                        <span style={{ fontSize: '12px' }}>날짜</span>
                     </div>
                     <div className="roomdetail-container31">
                         <div onClick={() => setIsShowCalendar(!isShowCalendar)}>
-                            <span style={ { color: 'gray' } }>{checkin}</span>
+                            <span style={{ color: 'gray' }}>{checkin}</span>
                         </div>
-                        <div style={ { alignItems: 'center', display: 'flex' } }>
-                            <ArrowRightOutlined style={{ fontSize: '16px' }}/>
+                        <div style={{ alignItems: 'center', display: 'flex' }}>
+                            <ArrowRightOutlined style={{ fontSize: '16px' }} />
                         </div>
                         <div onClick={() => setIsShowCalendar(!isShowCalendar)}>
-                            <span style={ { color: 'gray' } }>{checkout}</span>
+                            <span style={{ color: 'gray' }}>{checkout}</span>
                         </div>
                     </div>
                     <div className="roomdetail-container30">
-                        <span style={ { fontSize: '12px' } }>인원</span>
+                        <span style={{ fontSize: '12px' }}>인원</span>
                     </div>
                     <div className="roomdetail-container32">
                         <div>
                             <span>게스트 1명</span>
                         </div>
                         <div>
-                            <DownOutlined style={{ fontSize: '16px' }}/>
+                            <DownOutlined style={{ fontSize: '16px' }} />
                         </div>
                     </div>
                     <div className="roomdetail-container33">
-                        <span style={ { fontWeight: 'bold', color: 'white' } }>
+                        <span style={{ fontWeight: 'bold', color: 'white' }}>
                             날짜 입력
                         </span>
                     </div>
@@ -253,6 +271,26 @@ export default () => {
                     )
                 }
             </div>
+            {
+                isShowSearchList && (
+                    <div className="roomdetail-container36">
+                        {
+                            searchAddressList.splice(0, 5).map((item: any) => {
+                                return (
+                                    <div className="roomdetail-container37">
+                                        <div className="roomdetail-container38">
+                                            <EnvironmentOutlined style={ { fontSize: '30px' } }/>
+                                        </div>
+                                        <div className="roomdetail-container39">
+                                            <span style={ { fontSize: '18px' } }>{item?.address_name}</span>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                )
+            }
         </div>
     );
 };
