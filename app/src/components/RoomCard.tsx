@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useCallback, useState, useContext, useMemo } from 'react'
-import { View, Dimensions, StyleSheet, TouchableOpacity, Text, Platform, FlatList, TouchableHighlight, Image, Alert } from 'react-native';
+import { View, Dimensions, StyleSheet, TouchableOpacity, Text, Platform, FlatList, TouchableHighlight, Image, Alert, ImageBackground } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { Ionicons, Entypo, AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
@@ -11,6 +11,7 @@ import { UserContext } from '../UserContext';
 import { FULL_WIDTH, FULL_HEIGHT } from '../constants';
 import { Room, useCreateLikeMutation, SelectRoomsDocument, useSelectRoomsQuery } from '../../generated/graphql';
 import { AuthContext } from '../AuthProvider';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface Props {
     room: Room,
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: '100%',
-        flex: 1
+        flex: 1,
     },
     DotComponent: {
         backgroundColor: 'gray',
@@ -88,6 +89,14 @@ const styles = StyleSheet.create({
         right: 0,
         flex: 1,
         flexDirection: 'row'
+    },
+    container8: {
+        width: FULL_WIDTH * 0.85,
+        height: FULL_HEIGHT / 3,
+        marginBottom: 15,
+        position: 'absolute',
+        zIndex: 1,
+        backgroundColor: 'black'
     },
 });
 
@@ -188,44 +197,51 @@ export const RoomCard: React.FC<Props> = ({
     }, [initialIsLike]);
     return (
         <TouchableOpacity style={styles.container} onPress={ () => onPressDetail(room.id) }>
-            <TouchableOpacity style={styles.LikeContainer} onPress={onPressLike}>
-                {
-                    like ? (
-                        <Ionicons name="md-heart" size={20} color="red" />
-                    ) : (
-                            <Ionicons name="md-heart-empty" size={20} color="black" />
-                        )
-                }
-            </TouchableOpacity>
-            <View style={styles.container2}>
-                <Swiper
-                    controlsProps={{
-                        prevTitle: '',
-                        nextTitle: '',
-                        DotComponent: ({ index, isActive, onPress }) => isActive ? ActiveDotComponent : DotComponent
-                    } as any}
-                >
+            <View style={styles.container}>
+                <TouchableOpacity style={styles.LikeContainer} onPress={onPressLike}>
                     {
-                        room?.photoConnection.map((item, index) => <Image key={index} resizeMode='stretch' style={styles.image} source={{ uri: room?.photoConnection[index]?.file }} />)
+                        like ? (
+                            <Ionicons name="md-heart" size={20} color="red" />
+                        ) : (
+                                <Ionicons name="md-heart-empty" size={20} color="black" />
+                            )
                     }
-                </Swiper>
-            </View>
-            <View style={styles.container4}>
-                <View style={styles.container5}>
-                    <View style={styles.container3}>
-                        <Text style={{ fontSize: 10, fontWeight: 'bold' }}>슈퍼 호스트</Text>
-                    </View>
-                    <View style={styles.container6}>
-                        <Text style={{ fontSize: 14, color: 'gray', fontWeight: 'bold' }}>{room?.name}</Text>
-                    </View>
-                    <View style={styles.container7}>
-                        <Ionicons name="md-star" size={10} color="red" />
-                        <Text style={{ fontSize: 10 }}>{`${room?.score}`}</Text>
-                        <Text style={{ fontSize: 10, color: 'gray' }}>{`(${Math.floor(room?.price / 10000)})`}</Text>
-                    </View>
+                </TouchableOpacity>
+                <View style={styles.container2}>
+                    <Swiper
+                        controlsProps={{
+                            prevTitle: '',
+                            nextTitle: '',
+                            DotComponent: ({ index, isActive, onPress }) => isActive ? ActiveDotComponent : DotComponent
+                        } as any}
+                    // onPress={ () => onPressDetail(room.id) }
+                    >
+                        {
+                            room?.photoConnection.map((item, index) => {
+                                return (
+                                    <ImageBackground resizeMode={"stretch"} key={index} style={styles.image} source={{ uri: room?.photoConnection[index]?.file }} />
+                                )
+                            })
+                        }
+                    </Swiper>
                 </View>
-                <View style={styles.container5}>
-                    <Text style={{ fontSize: 15 }}>{room?.description}</Text>
+                <View style={styles.container4}>
+                    <View style={styles.container5}>
+                        <View style={styles.container3}>
+                            <Text style={{ fontSize: 10, fontWeight: 'bold' }}>슈퍼 호스트</Text>
+                        </View>
+                        <View style={styles.container6}>
+                            <Text style={{ fontSize: 14, color: 'gray', fontWeight: 'bold' }}>{room?.name}</Text>
+                        </View>
+                        <View style={styles.container7}>
+                            <Ionicons name="md-star" size={10} color="red" />
+                            <Text style={{ fontSize: 10 }}>{`${room?.score}`}</Text>
+                            <Text style={{ fontSize: 10, color: 'gray' }}>{`(${Math.floor(room?.price / 10000)})`}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.container5}>
+                        <Text style={{ fontSize: 15 }}>{room?.description}</Text>
+                    </View>
                 </View>
             </View>
         </TouchableOpacity>

@@ -56,10 +56,12 @@
     "react-native-swiper-flatlist": "^2.0.3",
     "react-native-vector-icons": "^6.6.0",
     "react-native-web": "^0.11.7",
+    "react-native-web-maps": "^0.2.0",
     "react-native-web-swiper": "^2.1.0",
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.9.4",
     "react-waypoint": "^9.0.2",
+    "styled-components": "^5.0.1",
     "typescript": "^3.7.5",
     "uuid": "^3.3.3"
   },
@@ -85,6 +87,7 @@
     "@types/react-native-modal": "^4.1.1",
     "@types/react-native-swiper": "^1.5.10",
     "@types/react-navigation": "^3.4.0",
+    "@types/styled-components": "^5.0.1",
     "babel-preset-expo": "^7.0.0",
     "postcss-preset-env": "^6.7.0",
     "tailwindcss": "^1.1.3"

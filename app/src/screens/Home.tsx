@@ -14,7 +14,23 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     paddingTop: 20
-  }
+  },
+  container2: {
+    position: 'relative'
+  },
+  container3: {
+    position: 'absolute',
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    right: 14,
+    bottom: 10,
+    zIndex: 1,
+    backgroundColor: 'white',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
 });
 
 export function Home({ navigation }: HomeStackNavProps<"Home">) {
@@ -30,12 +46,12 @@ export function Home({ navigation }: HomeStackNavProps<"Home">) {
   };
 
   useEffect(() => {
-    if (Device.osName !== 'Android') {
-      window.addEventListener('scroll', onScroll);
-      return () => {
-        window.removeEventListener('scroll', onScroll);
-      };
-    }
+    // if (Device.osName !== 'Android') {
+    //   window.addEventListener('scroll', onScroll);
+    //   return () => {
+    //     window.removeEventListener('scroll', onScroll);
+    //   };
+    // }
   }, [data?.selectRooms]);
 
   // if ( loading ) {
@@ -67,26 +83,31 @@ export function Home({ navigation }: HomeStackNavProps<"Home">) {
   }, [data?.selectRooms]);
 
   return (
-    <ScrollView
-      onScroll={({ nativeEvent }) => {
-        if (isCloseToBottom(nativeEvent)) {
-          onScroll();
-        }
-      }}
-      scrollEventThrottle={100}
-    >
-      <View style={styles.container}>
-        {
-          data?.selectRooms?.map(room => <RoomCard key={room.id} room={room as any} navigation={navigation} />)
-        }
-        {
-          loading && (
-            <View>
-              <ActivityIndicator size="large" color="#0000ff" />
-            </View>
-          )
-        }
-      </View>
-    </ScrollView>
+    <View style={ styles.container2 }>
+      <ScrollView
+        onScroll={({ nativeEvent }) => {
+          if (isCloseToBottom(nativeEvent)) {
+            onScroll();
+          }
+        }}
+        scrollEventThrottle={100}
+      >
+        <View style={styles.container}>
+          {
+            data?.selectRooms?.map(room => <RoomCard key={room.id} room={room as any} navigation={navigation} />)
+          }
+          {
+            loading && (
+              <View>
+                <ActivityIndicator size="large" color="#0000ff" />
+              </View>
+            )
+          }
+        </View>
+      </ScrollView>
+      <TouchableOpacity style={ styles.container3 } onPress={() => navigation.navigate("FindMaps")}>
+        <Entypo name="location-pin" size={25} />
+      </TouchableOpacity>
+    </View>
   )
 };

@@ -17,8 +17,8 @@ export type HomeParamList = {
   RoomDetail: undefined,
   Reviews: undefined,
   FindReviews: undefined,
-  routes: any
-  
+  routes: any,
+  FindMaps: undefined,
 };
 
 export type HomeStackNavProps<T extends keyof HomeParamList> = {
@@ -37,14 +37,14 @@ export const HomeStack: React.FC<HomeStackProps> = ({navigation, route}) => {
       screenOptions={{
         cardStyleInterpolator: CardStyleInterpolators.forRevealFromBottomAndroid
       }}
-      initialRouteName="Home"
+      initialRouteName="FindMaps"
     >
       {addHomeRoutes(Stack, navigation, route)}
       <Stack.Screen
         name="Home"
         component={Home}
         options={{
-          // header: () => null
+          header: () => null
         }}
       />
     </Stack.Navigator>

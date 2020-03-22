@@ -87,6 +87,7 @@ export default () => {
                 'Authorization': 'KakaoAK 432b20fd7955265922435dfcd8f60ae9'
               }
             });
+            console.log('result', JSON.stringify(result));
             setSearchAddressList(result?.data?.documents);
           } catch (error) {
               console.log(error);

@@ -7,6 +7,7 @@ import { RoomDetail } from "./screens/RoomDetail";
 import { Reviews } from "./screens/Reviews";
 import { HeaderRight, HeaderLeft } from "./components/Headers";
 import { FindReviews } from "./screens/FindReviews";
+import { FindMaps } from "./screens/FindMaps";
 
 export const addHomeRoutes = (
   Stack: TypedNavigator<
@@ -22,23 +23,23 @@ export const addHomeRoutes = (
   return (
     <>
       <Stack.Screen
-        name="Detail"
-        component={Detail}
-      />
-      <Stack.Screen
         name="RoomDetail"
         component={RoomDetail}
         options={{
-          headers: () => null,
+          header: () => null,
         }}
+      />
+      <Stack.Screen
+        name="Detail"
+        component={Detail}
       />
       <Stack.Screen
         name="Reviews"
         component={Reviews}
         options={{
           headerTitle: "",
-          headerRight: () => HeaderRight({navigation, route}),
-          headerLeft: () => HeaderLeft({navigation, route})
+          headerRight: () => HeaderRight({ navigation, route }),
+          headerLeft: () => HeaderLeft({ navigation, route })
         }}
       />
       <Stack.Screen
@@ -46,6 +47,13 @@ export const addHomeRoutes = (
         component={FindReviews}
         options={{
           headerTitle: ""
+        }}
+      />
+      <Stack.Screen
+        name="FindMaps"
+        component={FindMaps}
+        options={{
+          header: () => null,
         }}
       />
     </>

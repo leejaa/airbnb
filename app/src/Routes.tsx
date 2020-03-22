@@ -18,9 +18,9 @@ interface RoutesProps { }
 export const Routes: React.FC<RoutesProps> = ({ }) => {
     const client = useApolloClient();
     const [loading, setLoading] = useState(false);
-
+    console.log('Device.osName', Device.osName);
     useEffect(() => {
-        if (Device.osName !== 'Android') {
+        if (Device.osName !== 'Android' && Device.osName !== 'iOS') {
             client.writeFragment({
                 id: '1',
                 fragment: gql`

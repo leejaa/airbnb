@@ -155,6 +155,8 @@ const styles = StyleSheet.create({
 });
 
 export function RoomDetail({ route, navigation }: HomeStackNavProps<"RoomDetail">) {
+  const LATITUDE = parseFloat(( (Math.random()*(132-124+1)) + 124 ).toFixed(5));
+  const LONGITUDE = parseFloat(( (Math.random()*(43-33+1)) + 33 ).toFixed(5));
   const [state, dispatch] = useContext(AuthContext);
   const { data, loading } = useSelectRoomQuery({
     variables: {
@@ -229,32 +231,28 @@ export function RoomDetail({ route, navigation }: HomeStackNavProps<"RoomDetail"
           <View style={styles.container9}>
             <Text style={{ color: '#0F7652', fontWeight: 'bold' }}>숙소위치</Text>
           </View>
-          {
-            Device.osName === 'Android' && (
-              <View style={styles.container16}>
-                <MapView
-                  style={{ width: '100%', height: '100%' }}
-                  region={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
-                    latitudeDelta: 0.0022,
-                    longitudeDelta: 0.0421,
-                  }}
-                >
-                  <Marker
-                    coordinate={{
-                      latitude: 37.78825,
-                      longitude: -122.4324,
-                    }}
-                  >
-                    <View style={ styles.container17 }>
-                      <Feather name="home" size={20} color="white" />
-                    </View>
-                  </Marker>
-                </MapView>
-              </View>
-            )
-          }
+          <View style={styles.container16}>
+            <MapView
+              style={{ width: '100%', height: '100%' }}
+              region={{
+                latitude: 37.78825,
+                longitude: -122.4324,
+                latitudeDelta: 0.0022,
+                longitudeDelta: 0.0421,
+              }}
+            >
+              <Marker
+                coordinate={{
+                  latitude: 37.78825,
+                  longitude: -122.4324,
+                }}
+              >
+                <View style={styles.container17}>
+                  <Feather name="home" size={20} color="white" />
+                </View>
+              </Marker>
+            </MapView>
+          </View>
           <Divider style={{ borderColor: 'gray', width: '90%', borderWidth: 0.6 }} />
           <View style={styles.container11}>
             <View style={styles.container12}>
