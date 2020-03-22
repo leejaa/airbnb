@@ -4,6 +4,8 @@ import { NavigationStackScreenProps } from "react-navigation-stack";
 import axios from 'axios';
 import _ from 'lodash';
 import styled from "styled-components/native";
+import * as Location from 'expo-location';
+import * as Permissions from 'expo-permissions';
 import { HomeStackNavProps } from "../HomeStack";
 import { Review } from "../components/Review";
 import { AuthContext } from "../AuthProvider";
@@ -81,37 +83,60 @@ export function FindMaps({ route, navigation }: HomeStackNavProps<"FindMaps">) {
         notifyOnNetworkStatusChange: true,
       });
     const mapRef : any = useRef();
-    const [LATITUDELIST] = useState(LATITUDELISTDATA);
-    const [LONGITUDELIST] = useState(LONGITUDELISTDATA);
+    const [LATITUDELIST, setLATITUDELIST] = useState([]);
+    const [LONGITUDELIST, setLONGITUDELIST] = useState([]);
     const [page, setPage] = useState(0);
-    const [region, setRegion] = useState({
-        latitude: LATITUDELIST[0],
-        longitude: LONGITUDELIST[0],
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-    });
+    const [region, setRegion] = useState<any>({});
     const onScroll = useCallback((event) => {
         const newPage = _.round( event.nativeEvent.contentOffset.x / ( FULL_WIDTH * 0.65 ) );
         setPage(newPage);
         const newRegion = {
             latitude: LATITUDELIST[newPage],
             longitude: LONGITUDELIST[newPage],
+            latitudeDelta: 0.00922,
+            longitudeDelta: 0.00421,
+        };
+        setRegion(newRegion);
+        mapRef.current.animateToRegion(
+            newRegion, 200
+        );
+    }, [page, LATITUDELIST, LONGITUDELIST, region]);
+    const onPress = useCallback(async (event) => {
+        const coordinate = event.nativeEvent.coordinate;
+        const placeInfo = await axios.post(
+            `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${coordinate.latitude},${coordinate.longitude}&radius=15000&type=cafe&key=AIzaSyBBT02YSLxubEfcSxZA9UIiqy3rxD0pHfc`
+        );
+        const result = placeInfo?.data?.results;
+        const newLatList = _.map(result, item => item.geometry.location.lat);
+        const newLngList = _.map(result, item => item.geometry.location.lng);
+        setLATITUDELIST(newLatList);
+        setLONGITUDELIST(newLngList);
+    }, [LATITUDELIST, LONGITUDELIST]);
+    const initialAction = async() => {
+        let { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if ( status !== 'granted' ) {
+            return false;
+        }
+        let location = await Location.getCurrentPositionAsync({});
+        const placeInfo = await axios.post(
+            `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.coords.latitude},${location.coords.longitude}&radius=15000&type=cafe&key=AIzaSyBBT02YSLxubEfcSxZA9UIiqy3rxD0pHfc`
+        );
+        const result = placeInfo?.data?.results;
+        const newLatList = _.map(result, item => item.geometry.location.lat);
+        const newLngList = _.map(result, item => item.geometry.location.lng);
+        setLATITUDELIST(newLatList);
+        setLONGITUDELIST(newLngList);
+        setRegion({
+            latitude: newLatList[0],
+            longitude: newLngList[0],
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
-        };
-        mapRef.current.animateToRegion(
-            newRegion, 100
-        );
-    }, [page, region]);
-    const initialAction = async() => {
-        const placeInfo = await axios.post(
-            `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${LATITUDELIST[0]},${LONGITUDELIST[0]}&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyBBT02YSLxubEfcSxZA9UIiqy3rxD0pHfc`
-        );
+        });
     }
     useEffect(() => {
-        // initialAction();
+        initialAction();
     }, []);
-    if ( loading ) {
+    if ( loading || _.isEmpty(LATITUDELIST) || _.isEmpty(LONGITUDELIST) || _.isEmpty(region) ) {
         return (
             <View>
                 <Text>로딩중...</Text>
@@ -124,9 +149,11 @@ export function FindMaps({ route, navigation }: HomeStackNavProps<"FindMaps">) {
                 <MapView
                     ref={mapRef}
                     style={{ width: '100%', height: '100%' }}
-                    initialRegion={region}
+                    zoomEnabled={true}
                     region={region}
                     maxZoomLevel={10}
+                    onPress={onPress}
+                    showsUserLocation={true}
                 >
                     {
                         _.range(0, 10).map(index => (
